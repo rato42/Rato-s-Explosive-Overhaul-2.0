@@ -3,7 +3,7 @@ return PlaceObj('ModDef', {
 	'description', "implement bounce speed diminish depending on angle\n\n\ndetermine mishap chances",
 	'id', "RATONADE",
 	'author', "rato",
-	'version', 2188,
+	'version', 2303,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'entities', {
@@ -32,6 +32,7 @@ return PlaceObj('ModDef', {
 		"Code/FUNCTION_BounceObjMaterialSpeed.lua",
 		"Code/FUNCTIONS_Debug.lua",
 		"Code/FUNCTIONS_Shrapnel.lua",
+		"Code/FUNCTIONS_Shrapnel_VectorGenerators.lua",
 		"Code/FUNCTIONS_Util.lua",
 		"Code/FUNCTION_ItemChanges.lua",
 		"Code/FUNCTIONS_AIAdjustment.lua",
@@ -95,8 +96,8 @@ return PlaceObj('ModDef', {
 		mishap_option = "60 (default)",
 	},
 	'has_data', true,
-	'saved', 1713506306,
-	'code_hash', 8785772746992767523,
+	'saved', 1713568015,
+	'code_hash', -4148647817756142563,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CharacterEffectCompositeDef",

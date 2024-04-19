@@ -266,6 +266,10 @@ return {
 		'CodeFileName', "Code/FUNCTIONS_Shrapnel.lua",
 	}),
 	PlaceObj('ModItemCode', {
+		'name', "FUNCTIONS_Shrapnel_VectorGenerators",
+		'CodeFileName', "Code/FUNCTIONS_Shrapnel_VectorGenerators.lua",
+	}),
+	PlaceObj('ModItemCode', {
 		'name', "FUNCTIONS_Util",
 		'CodeFileName', "Code/FUNCTIONS_Util.lua",
 	}),
@@ -1490,7 +1494,7 @@ return {
 			'ActionIcon', "UI/Icons/Hud/shaped_charge",
 			'r_mass', 1070,
 			'r_shape', "Stick_like",
-			'r_shrap_num', 350,
+			'r_shrap_num', 100,
 		}),
 		PlaceObj('ModItemInventoryItemCompositeDef', {
 			'Group', "Grenade - Explosive",

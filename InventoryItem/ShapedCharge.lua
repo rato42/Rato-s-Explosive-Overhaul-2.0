@@ -31,6 +31,6 @@ DefineClass.ShapedCharge = {
 	ActionIcon = "UI/Icons/Hud/shaped_charge",
 	r_mass = 1070,
 	r_shape = "Stick_like",
-	r_shrap_num = 350,
+	r_shrap_num = 100,
 }
 

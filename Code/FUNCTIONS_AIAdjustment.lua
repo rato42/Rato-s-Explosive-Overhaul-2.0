@@ -145,7 +145,7 @@ function AI_adj_targetpos_for_bounce(orig_attack_args, target_pos, attack_pos, g
 				--DbgAddCircle_ai_adj(bounce_pos, const.SlabSizeX/6, const.clrBlack)
 				local bounce_dist_target = bounce_pos:Dist(target_pos)
 				
-				print("bounce_dist target", bounce_dist_target)
+				--print("bounce_dist target", bounce_dist_target)
 				--DbgAddVector_ai_adj(bounce_pos, target_pos - bounce_pos, const.clrRed)
 				
 				if abs(bounce_pos:z() - target_pos:z()) <= z_tolerance then
