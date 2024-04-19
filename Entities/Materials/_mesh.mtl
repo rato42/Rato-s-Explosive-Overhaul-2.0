@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Materials>
+	<Material>
+		<Property AODecal="0"/>
+		<Property AlphaTestValue="128"/>
+		<Property BaseColorDecal="0"/>
+		<Property BlendType="Blend"/>
+		<Property CastShadow="0"/>
+		<Property DecalGroup="Default"/>
+		<Property Deposition="0"/>
+		<Property DoubleSidedDecal="1"/>
+		<Property NormalMapDecal="0"/>
+		<Property RMDecal="0"/>
+		<Property SpecialType="Decal"/>
+		<Property TerrainDistortedMesh="0"/>
+		<Property TriplanarDecal="0"/>
+	</Material>
+</Materials>

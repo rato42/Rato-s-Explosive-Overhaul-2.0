@@ -1,0 +1,46 @@
+UndefineClass('Warhead_Frag')
+DefineClass.Warhead_Frag = {
+	__parents = { "Ordnance" },
+	__generated_by_class = "ModItemInventoryItemCompositeDef",
+
+
+	object_class = "Ordnance",
+	Icon = "UI/Icons/Items/warhead_frag",
+	DisplayName = T(496295170204, --[[ModItemInventoryItemCompositeDef Warhead_Frag DisplayName]] "HE Rocket"),
+	DisplayNamePlural = T(479516392578, --[[ModItemInventoryItemCompositeDef Warhead_Frag DisplayNamePlural]] "HE Rockets"),
+	Description = T(906581367082, --[[ModItemInventoryItemCompositeDef Warhead_Frag Description]] "Ordnance ammo for Rocket Launchers."),
+	AdditionalHint = T(209111451522, --[[ModItemInventoryItemCompositeDef Warhead_Frag AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Inflicts Suppressed in the epicenter"),
+	Cost = 400,
+	CanAppearInShop = true,
+	Tier = 3,
+	MaxStock = 5,
+	RestockWeight = 50,
+	CategoryPair = "Ordnance",
+	CenterUnitDamageMod = 130,
+	CenterObjDamageMod = 500,
+	CenterAppliedEffects = {
+		"Revealed",
+		"KnockDown",
+		"Exposed",
+		"Bleeding",
+		"CancelShot",
+		"Suppressed",
+		"SeverelySuppressed",
+	},
+	AreaOfEffect = 4,
+	AreaObjDamageMod = 500,
+	AreaAppliedEffects = {
+		"Revealed",
+		"KnockDown",
+		"Exposed",
+		"Bleeding",
+		"CancelShot",
+		"Suppressed",
+		"SeverelySuppressed",
+	},
+	DeathType = "BlowUp",
+	Caliber = "Warhead",
+	BaseDamage = 50,
+	Noise = 30,
+}
+

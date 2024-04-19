@@ -1,0 +1,46 @@
+UndefineClass('PETN')
+DefineClass.PETN = {
+	__parents = { "ExplosiveSubstance" },
+	__generated_by_class = "ModItemInventoryItemCompositeDef",
+
+
+	object_class = "ExplosiveSubstance",
+	ScrapParts = 5,
+	Repairable = false,
+	Icon = "UI/Icons/Items/petn",
+	DisplayName = T(619953478508, --[[ModItemInventoryItemCompositeDef PETN DisplayName]] "PETN"),
+	DisplayNamePlural = T(166918087108, --[[ModItemInventoryItemCompositeDef PETN DisplayNamePlural]] "PETN"),
+	Description = T(172653806478, --[[ModItemInventoryItemCompositeDef PETN Description]] "A powerful plastic explosive substance used in major demolition and military high-grade explosives."),
+	AdditionalHint = T(195587387816, --[[ModItemInventoryItemCompositeDef PETN AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Combine with a Detonator type to create an Explosive"),
+	UnitStat = "Explosives",
+	Cost = 500,
+	CanAppearInShop = true,
+	Tier = 3,
+	RestockWeight = 35,
+	CategoryPair = "Components",
+	CenterUnitDamageMod = 130,
+	CenterObjDamageMod = 500,
+	CenterAppliedEffects = {
+		"Revealed",
+		"KnockDown",
+		"Exposed",
+		"Bleeding",
+		"CancelShot",
+		"Suppressed",
+		"SeverelySuppressed",
+	},
+	AreaOfEffect = 4,
+	AreaObjDamageMod = 500,
+	AreaAppliedEffects = {
+		"Revealed",
+		"KnockDown",
+		"Exposed",
+		"Bleeding",
+		"CancelShot",
+		"Suppressed",
+		"SeverelySuppressed",
+	},
+	DeathType = "BlowUp",
+	BaseDamage = 55,
+}
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity path="" name="">
+	<state id="idle">
+		<mesh_ref ref="flash_can"/>
+	</state>
+	<mesh_description id="flash_can">
+		<lod idx="0" distance="0">
+			<mesh file="Meshes/flash_can_flash_can.m.hgm"/>
+			<material file="Materials/flash_can_flash_can.mtl"/>
+			<bsphere value="0.022,-0.029,10.301,10.617"/>
+			<box min="-3.303,-3.354,0.218" max="3.347,3.296,20.384"/>
+			<src file="C:/Users/Lucas/AppData/Roaming/Jagged Alliance 3/ModAssets/FBX/grenade can flashbang.fbx"/>
+		</lod>
+	</mesh_description>
+</entity>

@@ -1,0 +1,36 @@
+UndefineClass('ShapedCharge')
+DefineClass.ShapedCharge = {
+	__parents = { "Grenade" },
+	__generated_by_class = "ModItemInventoryItemCompositeDef",
+
+
+	object_class = "Grenade",
+	Repairable = false,
+	Reliability = 100,
+	Icon = "UI/Icons/Weapons/ShapedCharge",
+	ItemType = "Grenade",
+	DisplayName = T(880214712809, --[[ModItemInventoryItemCompositeDef ShapedCharge DisplayName]] "Shaped Charge"),
+	DisplayNamePlural = T(611415893484, --[[ModItemInventoryItemCompositeDef ShapedCharge DisplayNamePlural]] "Shaped Charges"),
+	AdditionalHint = T(832446983932, --[[ModItemInventoryItemCompositeDef ShapedCharge AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cone-shaped explosion\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very low accuracy when used by anyone except Barry \n"),
+	UnitStat = "Explosives",
+	Cost = 1500,
+	MinMishapChance = -2,
+	MaxMishapChance = 18,
+	MinMishapRange = 0,
+	AreaOfEffect = 8,
+	PenetrationClass = 3,
+	coneShaped = true,
+	coneAngle = 40,
+	BurnGround = false,
+	DeathType = "BlowUp",
+	BaseDamage = 38,
+	Scatter = 4,
+	CanBounce = false,
+	InaccurateMaxOffset = 4000,
+	Entity = "MilitaryCamp_Grenade_01",
+	ActionIcon = "UI/Icons/Hud/shaped_charge",
+	r_mass = 1070,
+	r_shape = "Stick_like",
+	r_shrap_num = 350,
+}
+

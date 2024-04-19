@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Materials>
+	<Material>
+		<NormalMap Name="5829006.dds" mc="0"/>
+		<BaseColorMap Name="5829007.dds" mc="0"/>
+		<RMMap Name="5829008.dds" mc="0"/>
+		<Property Opacity="100"/>
+		<Property ViewDependentOpacity="0"/>
+		<Property VertexNoise="None"/>
+		<Property CastShadow="1"/>
+		<Property ReceiveShadow="1"/>
+		<Property SpecialType="None"/>
+		<Property ShadowBias="Medium"/>
+		<Property AlphaTestValue="128"/>
+		<Property TwoSidedShading="0"/>
+		<Property DisableTwoSidedNormals="0"/>
+		<Property TerrainDistortedBlendNormals="0"/>
+		<Property Translucency="0"/>
+		<Property DepthWrite="1"/>
+		<Property UOffset="0.000000"/>
+		<Property VOffset="0.000000"/>
+		<Property USize="1.000000"/>
+		<Property VSize="1.000000"/>
+		<Property BlendType="None"/>
+		<Property Distortion="0"/>
+		<Property DepthSoftness="0.000000"/>
+		<Property AnimationFramesX="1"/>
+		<Property AnimationFramesY="1"/>
+		<Property AnimationTime="0"/>
+		<Property StretchFactor1="1.595661"/>
+		<Property StretchFactor2="1.000000"/>
+		<Property TerrainDistortedMesh="0"/>
+		<Property Deposition="0"/>
+		<Property Terrain="0"/>
+		<Property VertexColorUsage0="None"/>
+		<Property VertexColorUsage1="None"/>
+		<Property VertexColorUsage2="None"/>
+		<Property VertexColorUsage3="None"/>
+		<Property TriplanarDecal="0"/>
+		<Property DoubleSidedDecal="1"/>
+		<Property BaseColorDecal="1"/>
+		<Property NormalMapDecal="1"/>
+		<Property RMDecal="1"/>
+		<Property SIDecal="1"/>
+		<Property SSS="0"/>
+		<Property Hair="0"/>
+		<Property NoDepthTestable="0"/>
+		<Property UIElement="0"/>
+		<Property ProjectSpecific0="0"/>
+		<Property DecalGroup="3"/>
+		<Property BlendMaterials="0"/>
+		<Property Colors="1"/>
+	</Material>
+</Materials>
+<!-- Exported to Build (6063549)-->

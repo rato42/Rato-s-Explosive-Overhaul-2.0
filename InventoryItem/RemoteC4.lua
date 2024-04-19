@@ -1,0 +1,38 @@
+UndefineClass('RemoteC4')
+DefineClass.RemoteC4 = {
+	__parents = { "ThrowableTrapItem" },
+	__generated_by_class = "ModItemInventoryItemCompositeDef",
+
+
+	object_class = "ThrowableTrapItem",
+	Repairable = false,
+	Reliability = 100,
+	Icon = "UI/Icons/Items/remote_c4",
+	ItemType = "Grenade",
+	DisplayName = T(334869422725, --[[ModItemInventoryItemCompositeDef RemoteC4 DisplayName]] "Remote C4"),
+	DisplayNamePlural = T(811274447352, --[[ModItemInventoryItemCompositeDef RemoteC4 DisplayNamePlural]] "Remote C4"),
+	AdditionalHint = T(742264656324, --[[ModItemInventoryItemCompositeDef RemoteC4 AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Explodes when triggered by a remote Detonator switch"),
+	UnitStat = "Explosives",
+	Cost = 800,
+	CanAppearInShop = true,
+	Tier = 2,
+	MaxStock = 1,
+	RestockWeight = 10,
+	CategoryPair = "Grenade",
+	MinMishapChance = -2,
+	MaxMishapChance = 18,
+	MaxMishapRange = 6,
+	AttackAP = 4000,
+	BaseRange = 3,
+	ThrowMaxRange = 12,
+	CanBounce = false,
+	IgnoreCoverReduction = 1,
+	Noise = 30,
+	Entity = "Explosive_C4",
+	ActionIcon = "UI/Icons/Hud/throw_remote_explosive",
+	r_mass = 2000,
+	r_shape = "Brick",
+	TriggerType = "Remote",
+	ExplosiveType = "C4",
+}
+

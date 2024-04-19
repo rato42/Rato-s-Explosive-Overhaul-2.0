@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity path="" name="nail_can">
+	<state id="idle">
+		<mesh_ref ref="nail_can"/>
+	</state>
+	<mesh_description id="nail_can">
+		<lod idx="0" distance="0">
+			<mesh file="Meshes/nail_can_nail_can.m.hgm"/>
+			<material file="Materials/nail_can_nail_can.mtl"/>
+			<bsphere value="0.133,0.021,8.015,7.589"/>
+			<box min="-3.367,-3.479,1.281" max="3.633,3.521,14.749"/>
+			<src file="C:/Users/Lucas/AppData/Roaming/Jagged Alliance 3/ModAssets/FBX/grenade can nails reimported sharpnel.fbx"/>
+		</lod>
+	</mesh_description>
+</entity>

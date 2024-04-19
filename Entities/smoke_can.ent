@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity path="" name="smoke_can">
+	<state id="idle">
+		<mesh_ref ref="smoke_can"/>
+	</state>
+	<mesh_description id="smoke_can">
+		<lod idx="0" distance="0">
+			<mesh file="Meshes/smoke_can_smoke_can.m.hgm"/>
+			<material file="Materials/smoke_can_smoke_can.mtl"/>
+			<bsphere value="-0.075,0.119,6.789,7.643"/>
+			<box min="-3.575,-3.381,-0.005" max="3.425,3.619,13.584"/>
+			<src file="C:/Users/Lucas/AppData/Roaming/Jagged Alliance 3/ModAssets/FBX/grenade can UV CHANGED no leve.fbx"/>
+		</lod>
+	</mesh_description>
+</entity>

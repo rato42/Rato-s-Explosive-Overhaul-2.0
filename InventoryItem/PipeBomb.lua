@@ -1,0 +1,41 @@
+UndefineClass('PipeBomb')
+DefineClass.PipeBomb = {
+	__parents = { "ThrowableTrapItem" },
+	__generated_by_class = "ModItemInventoryItemCompositeDef",
+
+
+	object_class = "ThrowableTrapItem",
+	Repairable = false,
+	Reliability = 100,
+	Icon = "Mod/RATONADE/Images/pipebomb.png",
+	SubIcon = "Mod/RATONADE/Images/pipebomb.png",
+	ItemType = "Grenade",
+	DisplayName = T(757629881557, --[[ModItemInventoryItemCompositeDef PipeBomb DisplayName]] "Delayed Pipe Bomb"),
+	DisplayNamePlural = T(532583650085, --[[ModItemInventoryItemCompositeDef PipeBomb DisplayNamePlural]] "Delayed Pipe Bombs"),
+	AdditionalHint = T(570167775923, --[[ModItemInventoryItemCompositeDef PipeBomb AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Explodes after 1 turn (or 5 seconds out of combat)\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> High mishap chance\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Inflicts <color EmStyle>Bleeding</color>."),
+	UnitStat = "Explosives",
+	Cost = 300,
+	CanAppearInShop = true,
+	RestockWeight = 50,
+	CategoryPair = "Grenade",
+	MinMishapChance = 2,
+	MaxMishapChance = 30,
+	MinMishapRange = 0,
+	CenterUnitDamageMod = 130,
+	CenterAppliedEffects = {
+		"Bleeding",
+	},
+	Scatter = 4,
+	AttackAP = 3000,
+	BaseRange = 3,
+	ThrowMaxRange = 12,
+	InaccurateMaxOffset = 3000,
+	Entity = "Explosive_TNT",
+	ActionIcon = "UI/Icons/Hud/pipe_bomb",
+	r_mass = 980,
+	r_shape = "Long",
+	is_ied = true,
+	TriggerType = "Timed",
+	ExplosiveType = "BlackPowder",
+}
+
