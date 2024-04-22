@@ -32,6 +32,7 @@ DefineClass.RemoteC4 = {
 	ActionIcon = "UI/Icons/Hud/throw_remote_explosive",
 	r_mass = 2000,
 	r_shape = "Brick",
+	r_shrap_num = 200,
 	TriggerType = "Remote",
 	ExplosiveType = "C4",
 }

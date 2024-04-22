@@ -30,6 +30,7 @@ DefineClass.ProximityTNT = {
 	ActionIcon = "UI/Icons/Hud/throw_proximity_explosive",
 	r_mass = 1500,
 	r_shape = "Long",
+	r_shrap_num = 200,
 	TriggerType = "Proximity",
 }
 

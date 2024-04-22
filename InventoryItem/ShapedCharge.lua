@@ -11,7 +11,7 @@ DefineClass.ShapedCharge = {
 	ItemType = "Grenade",
 	DisplayName = T(880214712809, --[[ModItemInventoryItemCompositeDef ShapedCharge DisplayName]] "Shaped Charge"),
 	DisplayNamePlural = T(611415893484, --[[ModItemInventoryItemCompositeDef ShapedCharge DisplayNamePlural]] "Shaped Charges"),
-	AdditionalHint = T(832446983932, --[[ModItemInventoryItemCompositeDef ShapedCharge AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cone-shaped explosion\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very low accuracy when used by anyone except Barry \n"),
+	AdditionalHint = T(832446983932, --[[ModItemInventoryItemCompositeDef ShapedCharge AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cone-shaped explosion\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very low accuracy when used by anyone except Barry "),
 	UnitStat = "Explosives",
 	Cost = 1500,
 	MinMishapChance = -2,
@@ -31,6 +31,6 @@ DefineClass.ShapedCharge = {
 	ActionIcon = "UI/Icons/Hud/shaped_charge",
 	r_mass = 1070,
 	r_shape = "Stick_like",
-	r_shrap_num = 100,
+	r_shrap_num = 299,
 }
 

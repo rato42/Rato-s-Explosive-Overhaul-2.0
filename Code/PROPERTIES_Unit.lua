@@ -10,5 +10,4 @@ function EO_unitprop()
     }
 end
 
-
 EO_unitprop()

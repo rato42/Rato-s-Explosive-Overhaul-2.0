@@ -1,99 +1,86 @@
 function get_bounce_distance(speed, obj_material, grenade)
 
+	-- local material = obj_material:match(":%s*(.+)$")
 
-
-
-	--local material = obj_material:match(":%s*(.+)$")
-	
-	
 	local material = get_material_group(obj_material)
-	
-	--print("material", material, obj_material)
-	
+
+	-- print("material", material, obj_material)
+
 	local coefficients_materials = {
-    ['water'] = 		0.08,
-    ['mud_wet'] =		0.170,
-    ['mud'] = 			0.220,
-    ['moss'] =			0.275,
-    ['paper'] =			0.275,
-    ['meat'] = 			0.275,
-    ['sand'] = 			0.3,		--0.275,
-	['dirt'] = 			0.3,		--0.413,
-    ['farmland'] = 		0.385,
-    ['forest_floor'] = 	0.385,
-    ['grass'] = 		0.413,
-    ['debris'] = 		0.413,
-    ['bone'] = 			0.39,
-    ['dry_earth'] = 	0.413,
-    ['trash'] = 		0.413,
-    ['carpet'] =		0.385,
-    ['gravel'] = 		0.5,
-    ['cloth'] = 		0.3,
-    ['sandbag'] = 		0.4,
-    ['tin'] = 			0.6,
-    ['stony_ground'] = 	0.62,
-    ['wood'] = 			0.675,
-    ['ceramic'] =		0.675,
-    ['plywood'] = 		0.675,
-    ['electronics'] = 	0.675,
-    ['clay_brick'] = 	0.675,
-    ['plastic'] = 		0.75,
-    ['city_sidewalk'] = 0.75,
-    ['brick'] = 		0.75,
-    ['asphalt'] =		0.75,
-    ['rubber'] = 		0.875,
-    ['glass'] = 		0.875,
-    ['concrete'] = 		0.875,
-    ['rock'] = 			0.875,
-    ['metal'] = 		0.95,
-	
-	['metal_props'] =   0.8,
-	
-	['other'] = 		0.45,
-	['cistern'] =		0.8,
-	
+		['water'] = 0.08,
+		['mud_wet'] = 0.170,
+		['mud'] = 0.220,
+		['moss'] = 0.275,
+		['paper'] = 0.275,
+		['meat'] = 0.275,
+		['sand'] = 0.3, -- 0.275,
+		['dirt'] = 0.3, -- 0.413,
+		['farmland'] = 0.385,
+		['forest_floor'] = 0.385,
+		['grass'] = 0.413,
+		['debris'] = 0.413,
+		['bone'] = 0.39,
+		['dry_earth'] = 0.413,
+		['trash'] = 0.413,
+		['carpet'] = 0.385,
+		['gravel'] = 0.5,
+		['cloth'] = 0.3,
+		['sandbag'] = 0.4,
+		['tin'] = 0.65,
+		['stony_ground'] = 0.62,
+		['wood'] = 0.675,
+		['ceramic'] = 0.675,
+		['plywood'] = 0.675,
+		['electronics'] = 0.675,
+		['clay_brick'] = 0.675,
+		['plastic'] = 0.75,
+		['city_sidewalk'] = 0.75,
+		['brick'] = 0.75,
+		['asphalt'] = 0.75,
+		['rubber'] = 0.83,
+		['glass'] = 0.83,
+		['concrete'] = 0.83,
+		['rock'] = 0.83,
+		['metal'] = 0.89,
+		['metal_props'] = 0.8,
+		['other'] = 0.45,
+		['cistern'] = 0.8,
+
 	}
-	
 
 	local coeff = ((coefficients_materials[material]) or 0.45)
-	--rat_printGR("coeff", coeff)
+	-- rat_printGR("coeff", coeff)
 	local gren_adj = (get_grenade_bounce_adj(grenade) or 1)
-	local factor = (speed^1.01) * coeff * 0.25  * const.SlabSizeX * gren_adj
-	
+	local factor = (speed ^ 1.01) * coeff * 0.25 * const.SlabSizeX * gren_adj
 
-	
-	--rat_printGR("reflection factor in tiles", factor/ const.SlabSizeX)
+	-- rat_printGR("reflection factor in tiles", factor/ const.SlabSizeX)
 	return factor > 0 and factor or false
-	
-	
+
 end
 
 function get_grenade_bounce_adj(grenade)
 	local shp = grenade.r_shape
 	local shape_adj = shp == "Stick_like" and 0.75 or shp == "Long" and 0.66 or shp == "Cylindrical" and 0.9 or 1.0
-	--shape_adj = tonumber(string.format("%.2f". shape_adj))
-	--local mass_adj = tonumber(string.format("%.2f",((grenade.r_mass or 350.00) /350.00 )))^0.5
-	local mass_adj = 1+grenade_mass_factor_adjusted(grenade,4)
-	--local mass_adj = MulDivRound((grenade.r_mass or 350)*100,100,350)*0.33
-	--print("shpadj", shape_adj, "mass adj", mass_adj, "total adj", shape_adj * mass_adj)
+	-- shape_adj = tonumber(string.format("%.2f". shape_adj))
+	-- local mass_adj = tonumber(string.format("%.2f",((grenade.r_mass or 350.00) /350.00 )))^0.5
+	local mass_adj = 1 + grenade_mass_factor_adjusted(grenade, 4)
+	-- local mass_adj = MulDivRound((grenade.r_mass or 350)*100,100,350)*0.33
+	-- print("shpadj", shape_adj, "mass adj", mass_adj, "total adj", shape_adj * mass_adj)
 	return shape_adj * mass_adj
 end
 
-
-
-
-function grenade_mass_factor_adjusted(grenade ,adj )
+function grenade_mass_factor_adjusted(grenade, adj)
 
 	local adj = adj or 2
-	--tonumber(string.format("%.2f",((grenade.r_mass or 350.00) /350.00 )))
-	local mass_ratio = (grenade.r_mass or 600.00) /600.00 
-	--print("mass ratio", mass_ratio)
-	mass_ratio = (1-mass_ratio )
+	-- tonumber(string.format("%.2f",((grenade.r_mass or 350.00) /350.00 )))
+	local mass_ratio = (grenade.r_mass or 600.00) / 600.00
+	-- print("mass ratio", mass_ratio)
+	mass_ratio = (1 - mass_ratio)
 
-	local mass_adj = (mass_ratio)/ adj 
-	
-	--local final_adj = mass_adj +1
-	--print("final adj", final_adj)
+	local mass_adj = (mass_ratio) / adj
+
+	-- local final_adj = mass_adj +1
+	-- print("final adj", final_adj)
 	return mass_adj
 end
 
@@ -147,71 +134,68 @@ function get_material_group(material)
 		['Metal_Inv_Imp'] = "metal",
 		['Metal_Inv_Penetrable'] = "metal",
 		['Metal_Props'] = "metal_props",
-		
 		['Metalsheets'] = "metal_props",
 		["Cardboard"] = "paper",
-		['Mud'] = "mud", 
+		['Mud'] = "mud",
 		["ShallowWater"] = "water",
-		
 		['Metal_Props_Hard'] = "metal",
 		['Metal_Solid'] = "metal",
 		['Metal_Solid_Hard'] = "metal",
-		["Explosive_Barrel"] = "metal", 
+		["Explosive_Barrel"] = "metal",
 		["Explosive_Vehicle"] = "metal",
 		["Explosive_Cistern"] = "cistern",
-		[0]		= "florest_floor"  ,		-- TerrainJungleGround_mesh
-		[1]		= "grass"          ,        -- TerrainJungleGrass_mesh
-		[10]	= "sand"           ,        -- TerrainBeachSand_01_mesh
-		[11]	= "sand"           ,        -- TerrainBeachSand_02_mesh
-		[12]	= "sand"           ,        -- TerrainBeachSand_03_mesh
-		[13]	= "sand"           ,        -- TerrainBeachSand_04_mesh
-		[14]	= "sand"           ,        -- TerrainBeachSand_05_mesh
-		[15]	= "mud_wet"        ,        -- TerrainJungleMud_Wet_mesh
-		[16]	= "mud"            ,        -- TerrainJungleMud_01_mesh
-		[17]	= "mud"            ,        -- TerrainJungleMud_02_mesh
-		[18]	= "moss"           ,        -- TerrainJungleMoss_mesh
-		[19]	= "grass"          ,        -- TerrainGrass_01_mesh
-		[2]		= "grass"          ,        -- TerrainJungleGrass_Mix_mesh
-		[20]	= "bone"           ,        -- TerrainSkeletonGraveyard_mesh
-		[21]	= "concrete"       ,        -- TerrainMilitaryConcrete_01_mesh
-		[22]	= "concrete"       ,        -- TerrainMilitaryConcrete_02_mesh
-		[23]	= "concrete"       ,        -- TerrainMilitaryConcrete_03_mesh
-		[24]	= "dry_earth"      ,        -- TerrainDry_01_mesh
-		[25]	= "dry_earth"      ,        -- TerrainDry_02_mesh
-		[26]	= "dry_earth"      ,        -- TerrainDry_03_mesh
-		[27]	= "dry_earth"      ,        -- TerrainDry_04_mesh
-		[3]		= "mud"            ,        -- TerrainJungleMud_Dry_mesh
-		[32]	= "dry_earth"      ,        -- TerrainDry_05_mesh
-		[33]	= "dry_earth"      ,        -- TerrainBurntGround_01_mesh
-		[34]	= "dry_earth"      ,        -- TerrainBurntGround_02_mesh
-		[35]	= "stony_ground"   ,        -- TerrainDryStony_01_mesh
-		[37]	= "stony_ground"   ,        -- TerrainDryRock_01_mesh
-		[38]	= "stony_ground"   ,        -- TerrainDryRock_02_mesh
-		[39]	= "stony_ground"   ,        -- TerrainDryStony_02_mesh
-		[4]		= "florest_floor"  ,        -- TerrainJungleForest_Floor_01_mesh
-		[40]	= "trash"          ,        -- TerrainDump_01_mesh
-		[41]	= "city_sidewalk"  ,        -- TerrainCityDecoTiles_01_mesh
-		[42]	= "stony_ground"   ,        -- TerrainMineToxic_01_mesh
-		[43]	= "gravel"         ,        -- TerrainCityGravel_01_mesh
-		[44]	= "dry_earth"      ,        -- TerrainSavannaGround_02_mesh
-		[45]	= "water"          ,        -- TerrainRiverBottomWalkable_mesh
-		--[46]	= ""               ,        -- TerrainAzollaPinnata_01_mesh
-		[47]	= "water"          ,        -- TerrainRiverImpassable_mesh
-		[48]	= "farmland"       ,        -- TerrainFarmland_01_mesh
-		[5]		= "sand"           ,        -- TerrainJungleSand_mesh
-		[50]	= "asphalt"        ,        -- TerrainAsphalt_01_mesh
-		[51]	= "asphalt"        ,        -- TerrainAsphalt_02_mesh
-		[52]	= "mud_wet"        ,        -- TerrainJungleMud_Wet_02_mesh
-		[53]	= "mud"            ,        -- TerrainJungleMud_Mix_mesh
-		[6]		= "florest_floor"  ,        -- TerrainJungleGround_Mix_mesh
-		[7]		= "florest_floor"  ,        -- TerrainJungleForest_Floor_03_mesh
-		--[8]	    = ""           ,        -- TerrainBlack_mesh
-		[9]		= "florest_floor"  ,        -- TerrainJungleForest_Floor_02_mesh
-	                                     
+		[0] = "florest_floor", -- TerrainJungleGround_mesh
+		[1] = "grass", -- TerrainJungleGrass_mesh
+		[10] = "sand", -- TerrainBeachSand_01_mesh
+		[11] = "sand", -- TerrainBeachSand_02_mesh
+		[12] = "sand", -- TerrainBeachSand_03_mesh
+		[13] = "sand", -- TerrainBeachSand_04_mesh
+		[14] = "sand", -- TerrainBeachSand_05_mesh
+		[15] = "mud_wet", -- TerrainJungleMud_Wet_mesh
+		[16] = "mud", -- TerrainJungleMud_01_mesh
+		[17] = "mud", -- TerrainJungleMud_02_mesh
+		[18] = "moss", -- TerrainJungleMoss_mesh
+		[19] = "grass", -- TerrainGrass_01_mesh
+		[2] = "grass", -- TerrainJungleGrass_Mix_mesh
+		[20] = "bone", -- TerrainSkeletonGraveyard_mesh
+		[21] = "concrete", -- TerrainMilitaryConcrete_01_mesh
+		[22] = "concrete", -- TerrainMilitaryConcrete_02_mesh
+		[23] = "concrete", -- TerrainMilitaryConcrete_03_mesh
+		[24] = "dry_earth", -- TerrainDry_01_mesh
+		[25] = "dry_earth", -- TerrainDry_02_mesh
+		[26] = "dry_earth", -- TerrainDry_03_mesh
+		[27] = "dry_earth", -- TerrainDry_04_mesh
+		[3] = "mud", -- TerrainJungleMud_Dry_mesh
+		[32] = "dry_earth", -- TerrainDry_05_mesh
+		[33] = "dry_earth", -- TerrainBurntGround_01_mesh
+		[34] = "dry_earth", -- TerrainBurntGround_02_mesh
+		[35] = "stony_ground", -- TerrainDryStony_01_mesh
+		[37] = "stony_ground", -- TerrainDryRock_01_mesh
+		[38] = "stony_ground", -- TerrainDryRock_02_mesh
+		[39] = "stony_ground", -- TerrainDryStony_02_mesh
+		[4] = "florest_floor", -- TerrainJungleForest_Floor_01_mesh
+		[40] = "trash", -- TerrainDump_01_mesh
+		[41] = "city_sidewalk", -- TerrainCityDecoTiles_01_mesh
+		[42] = "stony_ground", -- TerrainMineToxic_01_mesh
+		[43] = "gravel", -- TerrainCityGravel_01_mesh
+		[44] = "dry_earth", -- TerrainSavannaGround_02_mesh
+		[45] = "water", -- TerrainRiverBottomWalkable_mesh
+		-- [46]	= ""               ,        -- TerrainAzollaPinnata_01_mesh
+		[47] = "water", -- TerrainRiverImpassable_mesh
+		[48] = "farmland", -- TerrainFarmland_01_mesh
+		[5] = "sand", -- TerrainJungleSand_mesh
+		[50] = "asphalt", -- TerrainAsphalt_01_mesh
+		[51] = "asphalt", -- TerrainAsphalt_02_mesh
+		[52] = "mud_wet", -- TerrainJungleMud_Wet_02_mesh
+		[53] = "mud", -- TerrainJungleMud_Mix_mesh
+		[6] = "florest_floor", -- TerrainJungleGround_Mix_mesh
+		[7] = "florest_floor", -- TerrainJungleForest_Floor_03_mesh
+		-- [8]	    = ""           ,        -- TerrainBlack_mesh
+		[9] = "florest_floor", -- TerrainJungleForest_Floor_02_mesh
+
 	}
 
-	
-		return data[material] or "other"
+	return data[material] or "other"
 end
 --[[function grenade_mass_factor_adjusted(grenade ,adj )
 
@@ -254,116 +238,115 @@ function grenade_mass_factor_adjusted(grenade ,adj )
 	print("massadj", mass_adj)
 	return mass_adj
 end]]
-	-- local coefficients_materials = {
-    -- ["Bone_Prop"] = 0.51,
-    -- ["Bone_Solid"] = 0.51,
-    -- ["Ceramic_Prop"] = 0.595,
-    -- ["Cloth_Prop"] = 0.425,
-    -- ["Cloth_Solid"] = 0.425,
-    -- ["Electronics_Prop"] = 0.68,
-    -- ["Papers"] = 0.34,
-    -- ["Plywood"] = 0.595,
-    -- ["Rubber"] = 0.51,
-    -- ["Trees"] = 0.765,
-    -- ["Body_Inv"] = 0.51,
-    -- ["Body_Solid"] = 0.51,
-    -- ["none"] = 0.2,
-    -- ["Wallpaper"] = 0.34,
-    -- ["Sticks_Props"] = 0.51,
-    -- ["Sticks_Solids"] = 0.51,
-    -- ["Tin"] = 0.595,
-    -- ["Tin_Props"] = 0.595,
-    -- ["Brick"] = 0.68,
-    -- ["Brick_Inv"] = 0.68,
-    -- ["Brick_Prop"] = 0.68,
-    -- ["Brick_Solid"] = 0.68,
-    -- ["Tiles"] = 0.68,
-    -- ["Meat"] = 0.34,
-    -- ["Planks"] = 0.595,
-    -- ["Landmine"] = 0.68,
-    -- ["Metal_Inv_Imp"] = 0.85,
-    -- ["Metal_Inv_Penetrable"] = 0.85,
-    -- ["Metal_Props"] = 0.85,
-    -- ["Metal_Props_Hard"] = 0.85,
-    -- ["Metal_Solid"] = 0.85,
-    -- ["Metal_Solid_Hard"] = 0.85,
-    -- ["Wood"] = 0.595,
-    -- ["Wood_Props"] = 0.595,
-    -- ["Logs"] = 0.595,
-    -- ["Wood_inv"] = 0.595,
-    -- ["Concrete"] = 0.765,
-    -- ["ConcreteThin"] = 0.765,
-    -- ["Sandbag"] = 0.51,
-    -- ["Stone"] = 0.765,
-    -- ["ClayBrick"] = 0.68,
-    -- ["Grass"] = 0.17,
-    -- ["grass_Props"] = 0.17,
-    -- ["grasss_inv"] = 0.17,
-    -- ["Flesh"] = 0.34,
-    -- ["Water"] = 0.0,
-    -- ["Rock"] = 0.765,
-    -- ["Debris"] = 0.425,
-    -- ["Dirt"] = 0.34,
-    -- ["Carpet_Solid"] = 0.255,
-    -- ["Matress_Solid"] = 0.255,
-    -- ["Plastic"] = 0.51,
-    -- ["Glass"] = 0.68,
-    -- ["Explosive_Barrel"] = 0.765,
-    -- ["Explosive_Cistern"] = 0.765,
-    -- ["Explosive_Vehicle"] = 0.765,
-    -- ["Sand"] = 0.255,
-    -- [0] = 0.34,
-    -- [1] = 0.17,
-    -- [2] = 0.17,
-    -- [3] = 0.425,
-    -- [4] = 0.255,
-    -- [5] = 0.17,
-    -- [6] = 0.255,
-    -- [7] = 0.255,
-    -- [8] = 0.34,
-    -- [9] = 0.255,
-    -- [10] = 0.255,
-    -- [11] = 0.255,
-    -- [12] = 0.255,
-    -- [13] = 0.255,
-    -- [14] = 0.255,
-    -- [15] = 0.17,
-    -- [16] = 0.255,
-    -- [17] = 0.255,
-    -- [18] = 0.17,
-    -- [19] = 0.17,
-    -- [20] = 0.425,
-    -- [21] = 0.765,
-    -- [22] = 0.765,
-    -- [23] = 0.765,
-    -- [24] = 0.255,
-    -- [25] = 0.255,
-    -- [26] = 0.255,
-    -- [27] = 0.255,
-    -- [32] = 0.255,
-    -- [33] = 0.255,
-    -- [34] = 0.255,
-    -- [35] = 0.765,
-    -- [37] = 0.765,
-    -- [38] = 0.765,
-    -- [39] = 0.765,
-    -- [40] = 0.51,
-    -- [41] = 0.595,
-    -- [42] = 0.68,
-    -- [43] = 0.34,
-    -- [44] = 0.51,
-    -- [45] = 0.51,
-    -- [46] = 0.51,
-    -- [47] = 0.0,
-    -- [48] = 0.425,
-    -- [50] = 0.765,
-    -- [51] = 0.765,
-    -- [52] = 0.17,
-    -- [53] = 0.255,
+-- local coefficients_materials = {
+-- ["Bone_Prop"] = 0.51,
+-- ["Bone_Solid"] = 0.51,
+-- ["Ceramic_Prop"] = 0.595,
+-- ["Cloth_Prop"] = 0.425,
+-- ["Cloth_Solid"] = 0.425,
+-- ["Electronics_Prop"] = 0.68,
+-- ["Papers"] = 0.34,
+-- ["Plywood"] = 0.595,
+-- ["Rubber"] = 0.51,
+-- ["Trees"] = 0.765,
+-- ["Body_Inv"] = 0.51,
+-- ["Body_Solid"] = 0.51,
+-- ["none"] = 0.2,
+-- ["Wallpaper"] = 0.34,
+-- ["Sticks_Props"] = 0.51,
+-- ["Sticks_Solids"] = 0.51,
+-- ["Tin"] = 0.595,
+-- ["Tin_Props"] = 0.595,
+-- ["Brick"] = 0.68,
+-- ["Brick_Inv"] = 0.68,
+-- ["Brick_Prop"] = 0.68,
+-- ["Brick_Solid"] = 0.68,
+-- ["Tiles"] = 0.68,
+-- ["Meat"] = 0.34,
+-- ["Planks"] = 0.595,
+-- ["Landmine"] = 0.68,
+-- ["Metal_Inv_Imp"] = 0.85,
+-- ["Metal_Inv_Penetrable"] = 0.85,
+-- ["Metal_Props"] = 0.85,
+-- ["Metal_Props_Hard"] = 0.85,
+-- ["Metal_Solid"] = 0.85,
+-- ["Metal_Solid_Hard"] = 0.85,
+-- ["Wood"] = 0.595,
+-- ["Wood_Props"] = 0.595,
+-- ["Logs"] = 0.595,
+-- ["Wood_inv"] = 0.595,
+-- ["Concrete"] = 0.765,
+-- ["ConcreteThin"] = 0.765,
+-- ["Sandbag"] = 0.51,
+-- ["Stone"] = 0.765,
+-- ["ClayBrick"] = 0.68,
+-- ["Grass"] = 0.17,
+-- ["grass_Props"] = 0.17,
+-- ["grasss_inv"] = 0.17,
+-- ["Flesh"] = 0.34,
+-- ["Water"] = 0.0,
+-- ["Rock"] = 0.765,
+-- ["Debris"] = 0.425,
+-- ["Dirt"] = 0.34,
+-- ["Carpet_Solid"] = 0.255,
+-- ["Matress_Solid"] = 0.255,
+-- ["Plastic"] = 0.51,
+-- ["Glass"] = 0.68,
+-- ["Explosive_Barrel"] = 0.765,
+-- ["Explosive_Cistern"] = 0.765,
+-- ["Explosive_Vehicle"] = 0.765,
+-- ["Sand"] = 0.255,
+-- [0] = 0.34,
+-- [1] = 0.17,
+-- [2] = 0.17,
+-- [3] = 0.425,
+-- [4] = 0.255,
+-- [5] = 0.17,
+-- [6] = 0.255,
+-- [7] = 0.255,
+-- [8] = 0.34,
+-- [9] = 0.255,
+-- [10] = 0.255,
+-- [11] = 0.255,
+-- [12] = 0.255,
+-- [13] = 0.255,
+-- [14] = 0.255,
+-- [15] = 0.17,
+-- [16] = 0.255,
+-- [17] = 0.255,
+-- [18] = 0.17,
+-- [19] = 0.17,
+-- [20] = 0.425,
+-- [21] = 0.765,
+-- [22] = 0.765,
+-- [23] = 0.765,
+-- [24] = 0.255,
+-- [25] = 0.255,
+-- [26] = 0.255,
+-- [27] = 0.255,
+-- [32] = 0.255,
+-- [33] = 0.255,
+-- [34] = 0.255,
+-- [35] = 0.765,
+-- [37] = 0.765,
+-- [38] = 0.765,
+-- [39] = 0.765,
+-- [40] = 0.51,
+-- [41] = 0.595,
+-- [42] = 0.68,
+-- [43] = 0.34,
+-- [44] = 0.51,
+-- [45] = 0.51,
+-- [46] = 0.51,
+-- [47] = 0.0,
+-- [48] = 0.425,
+-- [50] = 0.765,
+-- [51] = 0.765,
+-- [52] = 0.17,
+-- [53] = 0.255,
 -- }
 
-
-	--[[local coefficients_materials = {
+--[[local coefficients_materials = {
 		["Bone_Prop"] = 0.6,
 		["Bone_Solid"] = 0.6,
 		["Ceramic_Prop"] = 0.7,
@@ -471,8 +454,7 @@ end]]
 		[52] = 0.2,--0.6, 		-- TerrainJungleMud_Wet_02_mesh
 		[53] = 0.3,--0.6, 		-- TerrainJungleMud_Mix_mesh
 	}]]
-	
-	
+
 -- TerrainJungleGround_mesh
 -- TerrainJungleGrass_mesh
 -- TerrainBeachSand_01_mesh

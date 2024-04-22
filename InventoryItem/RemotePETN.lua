@@ -31,6 +31,7 @@ DefineClass.RemotePETN = {
 	ActionIcon = "UI/Icons/Hud/throw_remote_explosive",
 	r_mass = 1800,
 	r_shape = "Brick",
+	r_shrap_num = 200,
 	TriggerType = "Remote",
 	ExplosiveType = "PETN",
 }

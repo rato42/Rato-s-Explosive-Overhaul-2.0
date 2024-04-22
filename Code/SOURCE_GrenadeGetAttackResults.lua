@@ -1,5 +1,5 @@
 function Grenade:GetAttackResults(action, attack_args)
-	--print("gren class", self.object_class)
+
 	local attacker = attack_args.obj
 	local explosion_pos = attack_args.explosion_pos
 	local trajectory = {}
@@ -7,187 +7,173 @@ function Grenade:GetAttackResults(action, attack_args)
 	---
 	local bounce_pos
 	---
-	--local mishap_pos
-	if not explosion_pos and attack_args.lof then 
+	-- local mishap_pos
+	if not explosion_pos and attack_args.lof then
 		local lof_idx = table.find(attack_args.lof, "target_spot_group", attack_args.target_spot_group)
 		local lof_data = attack_args.lof[lof_idx or 1]
 		local attack_pos = lof_data.attack_pos
 		local target_pos = lof_data.target_pos
 		local hits_table = lof_data.hits
-		
+
 		-----------------------
 		local can_bounce = self.CanBounce
 		local is_explosive = self.is_explosive
-		
-		
+
 		target_pos = validate_deviated_gren_pos(target_pos, attack_args)
-		
+
 		if Platform.developer and Platform.cheats then
-			can_bounce = true
+			can_bounce = false
 		end
-		
+
 		can_bounce = can_bounce and CurrentModOptions["enabled_bounce"]
 		can_bounce = can_bounce and (CurrentModOptions["enabled_bounce_pred"] or not attack_args.prediction)
-		
+
 		----------------------
-		
-		
-		
-		
+
 		-------------------- Spetacular Mishap
-		
-		if not attack_args.prediction and IsKindOf(self, "MishapProperties") and is_explosive then
+
+		--[[ 		if not attack_args.prediction and IsKindOf(self, "MishapProperties") and is_explosive then
 			local chance = self:GetMishapChance(attacker, target_pos)
 			--print("mishap chance", chance)
 			if CheatEnabled("AlwaysMiss") or (chance>0 and attacker:Random(100) < chance) then
 				--mishap = true
 				--mishap_pos = attack_pos--target_pos
 				--target_pos = attack_pos
-				attacker:ShowMishapNotification(action)
+				--attacker:ShowMishapNotification(action)
 			end
-		end
+		end ]]
 		---------------------
-		
-		
+
 		------------------------- Ai bounce adjustment
 		local ai_trajectory, ai_angle
-		if can_bounce and not attack_args.prediction then
-			--target_pos, ai_trajectory, ai_angle = AI_adj_targetpos_for_bounce(attack_args, target_pos, attack_pos, self)
+		if can_bounce and not attack_args.prediction and EO_IsAI(attacker) then
+			target_pos, ai_trajectory, ai_angle = AI_adj_targetpos_for_bounce(attack_args, target_pos, attack_pos, self)
 			if ai_angle then
 				attack_args.rat_angle = ai_angle
 			end
 		end
-		
-		
-		
-		
-		
+
 		---------------------------- angle for deviation
 		local traj, angle
 		if not attack_args.prediction and not mishap and not ai_angle then
 			traj, angle = self:GetTrajectory(attack_args, attack_pos, target_pos, mishap)
-			
+
 			if angle then
 				attack_args.rat_angle = angle
 			end
 		end
 		----------------------------
-			----collide test
-			DbgAddCircle_collide_test(target_pos, const.SlabSizeX/5, const.clrCyan)
-		
-		
-		
-		
-		local enabled_deviation = true--CurrentModOptions['grenade_deviation_enabled']-- ~= nil and CurrentModOptions['grenade_deviation_enabled'] or true
-		
-		
+		----collide test
+		DbgAddCircle_collide_test(target_pos, const.SlabSizeX / 5, const.clrCyan)
+
+		local enabled_deviation = true -- CurrentModOptions['grenade_deviation_enabled'] or true -- ~= nil and CurrentModOptions['grenade_deviation_enabled'] or true
+
 		-------------------------------   Deviation
 		local deviate, deviated_traj
+
 		if not attack_args.prediction and not mishap and enabled_deviation then
-			--target_pos, deviate, deviated_traj
+			-- target_pos, deviate, deviated_traj
 			target_pos, deviate = self:rat_deviation(attacker, target_pos, attack_args, attack_pos)
 		end
-		
-		
+
 		---------------------------------- Vanilla mishap chance
 		-- mishap & stealth kill checks
 		-- if not attack_args.prediction and IsKindOf(self, "MishapProperties") and not enabled_deviation then
-			-- local chance = self:GetMishapChance(attacker, target_pos)
-			-- if CheatEnabled("AlwaysMiss") or attacker:Random(100) < chance then
-				-- mishap = true
+		-- local chance = self:GetMishapChance(attacker, target_pos)
+		-- if CheatEnabled("AlwaysMiss") or attacker:Random(100) < chance then
+		-- mishap = true
 
-				-----Try a couple of times to get a valid deviated position
-				-- local validPositionTries = 0
-				-- local maxPositionTries = 5
-				-- while validPositionTries < maxPositionTries do
-					-- local dv = self:GetMishapDeviationVector(attacker, target_pos)
-					-- local deviatePosition = target_pos + dv
-					-- local trajectory = self:GetTrajectory_Original(attack_args, attack_pos, deviatePosition, "mishap")
-					-- local finalPos = #trajectory > 0 and trajectory[#trajectory].pos
-					-- if finalPos and self:ValidatePos(finalPos, attack_args) then
-						-- target_pos = deviatePosition
-						-- break
-					-- end
-					-- validPositionTries = validPositionTries + 1
-				-- end
-				-- attacker:ShowMishapNotification(action)
-			-- end
+		-----Try a couple of times to get a valid deviated position
+		-- local validPositionTries = 0
+		-- local maxPositionTries = 5
+		-- while validPositionTries < maxPositionTries do
+		-- local dv = self:GetMishapDeviationVector(attacker, target_pos)
+		-- local deviatePosition = target_pos + dv
+		-- local trajectory = self:GetTrajectory_Original(attack_args, attack_pos, deviatePosition, "mishap")
+		-- local finalPos = #trajectory > 0 and trajectory[#trajectory].pos
+		-- if finalPos and self:ValidatePos(finalPos, attack_args) then
+		-- target_pos = deviatePosition
+		-- break
+		-- end
+		-- validPositionTries = validPositionTries + 1
+		-- end
+		-- attacker:ShowMishapNotification(action)
+		-- end
 		-- end
 		----------------------------------- Determine Trajectory
-		
+
 		if mishap and not IsKindOf(self, "Molotov") then
 			local anim_phase = attacker:GetAnimMoment(attack_args.anim, "hit") or 0
-			local grenade_pos = attacker:GetRelativeAttachSpotLoc(attack_args.anim, anim_phase, attacker, attacker:GetSpotBeginIndex("Weaponr"))
+			local grenade_pos = attacker:GetRelativeAttachSpotLoc(attack_args.anim, anim_phase, attacker,
+			                                                      attacker:GetSpotBeginIndex("Weaponr"))
 			-- local step_pos = attack_args.step_pos
 			-- if not step_pos:IsValidZ() then
-				-- step_pos = step_pos:SetTerrainZ()
+			-- step_pos = step_pos:SetTerrainZ()
 			-- end
-			
+
 			-- local pos0 = step_pos:SetZ(step_pos:z() + attack_offset:z())
-			trajectory = {{pos = grenade_pos, t = 0}}
+			trajectory = {
+				{
+					pos = grenade_pos,
+					t = 0,
+				},
+			}
 		else
 
-		--if enabled_deviation then
+			-- if enabled_deviation then
 			---deviated_traj or (not deviate and traj) and traj or self:GetTrajectory(attack_args, attack_pos, target_pos, mishap)
-			trajectory = not deviate and (ai_trajectory or traj) or self:GetTrajectory(attack_args, attack_pos, target_pos, mishap)
-		-- else
+			trajectory = not deviate and (ai_trajectory or traj) or
+								             self:GetTrajectory(attack_args, attack_pos, target_pos, mishap)
+			-- else
 			-- trajectory = self:GetTrajectory_Original(attack_args, attack_pos, target_pos, mishap)
-		-- end
+			-- end
 		end
 		----------------------------------
-	
 
 		if #trajectory > 0 then
 			explosion_pos = trajectory[#trajectory].pos
 		end
 		explosion_pos = self:ValidatePos(explosion_pos, attack_args)
-		
-		
-		
-		--------------Debug
-		--if not attack_args.prediction then
-			--DbgAddVector_rat(attack_args, attack_pos, explosion_pos-attack_pos , const.clrBlue)
-			--DbgAddVector_rat(attack_args, trajectory[1].pos, trajectory[#trajectory], const.clrRed)
-		--end
-		
 
-		
-		
-		
+		--------------Debug
+		-- if not attack_args.prediction then
+		-- DbgAddVector_rat(attack_args, attack_pos, explosion_pos-attack_pos , const.clrBlue)
+		-- DbgAddVector_rat(attack_args, trajectory[1].pos, trajectory[#trajectory], const.clrRed)
+		-- end
+
 		------------Bounce block
 
 		if not ai_trajectory and #trajectory > 0 and can_bounce and not mishap then
-			
+
 			for i, step in ipairs(trajectory) do
-				DbgAddCircle_rat(attack_args, step.pos, const.SlabSizeX/10, const.clrCyan)
+				DbgAddCircle_rat(attack_args, step.pos, const.SlabSizeX / 10, const.clrCyan)
 			end
-			
+
 			local bounce_pos
 			trajectory, bounce_pos = get_bounces(self, trajectory, attack_args, explosion_pos)
 		end
-		
+
 		------------------------------ Time limit
 		local time_limit = self.r_timer
 		local new_trajectory = {}
 		if time_limit then
 			for i, step in ipairs(trajectory) do
-				
+
 				if step.t <= time_limit then
-		
+
 					table.insert(new_trajectory, step)
 				end
 			end
 			trajectory = new_trajectory
 		end
 		-------------------------------
-		
+
 		target_pos = bounce_pos or target_pos
 		if #trajectory > 0 then
 			explosion_pos = trajectory[#trajectory].pos
 		end
-		--explosion_pos = self:ValidatePos(explosion_pos, attack_args)
-		
-		
+		-- explosion_pos = self:ValidatePos(explosion_pos, attack_args)
+
 	end
 
 	local results
@@ -209,8 +195,10 @@ function Grenade:GetAttackResults(action, attack_args)
 		local unit_damage = {}
 		for _, hit in ipairs(results) do
 			local obj = hit.obj
-			if not obj or hit.damage == 0 then goto continue end
-			
+			if not obj or hit.damage == 0 then
+				goto continue
+			end
+
 			local dist = hit.obj:GetDist(explosion_voxel_pos)
 
 			if IsKindOf(obj, "Unit") then
@@ -237,6 +225,4 @@ function Grenade:GetAttackResults(action, attack_args)
 
 	return results
 end
-
-
 

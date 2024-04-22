@@ -23,21 +23,8 @@ DefineClass.FragGrenade = {
 	MaxMishapRange = 3,
 	CenterUnitDamageMod = 130,
 	CenterObjDamageMod = 200,
-	CenterAppliedEffects = {
-		"Revealed",
-		"KnockDown",
-		"Bleeding",
-		"Suppressed",
-		"SeverelySuppressed",
-	},
 	AreaOfEffect = 2,
 	AreaObjDamageMod = 250,
-	AreaAppliedEffects = {
-		"Revealed",
-		"Bleeding",
-		"Suppressed",
-		"SeverelySuppressed",
-	},
 	PenetrationClass = 4,
 	DeathType = "BlowUp",
 	BaseDamage = 22,
@@ -50,5 +37,6 @@ DefineClass.FragGrenade = {
 	r_timer = 6500,
 	r_mass = 595,
 	r_shape = "Stick_like",
+	r_shrap_num = 350,
 }
 

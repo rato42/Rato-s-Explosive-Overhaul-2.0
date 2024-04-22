@@ -24,19 +24,7 @@ DefineClass.HE_Grenade = {
 	MinMishapRange = 0,
 	CenterUnitDamageMod = 130,
 	CenterObjDamageMod = 200,
-	CenterAppliedEffects = {
-		"Revealed",
-		"KnockDown",
-		"Suppressed",
-		"SeverelySuppressed",
-	},
 	AreaObjDamageMod = 250,
-	AreaAppliedEffects = {
-		"Revealed",
-		"KnockDown",
-		"Suppressed",
-		"SeverelySuppressed",
-	},
 	PenetrationClass = 4,
 	DeathType = "BlowUp",
 	BaseDamage = 35,
@@ -49,6 +37,6 @@ DefineClass.HE_Grenade = {
 	r_timer = 4500,
 	r_mass = 600,
 	r_shape = "Spherical",
-	r_shrap_num = 350,
+	r_shrap_num = 500,
 }
 

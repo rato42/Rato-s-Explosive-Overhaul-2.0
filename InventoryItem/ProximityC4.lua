@@ -33,6 +33,7 @@ DefineClass.ProximityC4 = {
 	ActionIcon = "UI/Icons/Hud/throw_proximity_explosive",
 	r_mass = 2000,
 	r_shape = "Brick",
+	r_shrap_num = 200,
 	TriggerType = "Proximity",
 	ExplosiveType = "C4",
 }

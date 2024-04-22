@@ -40,8 +40,7 @@ DefineClass.IncendiaryGrenade = {
 	aoeType = "fire",
 	Entity = "Weapon_MolotovCocktail",
 	ActionIcon = "UI/Icons/Hud/molotov",
-	r_timer = 7000,
-	r_mass = 980,
+	r_mass = 610,
 	r_shape = "Cylindrical",
 }
 

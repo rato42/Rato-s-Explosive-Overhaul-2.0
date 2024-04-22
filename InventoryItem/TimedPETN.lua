@@ -33,6 +33,7 @@ DefineClass.TimedPETN = {
 	ActionIcon = "UI/Icons/Hud/throw_timed_explosives",
 	r_mass = 1800,
 	r_shape = "Brick",
+	r_shrap_num = 200,
 	TriggerType = "Timed",
 	ExplosiveType = "PETN",
 }

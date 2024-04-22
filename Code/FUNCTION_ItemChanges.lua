@@ -10,4 +10,5 @@ end
 
 function OnMsg.DataLoaded()
 	explo_OH_change_item()
+	EO_unitprop()
 end

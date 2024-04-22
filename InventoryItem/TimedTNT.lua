@@ -33,6 +33,7 @@ DefineClass.TimedTNT = {
 	ActionIcon = "UI/Icons/Hud/throw_timed_explosives",
 	r_mass = 1500,
 	r_shape = "Long",
+	r_shrap_num = 200,
 	TriggerType = "Timed",
 }
 
