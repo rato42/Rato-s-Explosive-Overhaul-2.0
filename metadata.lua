@@ -3,7 +3,7 @@ return PlaceObj('ModDef', {
 	'description', "implement bounce speed diminish depending on angle\n\n\ndetermine mishap chances",
 	'id', "RATONADE",
 	'author', "rato",
-	'version', 2505,
+	'version', 2572,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'entities', {
@@ -76,6 +76,7 @@ return PlaceObj('ModDef', {
 		"InventoryItem/TearGasGrenade_IED.lua",
 		"InventoryItem/ConcussiveGrenade_IED.lua",
 		"InventoryItem/IncendiaryGrenade.lua",
+		"InventoryItem/HE_Grenade_1.lua",
 		"InventoryItem/ConcussiveGrenade.lua",
 		"InventoryItem/TearGasGrenade.lua",
 		"InventoryItem/FragGrenade.lua",
@@ -102,8 +103,8 @@ return PlaceObj('ModDef', {
 		shrap_num = "100",
 	},
 	'has_data', true,
-	'saved', 1713772868,
-	'code_hash', 718161223616359578,
+	'saved', 1713904177,
+	'code_hash', -4485711904853977349,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CharacterEffectCompositeDef",
@@ -119,6 +120,36 @@ return PlaceObj('ModDef', {
 			'Class', "InventoryItemCompositeDef",
 			'Id', "weapon_shrapnel",
 			'ClassDisplayName', "Inventory item",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "CraftOperationsRecipeDef",
+			'Id', "CraftNailBomb",
+			'ClassDisplayName', "Crafting operation recipe",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "CraftOperationsRecipeDef",
+			'Id', "He_grenade_craft_1",
+			'ClassDisplayName', "Crafting operation recipe",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "CraftOperationsRecipeDef",
+			'Id', "CraftSmokeIED",
+			'ClassDisplayName', "Crafting operation recipe",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "CraftOperationsRecipeDef",
+			'Id', "CraftTearGasIED",
+			'ClassDisplayName', "Crafting operation recipe",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "CraftOperationsRecipeDef",
+			'Id', "CraftPipeBombShortFuse",
+			'ClassDisplayName', "Crafting operation recipe",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "CraftOperationsRecipeDef",
+			'Id', "CraftFlashbangIED",
+			'ClassDisplayName', "Crafting operation recipe",
 		}),
 		PlaceObj('ModResourcePreset', {
 			'Class', "ActionFXObject",
@@ -338,6 +369,11 @@ return PlaceObj('ModDef', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "InventoryItemCompositeDef",
 			'Id', "IncendiaryGrenade",
+			'ClassDisplayName', "Inventory item",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "InventoryItemCompositeDef",
+			'Id', "HE_Grenade_1",
 			'ClassDisplayName', "Inventory item",
 		}),
 		PlaceObj('ModResourcePreset', {

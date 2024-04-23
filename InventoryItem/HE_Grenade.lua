@@ -37,6 +37,6 @@ DefineClass.HE_Grenade = {
 	r_timer = 4500,
 	r_mass = 600,
 	r_shape = "Spherical",
-	r_shrap_num = 500,
+	r_shrap_num = 200,
 }
 

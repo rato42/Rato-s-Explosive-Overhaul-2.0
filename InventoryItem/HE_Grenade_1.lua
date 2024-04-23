@@ -1,0 +1,47 @@
+UndefineClass('HE_Grenade_1')
+DefineClass.HE_Grenade_1 = {
+	__parents = { "Grenade" },
+	__generated_by_class = "ModItemInventoryItemCompositeDef",
+
+
+	object_class = "Grenade",
+	Repairable = false,
+	Reliability = 100,
+	Icon = "Mod/RATONADE/Images/he2 4.png",
+	ItemType = "Grenade",
+	DisplayName = T(863833209471, --[[ModItemInventoryItemCompositeDef HE_Grenade_1 DisplayName]] "High Explosive Grenade"),
+	DisplayNamePlural = T(493053531072, --[[ModItemInventoryItemCompositeDef HE_Grenade_1 DisplayNamePlural]] "High Explosive Grenades"),
+	Description = T(868146148463, --[[ModItemInventoryItemCompositeDef HE_Grenade_1 Description]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120>Inflicts <color EmStyle>Bleeding</color>"),
+	AdditionalHint = T(928260625708, --[[ModItemInventoryItemCompositeDef HE_Grenade_1 AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Knocks down units \n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Smaller area\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Good at destroying objects\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Penetrates any armor\n"),
+	UnitStat = "Explosives",
+	Cost = 400,
+	CanAppearInShop = true,
+	Tier = 2,
+	CategoryPair = "Grenade",
+	MinMishapChance = -2,
+	MaxMishapChance = 18,
+	MinMishapRange = 0,
+	CenterUnitDamageMod = 130,
+	CenterObjDamageMod = 500,
+	CenterAppliedEffects = {
+		"KnockDown",
+	},
+	AreaObjDamageMod = 500,
+	AreaAppliedEffects = {
+		"KnockDown",
+	},
+	BurnGround = false,
+	DeathType = "BlowUp",
+	BaseDamage = 35,
+	Scatter = 4,
+	BaseRange = 7,
+	ThrowMaxRange = 17,
+	InaccurateMaxOffset = 3000,
+	Noise = 30,
+	Entity = "MilitaryCamp_Grenade_02",
+	ActionIcon = "UI/Icons/Hud/throw_grenade",
+	r_mass = 600,
+	r_shape = "Cylindrical",
+	r_shrap_num = 200,
+}
+

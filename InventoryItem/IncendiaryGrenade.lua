@@ -34,13 +34,12 @@ DefineClass.IncendiaryGrenade = {
 	BaseDamage = 0,
 	Scatter = 4,
 	AttackAP = 4000,
-	CanBounce = false,
 	InaccurateMaxOffset = 4000,
 	Noise = 0,
 	aoeType = "fire",
 	Entity = "Weapon_MolotovCocktail",
 	ActionIcon = "UI/Icons/Hud/molotov",
-	r_mass = 610,
+	r_mass = 400,
 	r_shape = "Cylindrical",
 }
 

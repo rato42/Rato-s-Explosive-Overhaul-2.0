@@ -7,7 +7,7 @@ DefineClass.Pipe_IED = {
 	object_class = "ThrowableTrapItem",
 	Repairable = false,
 	Reliability = 100,
-	Icon = "UI/Icons/Weapons/PipeBomb",
+	Icon = "Mod/RATONADE/Images/pipebomb.png",
 	ItemType = "Grenade",
 	DisplayName = T(343108932526, --[[ModItemInventoryItemCompositeDef Pipe_IED DisplayName]] "Pipe Bomb"),
 	DisplayNamePlural = T(885497071669, --[[ModItemInventoryItemCompositeDef Pipe_IED DisplayNamePlural]] "Pipe Bombs"),
@@ -33,6 +33,7 @@ DefineClass.Pipe_IED = {
 	r_mass = 980,
 	r_shape = "Long",
 	is_ied = true,
+	r_shrap_num = 180,
 	TimedExplosiveTurns = 0,
 	ExplosiveType = "BlackPowder",
 }

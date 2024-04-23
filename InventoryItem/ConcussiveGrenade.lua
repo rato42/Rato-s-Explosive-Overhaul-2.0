@@ -27,6 +27,7 @@ DefineClass.ConcussiveGrenade = {
 		"cancel_shot_flashbang",
 		"Suppressed",
 		"dazed_flashbang",
+		"KnockDown",
 	},
 	AreaUnitDamageMod = 0,
 	AreaObjDamageMod = 0,

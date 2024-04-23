@@ -20,6 +20,7 @@ function generateShrapnelPositionsInCone(numPositions, radius, center, args)
 		local p = point(x, y, z)
 		p = RotateAxis(p, point(1, 0, 0), 90 * 60, center)
 		p = RotateAxis(p, point(0, 0, 1), angle_offset, center)
+		p = p:SetZ(p:z() * 1.1)
 
 		table.insert(positions, p)
 		-- table.insert(phis_list, theta)  -- Store the theta angle for potential use
@@ -72,7 +73,7 @@ function generateShrapnelVectors(numVectors)
 
 		local phi = math.acos(-1 + 2 * (i - 0.5) / numVectors) -- *0.7 ---- bias to north hemisphere. 
 		-- local phi = math.acos(math.random() * 2 - 1) *0.9
-		phi = phi >= 1.5 and phi * 0.8 or phi * 1.2 ---- bias to the equator, a little to the north
+		phi = phi >= 1.5 and phi * 0.8 or phi * 1.3 ---- bias to the equator, a little to the north
 
 		local x = math.sin(phi) * math.cos(theta)
 		local y = math.sin(phi) * math.sin(theta)

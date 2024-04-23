@@ -22,7 +22,7 @@ function Grenade:GetAttackResults(action, attack_args)
 		target_pos = validate_deviated_gren_pos(target_pos, attack_args)
 
 		if Platform.developer and Platform.cheats then
-			can_bounce = false
+			-- can_bounce = false
 		end
 
 		can_bounce = can_bounce and CurrentModOptions["enabled_bounce"]
@@ -116,8 +116,7 @@ function Grenade:GetAttackResults(action, attack_args)
 				{
 					pos = grenade_pos,
 					t = 0,
-				},
-			}
+				}}
 		else
 
 			-- if enabled_deviation then

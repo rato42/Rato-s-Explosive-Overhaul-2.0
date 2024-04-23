@@ -1,3 +1,4 @@
+------------------------ Debug
 local table_of_tests = {}
 
 function s_avg()
@@ -36,19 +37,25 @@ end
 
 --------- Args
 
-local debug_shrap_vec = true
+local speed_control = 0.75
+local debug_shrap_vec = false
 local max_shrap = 3 --- after this ammount, shrap starts having less effect
-local max_shrap_ceiling_medium = max_shrap + 1
-local shrap_pen_arg = 0.2 ---- penalty step
-local max_shrap_ceiling_high = max_shrap * 2 --- exclusion
+
+local shrap_pen_arg_high = 0.8 ---- penalty step
+local shrap_pen_arg_medium = 0.8
+
 local shrap_ceiling = 0.95 --- max penalty 
-local max_shrap_ceiling_low = 3 --- for low shrap items
+local max_shrap_ceiling_high = 5 -- max_shrap * 2 --- exclusion
+local max_shrap_ceiling_medium = 3 -- max_shrap + 1
+local max_shrap_ceiling_low = 2 -- max_shrap --- for low shrap items
 
 local effect_chance_mul = 1.0 --- modifies the chance a shrap causes status effect
 
 local radius_mul = 2 -- 1.5 ---- radius of secondary zone (base aoe * this)
 local outer_radius_t = 30 --- factor for tertiary radius
 local secondary_radius_f = 100 --- % dmg and effects of secondary zone
+
+--------------------------------------
 
 function Grenade:GetShrapnelResults(attackResults, attacker)
 	-----------------
@@ -57,6 +64,7 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 	-- local shrap_pen_arg = num_shrap > 250 and shrap_pen_arg_base or 0.95
 	local max_shrap_ceiling = num_shrap > 400 and max_shrap_ceiling_high or num_shrap > 300 and max_shrap_ceiling_medium or
 						                          max_shrap_ceiling_low
+	local shrap_pen_arg = num_shrap > 400 and shrap_pen_arg_high or shrap_pen_arg_medium
 
 	num_shrap = MulDivRound(num_shrap, tonumber(CurrentModOptions.shrap_num) or 100, 100)
 
@@ -68,7 +76,7 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 	explosion_pos = IsValidZ(explosion_pos) and explosion_pos or explosion_pos:SetTerrainZ()
 	-- explosion_pos = explosion_pos:SetZ(explosion_pos:SetTerrainZ():z()+ guim)
 	explosion_pos = explosion_pos:SetZ(explosion_pos:z() + guic)
-	local radius = 50000
+	local radius = 10000
 
 	local att_pos = attacker:GetPos() or attacker
 	att_pos = IsValidZ(att_pos) and att_pos or att_pos:SetTerrainZ()
@@ -181,6 +189,16 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 
 	local gren_random = 30
 
+	local function reverseTable(tbl)
+		local reversed = {}
+		for i = #tbl, 1, -1 do
+			table.insert(reversed, tbl[i])
+		end
+		return reversed
+	end
+
+	shrapnels = reverseTable(shrapnels)
+
 	for i, vector in ipairs(shrapnels) do
 		final_pos = vector
 
@@ -213,7 +231,7 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 				-- print(hit.obj.session_id, dist_log)
 				-------
 
-				if hit.obj.shrap_received > max_shrap_ceiling then
+				if hit.obj.shrap_received >= max_shrap_ceiling then
 					max_shrap_received = true
 					lof_args.attack_pos = hit_pos + SetLen(hit_pos - lof_args.attack_pos, cRound(const.SlabSizeX / 3))
 					attack_data = CheckLOF(final_pos, lof_args)
@@ -257,7 +275,8 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 
 				if IsKindOf(hit.obj, "Unit") and hit.obj:IsCivilian() and dist_t < outer_radius_t then -- and hit.obj.session_id == "Ivan" and hit.spot_group == "Head" then
 					exclude_civ = true
-				else
+					---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				elseif IsKindOf(hit.obj, "Unit") then
 					sharpnel_weapon:calc_shrap_damage(hit_data, false, random_f, dist_t, max_shrap_dmg_red)
 					if IsKindOf(hit.obj, "Unit") then
 
@@ -299,7 +318,7 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 				end
 			end
 
-			local speed = MulDivRound(const.Combat.BulletVelocity * 0.65, random_f, 100) -- /10
+			local speed = MulDivRound(const.Combat.BulletVelocity * speed_control, random_f, 100) -- /10
 			-- speed = speed/20
 
 			local co = Shrapnel_Coroutine(sharpnel_weapon, attacker, explosion_pos, hit_pos or final_pos, sharpnel_dir, speed,
@@ -323,8 +342,6 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 	end
 
 end
-
--- function Grenade:spawn_shrapnel(explosion_pos, attacker
 
 function Firearm:calc_shrap_damage(hit_data, ricochet_idx, random_f, dist_t, max_shrap_dmg_red)
 	-- if not hit_data.prediction then
