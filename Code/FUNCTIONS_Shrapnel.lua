@@ -37,7 +37,7 @@ end
 
 --------- Args
 
-local speed_control = 0.75
+local speed_control = 0.6
 local debug_shrap_vec = false
 local max_shrap = 3 --- after this ammount, shrap starts having less effect
 
@@ -51,15 +51,18 @@ local max_shrap_ceiling_low = 2 -- max_shrap --- for low shrap items
 
 local effect_chance_mul = 1.0 --- modifies the chance a shrap causes status effect
 
-local radius_mul = 2 -- 1.5 ---- radius of secondary zone (base aoe * this)
+local radius_mul = 2.5 -- 1.5 ---- radius of secondary zone (base aoe * this)
 local outer_radius_t = 30 --- factor for tertiary radius
 local secondary_radius_f = 100 --- % dmg and effects of secondary zone
 
 --------------------------------------
 
-function Grenade:GetShrapnelResults(attackResults, attacker)
+function GetShrapnelResults(self, explosion_pos, attacker)
+
 	-----------------
-	local num_shrap = self.r_shrap_num or 0
+	local num_shrap
+
+	num_shrap = self.r_shrap_num or 0
 
 	-- local shrap_pen_arg = num_shrap > 250 and shrap_pen_arg_base or 0.95
 	local max_shrap_ceiling = num_shrap > 400 and max_shrap_ceiling_high or num_shrap > 300 and max_shrap_ceiling_medium or
@@ -72,11 +75,10 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 		return
 	end
 
-	local explosion_pos = attackResults.explosion_pos
 	explosion_pos = IsValidZ(explosion_pos) and explosion_pos or explosion_pos:SetTerrainZ()
 	-- explosion_pos = explosion_pos:SetZ(explosion_pos:SetTerrainZ():z()+ guim)
 	explosion_pos = explosion_pos:SetZ(explosion_pos:z() + guic)
-	local radius = 10000
+	local radius = 15000
 
 	local att_pos = attacker:GetPos() or attacker
 	att_pos = IsValidZ(att_pos) and att_pos or att_pos:SetTerrainZ()
@@ -136,7 +138,7 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 	lof_args.force_hit_seen_target = not config.DisableForcedHitSeenTarget
 	---
 	lof_args.weapon = sharpnel_weapon
-	lof_args.weapon_visual = self:GetVisualObj(attacker)
+	lof_args.weapon_visual = false -- self:GetVisualObj(attacker) or false
 	lof_args.action_id = "SingleShot"
 	lof_args.obj = attacker
 	lof_args.step_pos = explosion_pos
@@ -158,18 +160,6 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 	lof_args.emplacement_weapon = false
 	-- lof_args.ricochet = true
 	-------
-	-- local attack_data = GetLoFData(attacker, final_pos, lof_args)
-
-	----
-
-	-- local new_shrapnel = {}
-
-	-- for i, v in ipairs(shrapnels) do
-	-- if v:z() >= explosion_pos:z() then
-	-- table.insert(new_shrapnel, v)
-	-- end
-	-- end
-	-- shrapnels = new_shrapnel
 
 	local coroutines = {}
 
@@ -198,7 +188,7 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 	end
 
 	shrapnels = reverseTable(shrapnels)
-
+	local results = {}
 	for i, vector in ipairs(shrapnels) do
 		final_pos = vector
 
@@ -232,12 +222,13 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 				-------
 
 				if hit.obj.shrap_received >= max_shrap_ceiling then
+					max_shrap_dmg_red = 1
 					max_shrap_received = true
-					lof_args.attack_pos = hit_pos + SetLen(hit_pos - lof_args.attack_pos, cRound(const.SlabSizeX / 3))
+					--[[ 					lof_args.attack_pos = hit_pos + SetLen(hit_pos - lof_args.attack_pos, cRound(const.SlabSizeX / 3))
 					attack_data = CheckLOF(final_pos, lof_args)
 					lof = attack_data.lof and attack_data.lof[1]
 					hit = lof and lof.hits and lof.hits[1]
-					hit_pos = hit and hit.pos
+					hit_pos = hit and hit.pos ]]
 				elseif hit.obj.shrap_received > max_shrap then
 					max_shrap_dmg_red = Min(shrap_ceiling, (hit.obj.shrap_received - max_shrap) * shrap_pen_arg)
 					-- print(i, max_shrap_dmg_red)
@@ -321,25 +312,44 @@ function Grenade:GetShrapnelResults(attackResults, attacker)
 			local speed = MulDivRound(const.Combat.BulletVelocity * speed_control, random_f, 100) -- /10
 			-- speed = speed/20
 
-			local co = Shrapnel_Coroutine(sharpnel_weapon, attacker, explosion_pos, hit_pos or final_pos, sharpnel_dir, speed,
+			--[[ CreateGameTimeThread(Firearm.Shrapnel_Fly, sharpnel_weapon, attacker, explosion_pos, hit_pos or final_pos,
+			                     sharpnel_dir, speed, hits or false, hit_pos or final_pos, lof_args, end_time_g) ]]
+			--[[ 			local co = Shrapnel_Coroutine(sharpnel_weapon, attacker, explosion_pos, hit_pos or final_pos, sharpnel_dir, speed,
 			                              hits or false, hit_pos or final_pos, lof_args, end_time_g)
-			table.insert(coroutines, co)
+			table.insert(coroutines, co) ]]
+			local result = {
+				weapon = sharpnel_weapon,
+				attacker = attacker,
+				start_pt = explosion_pos,
+				end_pt = hit_pos or final_pos,
+				shrapnel_dir = sharpnel_dir,
+				speed = speed,
+				hits = hits or false,
+				target = hit_pos or final_pos,
+				lof = lof_args,
+				end_time = end_time_g,
+			}
+			table.insert(results, result)
 		end
 		-- end
 	end
 
-	for k, v in pairs(dmg_log) do
+	------------ Log
+	--[[ 	for k, v in pairs(dmg_log) do
 		if not table_of_tests[k] then
 			table_of_tests[k] = {v}
 		else
 			table.insert(table_of_tests[k], v)
 		end
 		print(k, v)
-	end
+	end ]]
+	---------------
 
+	--[[ 	Sleep(40)
 	for _, co in ipairs(coroutines) do
 		coroutine.resume(co)
-	end
+	end ]]
+	return results
 
 end
 
@@ -660,9 +670,9 @@ function Firearm:Shrapnel_Fly(attacker, start_pt, end_pt, dir, speed, hits, targ
 	dir = SetLen(dir or end_pt - start_pt, 4096)
 	-- print("fly gtime", end_time_g)
 	local fx_actor = false
-	if IsKindOf(attacker, "Unit") then
+	--[[ 	if IsKindOf(attacker, "Unit") then
 		fx_actor = attacker:CallReactions_Modify("OnUnitChooseProjectileFxActor", fx_actor)
-	end
+	end ]]
 
 	local projectile = PlaceObject("FXBullet")
 	projectile.fx_actor_class = fx_actor
@@ -680,7 +690,7 @@ function Firearm:Shrapnel_Fly(attacker, start_pt, end_pt, dir, speed, hits, targ
 	local end_time = end_time_g + fly_time
 	----
 	projectile:SetPos(end_pt, fly_time)
-	-- Sleep(const.Combat.BulletDelay)
+	Sleep(const.Combat.BulletDelay)
 
 	-- local wind_last_dist
 	-- collision.Collide(start_pt, end_pt - start_pt, BulletVegetationCollisionQueryFlags, 0, BulletVegetationCollisionMask, 
@@ -712,7 +722,7 @@ function Firearm:Shrapnel_Fly(attacker, start_pt, end_pt, dir, speed, hits, targ
 		water_hit = false,
 		fx_target = false,
 	}
-	local last_start_pos = start_pt
+	--[[ 	local last_start_pos = start_pt
 	local last_time = 0
 
 	for i, hit in ipairs(hits) do
@@ -748,6 +758,37 @@ function Firearm:Shrapnel_Fly(attacker, start_pt, end_pt, dir, speed, hits, targ
 		Sleep(Max(0, end_time - GameTime()))
 		PlayFX("Spawn", "end", projectile, false)
 		DoneObject(projectile)
+	end ]]
+	local last_start_pos = start_pt
+	local last_time = 0
+	if hits[1] then
+		self:BulletHit(projectile, hits[1], context)
 	end
+	--[[ 	for i, hit in ipairs(hits) do
+		local hit_time = MulDivRound(hit.pos:Dist(last_start_pos), 1000, speed)
+		if hit_time > last_time then
+			Sleep(hit_time - last_time)
+			last_time = hit_time
+		end
+		self:BulletHit(projectile, hit, context)
+		if hit.ricochet and i < #hits then
+			last_start_pos = hit.pos
+			last_time = 0
+			local ricochet_dir = SetLen(hits[i + 1].pos - last_start_pos, 4096)
+			local axis, angle = OrientAxisToVector(1, ricochet_dir) -- 1 = +X
+			projectile:SetAxis(axis)
+			projectile:SetAngle(angle)
+			PlayFX("Ricochet", "start", projectile, context.fx_target, last_start_pos, ricochet_dir)
+			local last_pos = hits[#hits].pos
+			projectile:SetPos(last_pos, MulDivRound(last_pos:Dist(last_start_pos), 1000, speed))
+		end
+	end ]]
+	--[[ 	if IsValid(target) and not context.target_hit then
+		PlayFX("TargetMissed", "start", target)
+	end ]]
+	-- wait the projectile in case of no hits or long flight after the last hit
+	Sleep(Max(0, end_time - GameTime()))
+	PlayFX("Spawn", "end", projectile, false)
+	DoneObject(projectile)
 end
 

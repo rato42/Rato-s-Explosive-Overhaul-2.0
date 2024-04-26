@@ -24,5 +24,6 @@ DefineClass._40mmFragGrenade = {
 	Caliber = "40mmGrenade",
 	BaseDamage = 40,
 	Entity = "Weapon_MilkorMGL_Shell",
+	r_shrap_num = 300,
 }
 

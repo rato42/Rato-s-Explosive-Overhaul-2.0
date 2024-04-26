@@ -375,21 +375,6 @@ function get_throw_speed(trajectory, attack_args, lst_idx)
 		speed = dist_sp / (time_dif)
 		rat_printBounce("speed", speed)
 
-		-- local dist
-		-- if start_pos and end_pos then
-		-- dist = start_pos:Dist(end_pos)
-		-- end
-		-- print("speed calc dist", attack_args.num_bounces, dist*1.00000/const.SlabSizeX, end_time - start_time)
-		-- elseif #trajectory > 1 then
-
-		-- start_pos = trajectory[1].pos
-		-- start_time = trajectory[1].t
-		-- end_pos = trajectory[#trajectory].pos
-		-- end_time = trajectory[#trajectory].t
-
-		-- dist_sp = start_pos:Dist(end_pos)
-		-- speed = dist_sp / (end_time - start_time)
-
 	end
 
 	------------------------- average speed
@@ -439,17 +424,6 @@ function get_bounces(grenade, trajectory, attack_args, explosion_pos)
 	local max_bounces = 2
 	local bounces = 0
 	local bounce_pos
-
-	-- for i, step in ipairs(trajectory) do
-	-- print(i, "worter?", step.water)
-	-- if step.water then
-	-- DbgAddCircle(step.pos, const.SlabSizeX/2, const.clrRed)
-	-- end
-	-- end
-
-	-- local col, pts = CollideSegmentsNearest(trajectory[#trajectory].pos, trajectory[#trajectory].pos:SetTerrainZ())
-
-	-- print("col", col)
 
 	while bounces <= max_bounces do
 

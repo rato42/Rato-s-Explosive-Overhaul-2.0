@@ -209,8 +209,8 @@ return {
 		'CodeFileName', "Code/SOURCE_GrenadeGetAttackResults.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "SOURCE_SmokePropagate",
-		'CodeFileName', "Code/SOURCE_SmokePropagate.lua",
+		'name', "SOURCE_ApplyExplosionDamage",
+		'CodeFileName', "Code/SOURCE_ApplyExplosionDamage.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "SOURCE_HeavyWeaponsGetAttackResults",
@@ -1430,6 +1430,7 @@ return {
 				'Caliber', "40mmGrenade",
 				'BaseDamage', 40,
 				'Entity', "Weapon_MilkorMGL_Shell",
+				'r_shrap_num', 300,
 			}),
 			PlaceObj('ModItemInventoryItemCompositeDef', {
 				'Group', "Ammo - Ordnance",
@@ -1454,6 +1455,7 @@ return {
 				'Caliber', "Warhead",
 				'BaseDamage', 50,
 				'Noise', 30,
+				'r_shrap_num', 300,
 			}),
 			PlaceObj('ModItemInventoryItemCompositeDef', {
 				'Group', "Ammo - Ordnance",
@@ -1989,7 +1991,6 @@ return {
 				'ActionIcon', "UI/Icons/Hud/throw_grenade",
 				'r_mass', 600,
 				'r_shape', "Cylindrical",
-				'r_shrap_num', 200,
 			}),
 			}),
 		PlaceObj('ModItemInventoryItemCompositeDef', {
@@ -2182,7 +2183,7 @@ return {
 			'r_timer', 4500,
 			'r_mass', 600,
 			'r_shape', "Spherical",
-			'r_shrap_num', 200,
+			'r_shrap_num', 500,
 		}),
 		PlaceObj('ModItemInventoryItemCompositeDef', {
 			'Group', "Grenade - Throwable",

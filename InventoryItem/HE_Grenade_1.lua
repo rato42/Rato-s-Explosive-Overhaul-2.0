@@ -42,6 +42,5 @@ DefineClass.HE_Grenade_1 = {
 	ActionIcon = "UI/Icons/Hud/throw_grenade",
 	r_mass = 600,
 	r_shape = "Cylindrical",
-	r_shrap_num = 200,
 }
 

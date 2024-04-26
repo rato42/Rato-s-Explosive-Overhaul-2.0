@@ -37,11 +37,11 @@ function get_bounce_distance(speed, obj_material, grenade)
 		['city_sidewalk'] = 0.75,
 		['brick'] = 0.75,
 		['asphalt'] = 0.75,
-		['rubber'] = 0.83,
-		['glass'] = 0.83,
-		['concrete'] = 0.83,
-		['rock'] = 0.83,
-		['metal'] = 0.89,
+		['rubber'] = 0.80,
+		['glass'] = 0.80,
+		['concrete'] = 0.80,
+		['rock'] = 0.80,
+		['metal'] = 0.86,
 		['metal_props'] = 0.8,
 		['other'] = 0.45,
 		['cistern'] = 0.8,
@@ -59,8 +59,9 @@ function get_bounce_distance(speed, obj_material, grenade)
 end
 
 function get_grenade_bounce_adj(grenade)
-	local shp = grenade.r_shape
-	local shape_adj = shp == "Stick_like" and 0.75 or shp == "Long" and 0.66 or shp == "Cylindrical" and 0.9 or 1.0
+	local shp = grenade.r_shape or ""
+	local shape_adj = shp == "Stick_like" and 0.75 or shp == "Long" and 0.66 or shp == "Cylindrical" and 0.9 or shp ==
+						                  "Can" and 0.9 or 1.0
 	-- shape_adj = tonumber(string.format("%.2f". shape_adj))
 	-- local mass_adj = tonumber(string.format("%.2f",((grenade.r_mass or 350.00) /350.00 )))^0.5
 	local mass_adj = 1 + grenade_mass_factor_adjusted(grenade, 4)

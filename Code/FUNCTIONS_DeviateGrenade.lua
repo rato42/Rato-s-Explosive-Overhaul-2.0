@@ -14,7 +14,7 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
 end
 
 ----------Args
-local GR_base_pen = -10
+local GR_base_pen = 0 -- -10
 local GR_dist_pen = 12
 local RPG_dist_pen = 22
 local GL_dist_pen = 23
@@ -42,7 +42,7 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	local ratio_dist = dist * 1.00 / max_range * 1.00
 	local diff_dist = cRound(ratio_dist * GR_dist_pen)
 	local ai_handicap = AI_deviate_handicap(unit)
-	print(dist, max_range, ratio_dist, diff_dist)
+	-- print(dist, max_range, ratio_dist, diff_dist)
 	local item_acc = self:get_throw_accuracy(unit)
 	local opt_diff = extractNumberWithSignFromString(CurrentModOptions.grenade_throw_diff) or 0
 	local modifiers = -item_acc + opt_diff + diff_dist - ai_handicap
@@ -64,7 +64,7 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 
 	deviation = CheatEnabled("AlwaysHit") and 0 or deviation
 	deviation = CheatEnabled("AlwaysMiss") and 5 or deviation
-	print("roll", roll, "diff", diff, "deviation", deviation)
+	-- print("roll", roll, "diff", diff, "deviation", deviation)
 
 	if test then
 		return deviation, roll
@@ -84,7 +84,7 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	end
 
 	if float_text then
-		CreateFloatingText(unit:GetPos(), float_text)
+		CreateFloatingText(target_pos, float_text)
 	end
 
 	if perfect_throw then
@@ -99,14 +99,13 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	sign = InteractionRand(2)
 	sign = sign == 1 and 1 or -1
 	local distance_multiplier = deviation / 12.00 * sign
-	print("dist mul", distance_multiplier)
+
 	local distance_deviation = dir:Len() * (1 + distance_multiplier)
-	print("frist distance deviation", distance_deviation)
+
 	if sign > 0 then
 		distance_deviation = distance_deviation <= cRound(max_range * 1.5) and distance_deviation or dir:Len() *
 							                     (1 + distance_multiplier * -1)
 	end
-	print("adjusted distance deviation", distance_deviation)
 
 	DbgAddCircle_devi(target_pos, const.SlabSizeX / 6, const.clrGreen)
 	DbgAddVector_devi(attack_pos, dir, const.clrGreen)
@@ -213,7 +212,7 @@ function GrenadeLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test
 	end
 
 	if float_text then
-		CreateFloatingText(unit:GetPos(), float_text)
+		CreateFloatingText(target_pos, float_text)
 	end
 
 	if perfect_throw then
@@ -234,7 +233,7 @@ function GrenadeLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test
 	sign = InteractionRand(2)
 	sign = sign == 1 and 1 or -1
 	local distance_multiplier = deviation / 12 * sign
-	print("hv distance multiplier", distance_multiplier)
+
 	local distance_deviation = dir:Len() * (1 + distance_multiplier)
 
 	--[[ 	if sign > 0 then
@@ -283,7 +282,7 @@ function RocketLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	local diff_dist = cRound(ratio_dist * RPG_dist_pen)
 	local ai_handicap = AI_deviate_handicap(unit)
 
-	print(dist, max_range, ratio_dist, diff_dist)
+	-- print(dist, max_range, ratio_dist, diff_dist)
 
 	local item_acc = self:get_throw_accuracy(unit)
 	local opt_diff = extractNumberWithSignFromString(CurrentModOptions.RPG_throw_diff) or 0
@@ -322,7 +321,7 @@ function RocketLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	end
 
 	if float_text then
-		CreateFloatingText(unit:GetPos(), float_text)
+		CreateFloatingText(target_pos, float_text)
 	end
 
 	if perfect_throw then
@@ -343,7 +342,7 @@ function RocketLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	sign = InteractionRand(2)
 	sign = sign == 1 and 1 or -1
 	local distance_multiplier = deviation / 12 * sign
-	print("hv distance multiplier", distance_multiplier)
+
 	local distance_deviation = dir:Len() * (1 + distance_multiplier)
 
 	--[[ 	if sign > 0 then

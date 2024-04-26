@@ -24,5 +24,6 @@ DefineClass.Warhead_Frag = {
 	Caliber = "Warhead",
 	BaseDamage = 50,
 	Noise = 30,
+	r_shrap_num = 300,
 }
 

@@ -1,3 +1,4 @@
+local should_assert = false
 function Grenade:GetAttackResults(action, attack_args)
 
 	local attacker = attack_args.obj
@@ -9,6 +10,21 @@ function Grenade:GetAttackResults(action, attack_args)
 	---
 	-- local mishap_pos
 	if not explosion_pos and attack_args.lof then
+		if not attack_args.prediction then
+			should_assert = true
+		end
+		if should_assert and attack_args.prediction then
+			assert(false, "bla bla bla")
+		end
+		-- print("-----------------------------------------------entering block", GameTime())
+		--[[ 		print("---------- prediction1?", attack_args.prediction)
+		for i, v in pairs(attack_args) do
+			print("Key: ", i, " = ", v)
+		end
+
+		print("--------------------------------------------------------------------------", GameTime())
+		print("---------- prediction2?", attack_args.prediction) ]]
+
 		local lof_idx = table.find(attack_args.lof, "target_spot_group", attack_args.target_spot_group)
 		local lof_data = attack_args.lof[lof_idx or 1]
 		local attack_pos = lof_data.attack_pos
@@ -24,9 +40,15 @@ function Grenade:GetAttackResults(action, attack_args)
 		if Platform.developer and Platform.cheats then
 			-- can_bounce = false
 		end
-
+		local dlg = GetInGameInterfaceModeDlg()
+		local is_targeting
+		if dlg then
+			is_targeting = dlg.targeting_mod == "parabola aoe"
+		end
+		-- print("is targeting", is_targeting)
 		can_bounce = can_bounce and CurrentModOptions["enabled_bounce"]
-		can_bounce = can_bounce and (CurrentModOptions["enabled_bounce_pred"] or not attack_args.prediction)
+		can_bounce = can_bounce and
+							             ((CurrentModOptions["enabled_bounce_pred"] and is_targeting) or not attack_args.prediction)
 
 		----------------------
 
@@ -187,6 +209,12 @@ function Grenade:GetAttackResults(action, attack_args)
 		end
 		results = GetAreaAttackResults(aoe_params)
 		CompileKilledUnits(results)
+
+		-------
+		if not attack_args.prediction and attack_args.explosion_pos then
+			results.shrapnel_results = GetShrapnelResults(self, explosion_pos, attacker)
+		end
+		-------
 
 		local radius = aoe_params.max_range * const.SlabSizeX
 		local explosion_voxel_pos = SnapToVoxel(explosion_pos) + point(0, 0, const.SlabSizeZ / 2)

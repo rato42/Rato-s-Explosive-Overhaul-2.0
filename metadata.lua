@@ -3,7 +3,7 @@ return PlaceObj('ModDef', {
 	'description', "implement bounce speed diminish depending on angle\n\n\ndetermine mishap chances",
 	'id', "RATONADE",
 	'author', "rato",
-	'version', 2572,
+	'version', 2729,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'entities', {
@@ -18,7 +18,7 @@ return PlaceObj('ModDef', {
 		"Code/SOURCE_CalcBounceParabola_LUA.lua",
 		"Code/SOURCE_AnimGrenadeTraj.lua",
 		"Code/SOURCE_GrenadeGetAttackResults.lua",
-		"Code/SOURCE_SmokePropagate.lua",
+		"Code/SOURCE_ApplyExplosionDamage.lua",
 		"Code/SOURCE_HeavyWeaponsGetAttackResults.lua",
 		"Code/SOURCE_ThrowableTrapOnLand.lua",
 		"Code/SOURCE_GrenadeOnLand.lua",
@@ -103,8 +103,8 @@ return PlaceObj('ModDef', {
 		shrap_num = "100",
 	},
 	'has_data', true,
-	'saved', 1713904177,
-	'code_hash', -4485711904853977349,
+	'saved', 1714115570,
+	'code_hash', 4777344330057571269,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CharacterEffectCompositeDef",

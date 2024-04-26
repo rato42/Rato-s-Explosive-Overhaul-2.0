@@ -1,5 +1,4 @@
 function Grenade:OnLand(thrower, attackResults, visual_obj)
-	self:GetShrapnelResults(attackResults, thrower)
 
 	if not CurrentThread() then
 		CreateGameTimeThread(Grenade.OnLand, self, thrower, attackResults, visual_obj)
@@ -7,6 +6,7 @@ function Grenade:OnLand(thrower, attackResults, visual_obj)
 	end
 
 	Sleep(160)
+
 	if self.ThrowNoise > 0 then
 		-- <Unit> Heard a thud
 		PushUnitAlert("noise", visual_obj, self.ThrowNoise, Presets.NoiseTypes.Default.ThrowableLandmine.display_name)
@@ -27,3 +27,4 @@ function Grenade:OnLand(thrower, attackResults, visual_obj)
 	----
 
 end
+
