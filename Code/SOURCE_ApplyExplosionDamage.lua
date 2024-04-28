@@ -2,15 +2,15 @@ local original_ApplyExplosionDamage = ApplyExplosionDamage
 
 function ApplyExplosionDamage(attacker, fx_actor, results, noise, disableBurnFx, ignore_targets)
 	local weapon = results.weapon
-	local time = GameTime()
 	local explosion_pos = results.explosion_pos or results.target_pos
 	local shr_results = results.shrapnel_results
-	if explosion_pos and weapon and shr_results then
-		if IsKindOf(weapon, "Ordnance") then
-			if results.attack_from_stealth == nil then
-				shrapnel_Execute(shr_results, time)
-			end
-		elseif IsKindOf(weapon, "Grenade") then
+
+	if explosion_pos and weapon then
+		local time = GameTime()
+		if shr_results then
+			shrapnel_Execute(shr_results, time)
+		elseif IsKindOf(weapon, "Ordnance") and results.attack_from_stealth == nil then
+			shr_results = GetShrapnelResults(weapon, explosion_pos, attacker)
 			shrapnel_Execute(shr_results, time)
 		end
 	end
@@ -24,3 +24,4 @@ function shrapnel_Execute(shr_results, time)
 		                     shrapnel.shrapnel_dir, shrapnel.speed, shrapnel.hits, shrapnel.target, shrapnel.lof_args, time)
 	end
 end
+

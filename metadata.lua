@@ -3,7 +3,7 @@ return PlaceObj('ModDef', {
 	'description', "implement bounce speed diminish depending on angle\n\n\ndetermine mishap chances",
 	'id', "RATONADE",
 	'author', "rato",
-	'version', 2729,
+	'version', 2817,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'entities', {
@@ -39,6 +39,8 @@ return PlaceObj('ModDef', {
 		"Code/FUNCTIONS_CombatActions.lua",
 		"Code/PROPERTIES_Explosives.lua",
 		"Code/PROPERTIES_Unit.lua",
+		"Code/PATCH.lua",
+		"Code/PATCH_call.lua",
 		"Entities/nail_can.lua",
 		"Entities/tear_can.lua",
 		"Entities/flash_can.lua",
@@ -66,7 +68,6 @@ return PlaceObj('ModDef', {
 		"InventoryItem/MortarShell_Smoke.lua",
 		"InventoryItem/_40mmFlashbangGrenade.lua",
 		"InventoryItem/TNTBolt_IED.lua",
-		"InventoryItem/TNTBolt_IED_1.lua",
 		"InventoryItem/NailBomb_IED.lua",
 		"InventoryItem/SmokeGrenade_IED.lua",
 		"InventoryItem/Molotov.lua",
@@ -103,8 +104,8 @@ return PlaceObj('ModDef', {
 		shrap_num = "100",
 	},
 	'has_data', true,
-	'saved', 1714115570,
-	'code_hash', 4777344330057571269,
+	'saved', 1714264390,
+	'code_hash', 2576609848152644591,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CharacterEffectCompositeDef",
@@ -319,11 +320,6 @@ return PlaceObj('ModDef', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "InventoryItemCompositeDef",
 			'Id', "TNTBolt_IED",
-			'ClassDisplayName', "Inventory item",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "InventoryItemCompositeDef",
-			'Id', "TNTBolt_IED_1",
 			'ClassDisplayName', "Inventory item",
 		}),
 		PlaceObj('ModResourcePreset', {

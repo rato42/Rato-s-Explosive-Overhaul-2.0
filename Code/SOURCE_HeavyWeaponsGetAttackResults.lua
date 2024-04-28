@@ -65,8 +65,7 @@ function HeavyWeapon:GetAttackResults(action, attack_args)
 				}, {
 					pos = hit_pos,
 					t = time,
-				},
-			}
+				}}
 		end
 	elseif self.trajectory_type == "parabola" then
 		attack_args.can_bounce = ordnance and ordnance.CanBounce
@@ -119,6 +118,14 @@ function HeavyWeapon:GetAttackResults(action, attack_args)
 	results.fired = not jammed and 1
 	results.mishap = mishap
 	results.burn_ground = ordnance.BurnGround
+
+	-------------
+	--[[ 	if not prediction then
+		print("entering HW shrapnel block", GameTime())
+		results.shrapnel_results = GetShrapnelResults(self, target_pos, attacker)
+	end ]]
+	------------
+
 	if self.trajectory_type == "bombard" then
 		results.explosion_pos = target_pos
 		if not jammed then

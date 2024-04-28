@@ -15,46 +15,19 @@ end
 
 ----------Args
 local GR_base_pen = 0 -- -10
-local GR_dist_pen = 12
-local RPG_dist_pen = 22
-local GL_dist_pen = 23
+local GR_dist_pen = 13
+local RPG_dist_pen = 15
+local GL_dist_pen = 16
 
-------------Grenade
-
-function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
+function deviate_traj_custom(unit, stat, modifiers, target_pos, attack_pos, test, is_grenade, max_range)
+	local modifiers = HasPerk(unit, "Inaccurate") and modifiers + 15 or modifiers
 	local deviation = 0
-	local dex = unit.Dexterity
-	local explo = unit.Explosives
-	local thrower_perk = HasPerk(unit, "Throwing")
-	local opt = CurrentModOptions.deviate_stat or "Dexterity/Explosives"
-
-	dex = opt == "Dexterity" and dex or opt == "Explosives" and explo or cRound((dex + explo) / 2)
-	dex = dex + GR_base_pen
-	dex = thrower_perk and dex + 10 or dex
-	dex = Max(45, dex)
-
-	local max_range = self:GetMaxAimRange(unit)
-	if thrower_perk then
-		max_range = max_range + CharacterEffectDefs.Throwing:ResolveValue("RangeIncrease")
-	end
-	max_range = max_range * const.SlabSizeX
-	local dist = attack_pos:Dist(target_pos)
-	local ratio_dist = dist * 1.00 / max_range * 1.00
-	local diff_dist = cRound(ratio_dist * GR_dist_pen)
-	local ai_handicap = AI_deviate_handicap(unit)
-	-- print(dist, max_range, ratio_dist, diff_dist)
-	local item_acc = self:get_throw_accuracy(unit)
-	local opt_diff = extractNumberWithSignFromString(CurrentModOptions.grenade_throw_diff) or 0
-	local modifiers = -item_acc + opt_diff + diff_dist - ai_handicap
-
-	if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
-		modifiers = modifiers and modifiers + 10 or 10
-	end
-
 	local roll = 1 + unit:Random(99) + modifiers
-	local diff = dex - roll
+	local diff = stat - roll
 	local def_min_dev = 0.75
 	local min_deviation = diff >= 50 and 0 or def_min_dev
+	local rotation_factor = is_grenade and 20 or 10
+	print("deviation mods", modifiers)
 
 	if roll <= 5 then
 		deviation = 0
@@ -72,15 +45,26 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 
 	local perfect_throw = deviation <= 0.05
 	local float_text
-
-	if perfect_throw then
-		float_text = T("Perfect Throw")
-	elseif deviation <= def_min_dev then
-		float_text = T("Great Throw")
-	elseif deviation >= 3.2 then
-		float_text = T("<color AmmoAPColor>Terrible Throw</color>")
-	elseif deviation >= 2 then
-		float_text = T("<color AmmoAPColor>Innacurate Throw</color>")
+	if is_grenade then
+		if perfect_throw then
+			float_text = T("Perfect Throw")
+		elseif deviation <= def_min_dev then
+			float_text = T("Great Throw")
+		elseif deviation >= 3.2 then
+			float_text = T("<color AmmoAPColor>Terrible Throw</color>")
+		elseif deviation >= 2 then
+			float_text = T("<color AmmoAPColor>Innacurate Throw</color>")
+		end
+	else
+		if perfect_throw then
+			float_text = T("Perfect Launch")
+		elseif deviation <= def_min_dev then
+			float_text = T("Great Launch")
+		elseif deviation >= 3.2 then
+			float_text = T("<color AmmoAPColor>Terrible Launch</color>")
+		elseif deviation >= 2 then
+			float_text = T("<color AmmoAPColor>Innacurate Launch</color>")
+		end
 	end
 
 	if float_text then
@@ -93,7 +77,7 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 
 	local sign = InteractionRand(2)
 	sign = sign == 1 and 1 or -1
-	local angle_of_rotation = 20 * 60 * deviation / 5 * sign
+	local angle_of_rotation = rotation_factor * 60 * deviation / 5 * sign
 	local dir = target_pos - attack_pos
 
 	sign = InteractionRand(2)
@@ -102,7 +86,7 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 
 	local distance_deviation = dir:Len() * (1 + distance_multiplier)
 
-	if sign > 0 then
+	if is_grenade and sign > 0 then
 		distance_deviation = distance_deviation <= cRound(max_range * 1.5) and distance_deviation or dir:Len() *
 							                     (1 + distance_multiplier * -1)
 	end
@@ -118,14 +102,50 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	return final_pos
 end
 
+------------Grenade
+
+function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
+
+	local dex = unit.Dexterity
+	local explo = unit.Explosives
+	local thrower_perk = HasPerk(unit, "Throwing")
+	local opt = CurrentModOptions.deviate_stat or "Dexterity/Explosives"
+
+	dex = opt == "Dexterity" and dex or opt == "Explosives" and explo or cRound((dex + explo) / 2)
+	dex = dex + GR_base_pen
+	dex = thrower_perk and dex + 10 or dex
+	dex = Max(45, dex)
+
+	local max_range = self:GetMaxAimRange(unit)
+	if thrower_perk then
+		max_range = max_range + CharacterEffectDefs.Throwing:ResolveValue("RangeIncrease") or 0
+	end
+	max_range = max_range * const.SlabSizeX
+	local dist = attack_pos:Dist(target_pos)
+	local ratio_dist = dist * 1.00 / max_range * 1.00
+	local diff_dist = cRound(ratio_dist * GR_dist_pen)
+	local ai_handicap = AI_deviate_handicap(unit)
+	-- print(dist, max_range, ratio_dist, diff_dist)
+	local item_acc = self:get_throw_accuracy(unit)
+	local opt_diff = extractNumberWithSignFromString(CurrentModOptions.grenade_throw_diff) or 0
+	local modifiers = -item_acc + opt_diff + diff_dist - ai_handicap
+
+	if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
+		modifiers = modifiers and modifiers + 10 or 10
+	end
+
+	return deviate_traj_custom(unit, dex, modifiers, target_pos, attack_pos, test, true, max_range)
+end
+
 function Grenade:get_throw_accuracy(unit)
 	local shape_list = {
 		Spherical = 0,
 		Stick_like = 0,
-		Cylindrical = -3,
+		Cylindrical = -2,
+		Can = -4,
 		Long = -7,
 		Brick = -5,
-		Bottle = -11,
+		Bottle = -10,
 	}
 	local acc = shape_list[self.r_shape] or 0
 	if IsKindOf(self, "ShapedCharge") then
@@ -183,73 +203,7 @@ function GrenadeLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test
 		modifiers = modifiers and modifiers + 10 or 10
 	end
 
-	local roll = 1 + unit:Random(99) + modifiers
-	local diff = stat - roll
-	local def_min_dev = 0.75
-	local min_deviation = diff >= 50 and 0 or def_min_dev
-
-	if roll <= 5 then
-		deviation = 0
-	else
-		deviation = Max(min_deviation, (100 - diff) ^ 2 / 100 ^ 2 * 2)
-	end
-
-	if test then
-		return deviation, roll
-	end
-
-	local perfect_throw = deviation <= 0.05
-	local float_text
-
-	if perfect_throw then
-		float_text = T("Perfect Launch")
-	elseif deviation <= def_min_dev then
-		float_text = T("Great Launch")
-	elseif deviation >= 3.2 then
-		float_text = T("<color AmmoAPColor>Terrible Launch</color>")
-	elseif deviation >= 2 then
-		float_text = T("<color AmmoAPColor>Innacurate Launch</color>")
-	end
-
-	if float_text then
-		CreateFloatingText(target_pos, float_text)
-	end
-
-	if perfect_throw then
-		return false
-	end
-
-	local sign = InteractionRand(2)
-	sign = sign == 1 and 1 or -1
-	local angle_of_rotation = 20 * 60 * deviation / 5 * sign
-	local dir = target_pos - attack_pos
-	-- local max_range = self:GetMaxAimRange(unit)
-	--[[ 
-	if thrower_perk then
-		max_range = max_range + CharacterEffectDefs.Throwing:ResolveValue("RangeIncrease")
-	end ]]
-
-	-- max_range = max_range * const.SlabSizeX
-	sign = InteractionRand(2)
-	sign = sign == 1 and 1 or -1
-	local distance_multiplier = deviation / 12 * sign
-
-	local distance_deviation = dir:Len() * (1 + distance_multiplier)
-
-	--[[ 	if sign > 0 then
-		distance_deviation = distance_deviation <= cRound(max_range * 1.3) and distance_deviation or dir:Len() *
-							                     (1 + distance_multiplier * -1)
-	end
- ]]
-	DbgAddCircle_devi(target_pos, const.SlabSizeX / 6, const.clrGreen)
-	DbgAddVector_devi(attack_pos, dir, const.clrGreen)
-
-	local rotated_vector = Rotate(dir, angle_of_rotation)
-	rotated_vector = SetLen(rotated_vector, distance_deviation)
-	DbgAddVector_devi(attack_pos, rotated_vector, const.clrRed)
-	local final_pos = attack_pos + rotated_vector
-
-	return final_pos
+	return deviate_traj_custom(unit, stat, modifiers, target_pos, attack_pos, test, false, max_range)
 end
 
 function GrenadeLauncher:get_throw_accuracy(unit)
@@ -292,73 +246,7 @@ function RocketLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test)
 		modifiers = modifiers and modifiers + 10 or 10
 	end
 
-	local roll = 1 + unit:Random(99) + modifiers
-	local diff = stat - roll
-	local def_min_dev = 0.75
-	local min_deviation = diff >= 50 and 0 or def_min_dev
-
-	if roll <= 5 then
-		deviation = 0
-	else
-		deviation = Max(min_deviation, (100 - diff) ^ 2 / 100 ^ 2 * 2)
-	end
-
-	if test then
-		return deviation, roll
-	end
-
-	local perfect_throw = deviation <= 0.05
-	local float_text
-
-	if perfect_throw then
-		float_text = T("Perfect Launch")
-	elseif deviation <= def_min_dev then
-		float_text = T("Great Launch")
-	elseif deviation >= 3.2 then
-		float_text = T("<color AmmoAPColor>Terrible Launch</color>")
-	elseif deviation >= 2 then
-		float_text = T("<color AmmoAPColor>Innacurate Launch</color>")
-	end
-
-	if float_text then
-		CreateFloatingText(target_pos, float_text)
-	end
-
-	if perfect_throw then
-		return false
-	end
-
-	local sign = InteractionRand(2)
-	sign = sign == 1 and 1 or -1
-	local angle_of_rotation = 20 * 60 * deviation / 5 * sign
-	local dir = target_pos - attack_pos
-	-- local max_range = self:GetMaxAimRange(unit)
-	--[[ 
-	if thrower_perk then
-		max_range = max_range + CharacterEffectDefs.Throwing:ResolveValue("RangeIncrease")
-	end ]]
-
-	-- max_range = max_range * const.SlabSizeX
-	sign = InteractionRand(2)
-	sign = sign == 1 and 1 or -1
-	local distance_multiplier = deviation / 12 * sign
-
-	local distance_deviation = dir:Len() * (1 + distance_multiplier)
-
-	--[[ 	if sign > 0 then
-		distance_deviation = distance_deviation <= cRound(max_range * 1.3) and distance_deviation or dir:Len() *
-							                     (1 + distance_multiplier * -1)
-	end
- ]]
-	DbgAddCircle_devi(target_pos, const.SlabSizeX / 6, const.clrGreen)
-	DbgAddVector_devi(attack_pos, dir, const.clrGreen)
-
-	local rotated_vector = Rotate(dir, angle_of_rotation)
-	rotated_vector = SetLen(rotated_vector, distance_deviation)
-	DbgAddVector_devi(attack_pos, rotated_vector, const.clrRed)
-	local final_pos = attack_pos + rotated_vector
-
-	return final_pos
+	return deviate_traj_custom(unit, stat, modifiers, target_pos, attack_pos, test, false, max_range)
 end
 
 function RocketLauncher:get_throw_accuracy(unit)

@@ -67,6 +67,18 @@ function EO_props()
 
 	GrenadeProperties.properties[#GrenadeProperties.properties + 1] = {
 		category = "Rato's Explosive Overhaul",
+		id = "r_soft_surface",
+		name = "Soft Surface",
+		help = "Soft Surface",
+		editor = "bool",
+		default = false,
+		template = true,
+		modifiable = true,
+
+	}
+
+	GrenadeProperties.properties[#GrenadeProperties.properties + 1] = {
+		category = "Rato's Explosive Overhaul",
 		id = "r_shrap_num",
 		name = "Shrapnel Number",
 		help = "Shrapnel Number",
@@ -74,6 +86,20 @@ function EO_props()
 		default = 0,
 		min = 0,
 		max = 1000,
+		template = true,
+		modifiable = false,
+
+	}
+
+	GrenadeProperties.properties[#GrenadeProperties.properties + 1] = {
+		category = "Rato's Explosive Overhaul",
+		id = "r_concussive_force",
+		name = "Concussive Force Rating",
+		help = "Concussive Force Rating",
+		editor = "number",
+		default = 0,
+		min = 0,
+		max = 10,
 		template = true,
 		modifiable = false,
 
@@ -87,6 +113,20 @@ function EO_props()
 		default = 0,
 		min = 0,
 		max = 1000,
+		template = true,
+		modifiable = false,
+
+	}
+
+	OrdnanceProperties.properties[#OrdnanceProperties.properties + 1] = {
+		category = "Rato's Explosive Overhaul",
+		id = "r_concussive_force",
+		name = "Concussive Force Rating",
+		help = "Concussive Force Rating",
+		editor = "number",
+		default = 0,
+		min = 0,
+		max = 10,
 		template = true,
 		modifiable = false,
 

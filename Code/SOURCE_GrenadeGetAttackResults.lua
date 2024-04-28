@@ -1,4 +1,3 @@
-local should_assert = false
 function Grenade:GetAttackResults(action, attack_args)
 
 	local attacker = attack_args.obj
@@ -10,20 +9,6 @@ function Grenade:GetAttackResults(action, attack_args)
 	---
 	-- local mishap_pos
 	if not explosion_pos and attack_args.lof then
-		if not attack_args.prediction then
-			should_assert = true
-		end
-		if should_assert and attack_args.prediction then
-			assert(false, "bla bla bla")
-		end
-		-- print("-----------------------------------------------entering block", GameTime())
-		--[[ 		print("---------- prediction1?", attack_args.prediction)
-		for i, v in pairs(attack_args) do
-			print("Key: ", i, " = ", v)
-		end
-
-		print("--------------------------------------------------------------------------", GameTime())
-		print("---------- prediction2?", attack_args.prediction) ]]
 
 		local lof_idx = table.find(attack_args.lof, "target_spot_group", attack_args.target_spot_group)
 		local lof_data = attack_args.lof[lof_idx or 1]
@@ -33,26 +18,25 @@ function Grenade:GetAttackResults(action, attack_args)
 
 		-----------------------
 		local can_bounce = self.CanBounce
-		local is_explosive = self.is_explosive
+		-- local is_explosive = self.is_explosive
 
 		target_pos = validate_deviated_gren_pos(target_pos, attack_args)
 
 		if Platform.developer and Platform.cheats then
 			-- can_bounce = false
 		end
-		local dlg = GetInGameInterfaceModeDlg()
-		local is_targeting
-		if dlg then
-			is_targeting = dlg.targeting_mod == "parabola aoe"
-		end
-		-- print("is targeting", is_targeting)
+
+		local igi = GetInGameInterface()
+		local is_targeting = igi and igi.mode_dialog and igi.mode_dialog.targeting_blackboard and
+							                     igi.mode_dialog.targeting_blackboard.arc_meshes ~= {}
+
 		can_bounce = can_bounce and CurrentModOptions["enabled_bounce"]
 		can_bounce = can_bounce and
 							             ((CurrentModOptions["enabled_bounce_pred"] and is_targeting) or not attack_args.prediction)
 
 		----------------------
 
-		-------------------- Spetacular Mishap
+		-------------------- Spetacular Mishap (fumbling)
 
 		--[[ 		if not attack_args.prediction and IsKindOf(self, "MishapProperties") and is_explosive then
 			local chance = self:GetMishapChance(attacker, target_pos)
@@ -94,7 +78,6 @@ function Grenade:GetAttackResults(action, attack_args)
 		local deviate, deviated_traj
 
 		if not attack_args.prediction and not mishap and enabled_deviation then
-			-- target_pos, deviate, deviated_traj
 			target_pos, deviate = self:rat_deviation(attacker, target_pos, attack_args, attack_pos)
 		end
 
@@ -122,33 +105,31 @@ function Grenade:GetAttackResults(action, attack_args)
 		-- attacker:ShowMishapNotification(action)
 		-- end
 		-- end
+		-----------------------------------
+
 		----------------------------------- Determine Trajectory
 
-		if mishap and not IsKindOf(self, "Molotov") then
+		------ if ever introduce fumbling again
+
+		--[[ 		if mishap and not IsKindOf(self, "Molotov") then
 			local anim_phase = attacker:GetAnimMoment(attack_args.anim, "hit") or 0
 			local grenade_pos = attacker:GetRelativeAttachSpotLoc(attack_args.anim, anim_phase, attacker,
 			                                                      attacker:GetSpotBeginIndex("Weaponr"))
-			-- local step_pos = attack_args.step_pos
-			-- if not step_pos:IsValidZ() then
-			-- step_pos = step_pos:SetTerrainZ()
-			-- end
-
-			-- local pos0 = step_pos:SetZ(step_pos:z() + attack_offset:z())
 			trajectory = {
 				{
 					pos = grenade_pos,
 					t = 0,
 				}}
 		else
-
-			-- if enabled_deviation then
-			---deviated_traj or (not deviate and traj) and traj or self:GetTrajectory(attack_args, attack_pos, target_pos, mishap)
+			print("getting default traj", GameTime())
+			
 			trajectory = not deviate and (ai_trajectory or traj) or
 								             self:GetTrajectory(attack_args, attack_pos, target_pos, mishap)
-			-- else
-			-- trajectory = self:GetTrajectory_Original(attack_args, attack_pos, target_pos, mishap)
-			-- end
-		end
+		end ]]
+		--------
+
+		trajectory = not deviate and (ai_trajectory or traj) or
+							             self:GetTrajectory(attack_args, attack_pos, target_pos, mishap)
 		----------------------------------
 
 		if #trajectory > 0 then
@@ -165,7 +146,7 @@ function Grenade:GetAttackResults(action, attack_args)
 		------------Bounce block
 
 		if not ai_trajectory and #trajectory > 0 and can_bounce and not mishap then
-
+			-- print("entering bounce block", GameTime())
 			for i, step in ipairs(trajectory) do
 				DbgAddCircle_rat(attack_args, step.pos, const.SlabSizeX / 10, const.clrCyan)
 			end
@@ -212,6 +193,7 @@ function Grenade:GetAttackResults(action, attack_args)
 
 		-------
 		if not attack_args.prediction and attack_args.explosion_pos then
+			print("entering shrapnel block", GameTime())
 			results.shrapnel_results = GetShrapnelResults(self, explosion_pos, attacker)
 		end
 		-------

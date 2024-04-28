@@ -54,7 +54,7 @@ function assign_gren_prop()
 end
 
 function list_gren_shape()
-	return {"Stick_like", "Spherical", "Cylindrical", "Bottle", "Brick", "Long", ""}
+	return {"Stick_like", "Spherical", "Cylindrical", "Bottle", "Brick", "Long", "Can", ""}
 end
 
 function cRound(num)

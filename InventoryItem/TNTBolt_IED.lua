@@ -1,13 +1,13 @@
 UndefineClass('TNTBolt_IED')
 DefineClass.TNTBolt_IED = {
-	__parents = { "ThrowableTrapItem" },
+	__parents = { "Grenade" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "ThrowableTrapItem",
+	object_class = "Grenade",
 	Repairable = false,
 	Reliability = 100,
-	Icon = "Mod/RATONADE/Images/TNT_bolt.png",
+	Icon = "Mod/RATONADE/Images/nailbomb2 3.png",
 	ItemType = "Grenade",
 	DisplayName = T(564860260183, --[[ModItemInventoryItemCompositeDef TNTBolt_IED DisplayName]] "Fragmentary TNT Stick"),
 	DisplayNamePlural = T(735927037683, --[[ModItemInventoryItemCompositeDef TNTBolt_IED DisplayNamePlural]] "Fragmentary TNT Sticks"),
@@ -27,6 +27,5 @@ DefineClass.TNTBolt_IED = {
 	DeathType = "BlowUp",
 	Entity = "World_Flarestick_01",
 	ActionIcon = "UI/Icons/Hud/throw_grenade",
-	TimedExplosiveTurns = 0,
 }
 

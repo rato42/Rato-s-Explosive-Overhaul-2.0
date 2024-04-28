@@ -55,6 +55,9 @@ local radius_mul = 2.5 -- 1.5 ---- radius of secondary zone (base aoe * this)
 local outer_radius_t = 30 --- factor for tertiary radius
 local secondary_radius_f = 100 --- % dmg and effects of secondary zone
 
+local high_shrap_num = 900
+local medium_shrap_num = 400
+
 --------------------------------------
 
 function GetShrapnelResults(self, explosion_pos, attacker)
@@ -65,9 +68,9 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 	num_shrap = self.r_shrap_num or 0
 
 	-- local shrap_pen_arg = num_shrap > 250 and shrap_pen_arg_base or 0.95
-	local max_shrap_ceiling = num_shrap > 400 and max_shrap_ceiling_high or num_shrap > 300 and max_shrap_ceiling_medium or
-						                          max_shrap_ceiling_low
-	local shrap_pen_arg = num_shrap > 400 and shrap_pen_arg_high or shrap_pen_arg_medium
+	local max_shrap_ceiling = num_shrap > high_shrap_num and max_shrap_ceiling_high or num_shrap > medium_shrap_num and
+						                          max_shrap_ceiling_medium or max_shrap_ceiling_low
+	local shrap_pen_arg = num_shrap > high_shrap_num and shrap_pen_arg_high or shrap_pen_arg_medium
 
 	num_shrap = MulDivRound(num_shrap, tonumber(CurrentModOptions.shrap_num) or 100, 100)
 
@@ -82,6 +85,10 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 
 	local att_pos = attacker:GetPos() or attacker
 	att_pos = IsValidZ(att_pos) and att_pos or att_pos:SetTerrainZ()
+
+	---- if i ever want to not bias distribution when a grenade explodes far above ground
+	--[[ local _, slab_z = WalkableSlabByPoint(explosion_pos, "downward only")
+	local ground_explosion = explosion_pos:z() - slab_z <= const.SlabSizeZ ]]
 
 	local shrapnels, phis, thetas
 

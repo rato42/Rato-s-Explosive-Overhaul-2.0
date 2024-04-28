@@ -49,11 +49,9 @@ function get_bounce_distance(speed, obj_material, grenade)
 	}
 
 	local coeff = ((coefficients_materials[material]) or 0.45)
-	-- rat_printGR("coeff", coeff)
+
 	local gren_adj = (get_grenade_bounce_adj(grenade) or 1)
 	local factor = (speed ^ 1.01) * coeff * 0.25 * const.SlabSizeX * gren_adj
-
-	-- rat_printGR("reflection factor in tiles", factor/ const.SlabSizeX)
 	return factor > 0 and factor or false
 
 end
@@ -62,26 +60,16 @@ function get_grenade_bounce_adj(grenade)
 	local shp = grenade.r_shape or ""
 	local shape_adj = shp == "Stick_like" and 0.75 or shp == "Long" and 0.66 or shp == "Cylindrical" and 0.9 or shp ==
 						                  "Can" and 0.9 or 1.0
-	-- shape_adj = tonumber(string.format("%.2f". shape_adj))
-	-- local mass_adj = tonumber(string.format("%.2f",((grenade.r_mass or 350.00) /350.00 )))^0.5
 	local mass_adj = 1 + grenade_mass_factor_adjusted(grenade, 4)
-	-- local mass_adj = MulDivRound((grenade.r_mass or 350)*100,100,350)*0.33
-	-- print("shpadj", shape_adj, "mass adj", mass_adj, "total adj", shape_adj * mass_adj)
-	return shape_adj * mass_adj
+	local soft_mod = grenade.r_soft_surface and 0.4 or 1.0
+	return shape_adj * mass_adj * soft_mod
 end
 
 function grenade_mass_factor_adjusted(grenade, adj)
-
 	local adj = adj or 2
-	-- tonumber(string.format("%.2f",((grenade.r_mass or 350.00) /350.00 )))
 	local mass_ratio = (grenade.r_mass or 600.00) / 600.00
-	-- print("mass ratio", mass_ratio)
 	mass_ratio = (1 - mass_ratio)
-
 	local mass_adj = (mass_ratio) / adj
-
-	-- local final_adj = mass_adj +1
-	-- print("final adj", final_adj)
 	return mass_adj
 end
 

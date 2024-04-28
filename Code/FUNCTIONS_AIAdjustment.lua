@@ -10,15 +10,13 @@ function AI_deviate_handicap(unit)
 		level = level + 1
 	end
 
-	local reduction = cRound(level * 1.66)
+	local reduction = cRound(level * 1.33)
 	reduction = MulDivRound(reduction, tonumber(CurrentModOptions.ai_deviate_hc) or 100, 100)
 
 	return reduction
 end
 
 function AI_adj_targetpos_for_bounce(orig_attack_args, target_pos, attack_pos, grenade)
-
-	----------- TODO: increase range for enemies when targeting, normal otherwise
 
 	local attack_args = table.copy(orig_attack_args)
 	local max_tries = 40

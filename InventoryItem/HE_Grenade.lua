@@ -29,14 +29,14 @@ DefineClass.HE_Grenade = {
 	DeathType = "BlowUp",
 	BaseDamage = 35,
 	Scatter = 4,
-	BaseRange = 7,
-	ThrowMaxRange = 17,
+	BaseRange = 8,
+	ThrowMaxRange = 19,
 	InaccurateMaxOffset = 3000,
 	Entity = "MilitaryCamp_Grenade_02",
 	ActionIcon = "UI/Icons/Hud/throw_grenade",
 	r_timer = 4500,
 	r_mass = 600,
 	r_shape = "Spherical",
-	r_shrap_num = 500,
+	r_shrap_num = 1000,
 }
 
