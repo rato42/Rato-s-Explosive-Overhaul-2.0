@@ -60,6 +60,24 @@ local medium_shrap_num = 400
 
 --------------------------------------
 
+function get_FragLevel(grenade)
+	local num = grenade.r_shrap_num
+	if not num then
+		return 0
+	end
+	if num > 900 then
+		return "High"
+	elseif num > 400 then
+		return "Medium"
+	elseif num > 290 then
+		return "Low"
+	elseif num > 0 then
+		return "Very Low"
+	end
+
+	return "None"
+end
+
 function GetShrapnelResults(self, explosion_pos, attacker)
 
 	-----------------
@@ -67,10 +85,12 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 
 	num_shrap = self.r_shrap_num or 0
 
+	local frag_level = get_FragLevel(self)
+
 	-- local shrap_pen_arg = num_shrap > 250 and shrap_pen_arg_base or 0.95
-	local max_shrap_ceiling = num_shrap > high_shrap_num and max_shrap_ceiling_high or num_shrap > medium_shrap_num and
+	local max_shrap_ceiling = frag_level == "High" and max_shrap_ceiling_high or frag_level == "Medium" and
 						                          max_shrap_ceiling_medium or max_shrap_ceiling_low
-	local shrap_pen_arg = num_shrap > high_shrap_num and shrap_pen_arg_high or shrap_pen_arg_medium
+	local shrap_pen_arg = frag_level == "High" and shrap_pen_arg_high or shrap_pen_arg_medium
 
 	num_shrap = MulDivRound(num_shrap, tonumber(CurrentModOptions.shrap_num) or 100, 100)
 

@@ -6,6 +6,13 @@ function Grenade:OnLand(thrower, attackResults, visual_obj)
 	end
 
 	Sleep(160)
+	-----
+	if attackResults.ied_misfire then
+		-- CreateFloatingText("IED Misfire", attackResults.explosion_pos)
+		self:IED_trap_OnLand(thrower, attackResults, visual_obj)
+		return
+	end
+	----
 
 	if self.ThrowNoise > 0 then
 		-- <Unit> Heard a thud
@@ -21,10 +28,6 @@ function Grenade:OnLand(thrower, attackResults, visual_obj)
 	if IsValid(visual_obj) and not IsKindOf(visual_obj, "GridMarker") then
 		DoneObject(visual_obj)
 	end
-
-	----
-
-	----
 
 end
 

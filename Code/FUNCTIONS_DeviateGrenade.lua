@@ -1,7 +1,3 @@
----- TODO increase throw range, revise max throw dviation
-------- maybe get angle from pre-deviation for HeavyWeapon
-------------- revise sideways deviation
----------------------
 function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attack_pos)
 
 	local deviatePosition = self:rat_custom_deviation(attacker, target_pos, attack_pos, false)
@@ -15,19 +11,32 @@ end
 
 ----------Args
 local GR_base_pen = 0 -- -10
-local GR_dist_pen = 13
-local RPG_dist_pen = 15
-local GL_dist_pen = 16
+local GR_dist_pen = 19
+local RPG_dist_pen = 20
+local GL_dist_pen = 21
 
-function deviate_traj_custom(unit, stat, modifiers, target_pos, attack_pos, test, is_grenade, max_range)
-	local modifiers = HasPerk(unit, "Inaccurate") and modifiers + 15 or modifiers
+function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
+	local is_grenade = IsKindOf(self, "Grenade")
+	local thrower_perk, max_range
+	local ai_handicap = AI_deviate_handicap(unit) or 0
+
+	if is_grenade then
+		thrower_perk = HasPerk(unit, "Throwing")
+		max_range = self:GetMaxAimRange(unit)
+		if thrower_perk then
+			max_range = max_range + CharacterEffectDefs.Throwing:ResolveValue("RangeIncrease") or 0
+		end
+	else
+		max_range = self.WeaponRange
+	end
+
+	local stat = self:GetMishapChance(unit, target_pos)[1] + ai_handicap
 	local deviation = 0
-	local roll = 1 + unit:Random(99) + modifiers
+	local roll = 1 + unit:Random(99)
 	local diff = stat - roll
 	local def_min_dev = 0.75
 	local min_deviation = diff >= 50 and 0 or def_min_dev
 	local rotation_factor = is_grenade and 20 or 10
-	print("deviation mods", modifiers)
 
 	if roll <= 5 then
 		deviation = 0
@@ -37,7 +46,7 @@ function deviate_traj_custom(unit, stat, modifiers, target_pos, attack_pos, test
 
 	deviation = CheatEnabled("AlwaysHit") and 0 or deviation
 	deviation = CheatEnabled("AlwaysMiss") and 5 or deviation
-	-- print("roll", roll, "diff", diff, "deviation", deviation)
+	print("roll", roll, "stat", stat, "diff", diff, "deviation", deviation)
 
 	if test then
 		return deviation, roll
@@ -104,15 +113,16 @@ end
 
 ------------Grenade
 
-function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
-
+function Grenade:GetMishapChance(unit, target, async)
+	local attack_pos = unit:GetPos()
+	local target_pos = target
 	local dex = unit.Dexterity
 	local explo = unit.Explosives
 	local thrower_perk = HasPerk(unit, "Throwing")
 	local opt = CurrentModOptions.deviate_stat or "Dexterity/Explosives"
 
 	dex = opt == "Dexterity" and dex or opt == "Explosives" and explo or cRound((dex + explo) / 2)
-	dex = dex + GR_base_pen
+	dex = dex + 0
 	dex = thrower_perk and dex + 10 or dex
 	dex = Max(45, dex)
 
@@ -124,17 +134,17 @@ function Grenade:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	local dist = attack_pos:Dist(target_pos)
 	local ratio_dist = dist * 1.00 / max_range * 1.00
 	local diff_dist = cRound(ratio_dist * GR_dist_pen)
-	local ai_handicap = AI_deviate_handicap(unit)
+
 	-- print(dist, max_range, ratio_dist, diff_dist)
 	local item_acc = self:get_throw_accuracy(unit)
 	local opt_diff = extractNumberWithSignFromString(CurrentModOptions.grenade_throw_diff) or 0
-	local modifiers = -item_acc + opt_diff + diff_dist - ai_handicap
+	local modifiers = -item_acc + opt_diff + diff_dist
+	local modifiers = HasPerk(unit, "Inaccurate") and modifiers + 15 or modifiers
 
 	if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
 		modifiers = modifiers and modifiers + 10 or 10
 	end
-
-	return deviate_traj_custom(unit, dex, modifiers, target_pos, attack_pos, test, true, max_range)
+	return {Max(0, dex - modifiers)}
 end
 
 function Grenade:get_throw_accuracy(unit)
@@ -142,14 +152,15 @@ function Grenade:get_throw_accuracy(unit)
 		Spherical = 0,
 		Stick_like = 0,
 		Cylindrical = -2,
-		Can = -4,
+		Can = -5,
 		Long = -7,
 		Brick = -5,
-		Bottle = -10,
+		Bottle = -8,
 	}
 	local acc = shape_list[self.r_shape] or 0
+
 	if IsKindOf(self, "ShapedCharge") then
-		acc = unit.unitdatadef_id ~= "Barry" and acc - 15 or acc + 5
+		acc = unit and unit.unitdatadef_id == "Barry" and acc + 5 or acc - 15
 	end
 	return acc
 end
@@ -173,9 +184,9 @@ function validate_deviated_gren_pos(explosion_pos, attack_args)
 end
 
 -----------GL
-
-function GrenadeLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test)
-
+function GrenadeLauncher:GetMishapChance(unit, target, async)
+	local attack_pos = unit:GetPos()
+	local target_pos = target
 	local deviation = 0
 	local marks = unit.Marksmanship
 	local explo = unit.Explosives
@@ -192,18 +203,16 @@ function GrenadeLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test
 	local dist = attack_pos:Dist(target_pos)
 	local ratio_dist = dist * 1.00 / max_range * 1.00
 	local diff_dist = cRound(ratio_dist * GL_dist_pen)
-	local ai_handicap = AI_deviate_handicap(unit)
 
-	print(dist, max_range, ratio_dist, diff_dist)
 	local item_acc = self:get_throw_accuracy(unit)
 	local opt_diff = extractNumberWithSignFromString(CurrentModOptions.GL_throw_diff) or 0
-	local modifiers = -item_acc + opt_diff + diff_dist - ai_handicap
+	local modifiers = -item_acc + opt_diff + diff_dist
 
 	if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
 		modifiers = modifiers and modifiers + 10 or 10
 	end
 
-	return deviate_traj_custom(unit, stat, modifiers, target_pos, attack_pos, test, false, max_range)
+	return {Max(0, stat - modifiers)}
 end
 
 function GrenadeLauncher:get_throw_accuracy(unit)
@@ -217,8 +226,10 @@ end
 
 -----------RPG
 
-function RocketLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test)
-	local deviation = 0
+function RocketLauncher:GetMishapChance(unit, target, async)
+	local attack_pos = unit:GetPos()
+	local target_pos = target
+
 	local str = unit.Strength
 	local explo = unit.Explosives
 
@@ -234,25 +245,47 @@ function RocketLauncher:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	local dist = attack_pos:Dist(target_pos)
 	local ratio_dist = dist * 1.00 / max_range * 1.00
 	local diff_dist = cRound(ratio_dist * RPG_dist_pen)
-	local ai_handicap = AI_deviate_handicap(unit)
 
 	-- print(dist, max_range, ratio_dist, diff_dist)
 
 	local item_acc = self:get_throw_accuracy(unit)
 	local opt_diff = extractNumberWithSignFromString(CurrentModOptions.RPG_throw_diff) or 0
-	local modifiers = -item_acc + opt_diff + diff_dist - ai_handicap
+	local modifiers = -item_acc + opt_diff + diff_dist
 
 	if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
 		modifiers = modifiers and modifiers + 10 or 10
 	end
 
-	return deviate_traj_custom(unit, stat, modifiers, target_pos, attack_pos, test, false, max_range)
+	return {Max(0, stat - modifiers)}
 end
 
 function RocketLauncher:get_throw_accuracy(unit)
 	return 0
 end
-
+-------------
+function get_label_throwacc(num)
+	if num == 100 then
+		return T("Perfect")
+	elseif num >= 90 then
+		return T("Very High")
+	elseif num >= 80 then
+		return T("High")
+	elseif num >= 70 then
+		return T("Moderately High")
+	elseif num >= 60 then
+		return T("Medium")
+	elseif num >= 50 then
+		return T("Moderately Low")
+	elseif num >= 40 then
+		return T("Low")
+	elseif num >= 30 then
+		return T("Very Low")
+	elseif num >= 20 then
+		return T("Extremely Low")
+	else
+		return T("Abysmal")
+	end
+end
 ------------------Tests
 
 function deviation_prob(dex, expl, steps, not_round)

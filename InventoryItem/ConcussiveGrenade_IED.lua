@@ -31,9 +31,9 @@ DefineClass.ConcussiveGrenade_IED = {
 	AreaUnitDamageMod = 0,
 	AreaObjDamageMod = 0,
 	AreaAppliedEffects = {
+		"cancel_shot_flashbang",
 		"Suppressed",
 		"dazed_flashbang",
-		"cancel_shot_flashbang",
 	},
 	PenetrationClass = 1,
 	BurnGround = false,

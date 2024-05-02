@@ -23,8 +23,9 @@ function HeavyWeapon:GetAttackResults(action, attack_args)
 
 	-- mishap & stealth kill checks
 	local mishap
-	-------Vanilla Mishap
-	--[[ 	if not prediction and not attack_args.explosion_pos and IsKindOf(self, "MishapProperties") then
+	-------Vanilla Mishap -- change to only bombard
+	if not prediction and not attack_args.explosion_pos and IsKindOf(self, "MishapProperties") and self.trajectory_type ==
+						"bombard" then
 		local chance = self:GetMishapChance(attacker, target_pos)
 		if CheatEnabled("AlwaysMiss") or attacker:Random(100) < chance then
 			local dv = self:GetMishapDeviationVector(attacker, target_pos)
@@ -32,8 +33,8 @@ function HeavyWeapon:GetAttackResults(action, attack_args)
 			target_pos = target_pos + dv
 			attacker:ShowMishapNotification(action)
 		end
-	end ]]
-
+	end
+	----------
 	if self.trajectory_type == "line" then
 		attack_args.max_pierced_objects = 0
 		attack_args.can_use_covers = false

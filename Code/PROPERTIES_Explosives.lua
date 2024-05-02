@@ -104,6 +104,19 @@ function EO_props()
 		modifiable = false,
 
 	}
+
+	GrenadeProperties.properties[#GrenadeProperties.properties + 1] = {
+		id = "EO_description_hints",
+		name = "description_hints",
+		help = "description_hints",
+		editor = "text",
+		default = "",
+		template = false,
+		modifiable = false
+		}
+
+	--------------------------------- OrdnanceProperties
+
 	OrdnanceProperties.properties[#OrdnanceProperties.properties + 1] = {
 		category = "Rato's Explosive Overhaul",
 		id = "r_shrap_num",
@@ -132,6 +145,15 @@ function EO_props()
 
 	}
 
+	OrdnanceProperties.properties[#OrdnanceProperties.properties + 1] = {
+	id = "EO_description_hints",
+	name = "description_hints",
+	help = "description_hints",
+	editor = "text",
+	default = "",
+	template = false,
+	modifiable = false
+	}
 end
 
 EO_props()

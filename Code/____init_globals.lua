@@ -1,0 +1,4 @@
+if FirstLoad then
+	original_ApplyExplosionDamage = ApplyExplosionDamage
+	landmine_original_UpdateTriggerRadiusFx = Landmine.UpdateTriggerRadiusFx
+end

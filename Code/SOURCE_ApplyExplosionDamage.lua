@@ -1,5 +1,3 @@
-local original_ApplyExplosionDamage = ApplyExplosionDamage
-
 function ApplyExplosionDamage(attacker, fx_actor, results, noise, disableBurnFx, ignore_targets)
 	local weapon = results.weapon
 	local explosion_pos = results.explosion_pos or results.target_pos
@@ -12,8 +10,16 @@ function ApplyExplosionDamage(attacker, fx_actor, results, noise, disableBurnFx,
 		elseif IsKindOf(weapon, "Ordnance") and results.attack_from_stealth == nil then
 			shr_results = GetShrapnelResults(weapon, explosion_pos, attacker)
 			shrapnel_Execute(shr_results, time)
+		elseif IsKindOf(weapon, "Landmine") then
+			local original_item = weapon.item_thrown and g_Classes[weapon.item_thrown]
+			if original_item then
+				shr_results = GetShrapnelResults(original_item, explosion_pos, attacker)
+				shrapnel_Execute(shr_results, time)
+			end
 		end
 	end
+
+	results = processExplosiveHitEffects(results, weapon)
 
 	original_ApplyExplosionDamage(attacker, fx_actor, results, noise, disableBurnFx, ignore_targets)
 end

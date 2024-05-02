@@ -1,6 +1,4 @@
 -- ========== THIS IS AN AUTOMATICALLY GENERATED FILE! ==========
-
-
 function RatoEO_Patch()
 	FragGrenade.BaseDamage = 31
 	FragGrenade.r_shrap_num = 500
@@ -71,7 +69,7 @@ function RatoEO_Patch()
 	NailBomb_IED.ThrowMaxRange = 19
 	NailBomb_IED.BaseRange = 8
 	NailBomb_IED.PenetrationClass = 3
-	NailBomb_IED.is_ied = false
+	NailBomb_IED.is_ied = true
 	NailBomb_IED.r_concussive_force = 2
 	NailBomb_IED.r_mass = 400
 	NailBomb_IED.r_timer = 3000
@@ -266,7 +264,7 @@ function RatoEO_Patch()
 	ConcussiveGrenade_IED.AreaOfEffect = 3
 	ConcussiveGrenade_IED.ThrowMaxRange = 19
 	ConcussiveGrenade_IED.BaseRange = 9
-	ConcussiveGrenade_IED.is_ied = false
+	ConcussiveGrenade_IED.is_ied = true
 	ConcussiveGrenade_IED.r_mass = 420
 	ConcussiveGrenade_IED.r_timer = 3000
 	ConcussiveGrenade_IED.r_shape = "Long"

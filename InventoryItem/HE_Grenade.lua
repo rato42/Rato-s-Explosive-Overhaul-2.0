@@ -24,7 +24,13 @@ DefineClass.HE_Grenade = {
 	MinMishapRange = 0,
 	CenterUnitDamageMod = 130,
 	CenterObjDamageMod = 200,
+	CenterAppliedEffects = {
+		"Bleeding",
+	},
 	AreaObjDamageMod = 250,
+	AreaAppliedEffects = {
+		"Bleeding",
+	},
 	PenetrationClass = 4,
 	DeathType = "BlowUp",
 	BaseDamage = 35,

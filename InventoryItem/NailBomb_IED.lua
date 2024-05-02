@@ -27,5 +27,6 @@ DefineClass.NailBomb_IED = {
 	DeathType = "BlowUp",
 	Entity = "World_Flarestick_01",
 	ActionIcon = "UI/Icons/Hud/throw_grenade",
+	is_ied = true,
 }
 
