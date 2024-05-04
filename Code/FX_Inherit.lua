@@ -1,7 +1,6 @@
 function OnMsg.GetCustomFXInheritActorRules(rules)
-	place_explosion_FXs()
-	place_flashbang_FXs()
-	EO_apply_inherit(rules)
+
+	-- EO_apply_inherit(rules)
 end
 
 function EO_apply_inherit(rules)
@@ -38,13 +37,13 @@ end
 
 function OnMsg.ClassesGenerate(classdefs)
 	-- print("classes generating")
-	classdefs.Weapon_TNT = {
+	classdefs.Weapon_TNT_frag_IED = {
 		__parents = {"GrenadeVisual"},
-		entity = "World_Flarestick_01",
+		entity = "fragmentary_tnt",
 	}
-	classdefs.Weapon_TNT_Misfired = {
+	classdefs.Weapon_TNT_frag_IED_Misfired = {
 		__parents = {"GrenadeVisual"},
-		entity = "World_Flarestick_01",
+		entity = "frag_tnt_misfired",
 	}
 
 	--[[ 	classdefs.GlowStickClone = {

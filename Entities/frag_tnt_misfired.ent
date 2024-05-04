@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity path="" name="frag_tnt_misfired">
+	<state id="idle">
+		<mesh_ref ref="frag_tnt_misfired_mesh"/>
+	</state>
+	<mesh_description id="frag_tnt_misfired_mesh">
+		<lod idx="0" distance="0">
+			<mesh file="Meshes/frag_tnt_misfired_frag_tnt_misfired_mesh.m.hgm"/>
+			<material file="Materials/frag_tnt_misfired_frag_tnt_misfired_mesh.mtl"/>
+			<bsphere value="0.005,0.000,8.760,8.833"/>
+			<box min="-1.125,-1.067,-0.022" max="1.134,1.067,17.542"/>
+			<src file="C:/Users/Lucas/AppData/Roaming/Jagged Alliance 3/ModAssets/FBX/misfired_tnt_stick.fbx"/>
+		</lod>
+	</mesh_description>
+</entity>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity path="" name="fragmentary_tnt">
+	<state id="idle">
+		<mesh_ref ref="fragmentary_tnt_mesh"/>
+	</state>
+	<mesh_description id="fragmentary_tnt_mesh">
+		<lod idx="0" distance="0">
+			<mesh file="Meshes/fragmentary_tnt_fragmentary_tnt_mesh.m.hgm"/>
+			<material file="Materials/fragmentary_tnt_fragmentary_tnt_mesh.mtl"/>
+			<bsphere value="0.005,0.238,11.212,11.328"/>
+			<box min="-1.125,-1.067,-0.021" max="1.134,1.544,22.444"/>
+			<src file="C:/Users/Lucas/AppData/Roaming/Jagged Alliance 3/ModAssets/FBX/uploads_files_3172374_Dynamite+stick.fbx"/>
+		</lod>
+	</mesh_description>
+</entity>

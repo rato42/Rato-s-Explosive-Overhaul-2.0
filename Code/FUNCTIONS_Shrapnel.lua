@@ -39,15 +39,17 @@ end
 
 local speed_control = 0.6
 local debug_shrap_vec = false
-local max_shrap = 3 --- after this ammount, shrap starts having less effect
+local debug_log = false
+
+--[[ local max_shrap = 2 --- after this ammount, shrap starts having less effect
 
 local shrap_pen_arg_high = 0.8 ---- penalty step
-local shrap_pen_arg_medium = 0.8
+local shrap_pen_arg_medium = 0.95
 
 local shrap_ceiling = 0.95 --- max penalty 
 local max_shrap_ceiling_high = 5 -- max_shrap * 2 --- exclusion
 local max_shrap_ceiling_medium = 3 -- max_shrap + 1
-local max_shrap_ceiling_low = 2 -- max_shrap --- for low shrap items
+local max_shrap_ceiling_low = 2 -- max_shrap --- for low shrap items ]]
 
 local effect_chance_mul = 1.0 --- modifies the chance a shrap causes status effect
 
@@ -55,9 +57,41 @@ local radius_mul = 2.5 -- 1.5 ---- radius of secondary zone (base aoe * this)
 local outer_radius_t = 30 --- factor for tertiary radius
 local secondary_radius_f = 100 --- % dmg and effects of secondary zone
 
-local high_shrap_num = 900
-local medium_shrap_num = 400
+function get_shrap_args(frag_level, category)
 
+	local frag_args = {
+		['High'] = {
+			diminish = 2,
+			shrap_ceiling = 5,
+			step_mul = 0.5,
+			max_penalty = 0.95,
+		},
+		['Medium'] = {
+			diminish = 1,
+			shrap_ceiling = 3,
+			step_mul = 0.65,
+			max_penalty = 0.95,
+		},
+		['Low'] = {
+			diminish = 1,
+			shrap_ceiling = 2,
+			step_mul = 0.8,
+			max_penalty = 0.9,
+		},
+
+	}
+	local entry = frag_args[frag_level]
+	if not entry then
+		entry = {
+			diminish = 1,
+			shrap_ceiling = 1,
+			step_mul = 1,
+			max_penalty = 1,
+		}
+	end
+
+	return entry[category]
+end
 --------------------------------------
 
 function get_FragLevel(grenade)
@@ -87,10 +121,14 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 
 	local frag_level = get_FragLevel(self)
 
+	local shrap_num_for_diminish = get_shrap_args(frag_level, "diminish")
+	local shrap_num_for_max = get_shrap_args(frag_level, "shrap_ceiling")
+	local shrap_damage_penalty_step = get_shrap_args(frag_level, "step_mul")
+	local shrap_damage_penaltyMax = get_shrap_args(frag_level, "max_penalty")
 	-- local shrap_pen_arg = num_shrap > 250 and shrap_pen_arg_base or 0.95
-	local max_shrap_ceiling = frag_level == "High" and max_shrap_ceiling_high or frag_level == "Medium" and
+	--[[ local max_shrap_ceiling = frag_level == "High" and max_shrap_ceiling_high or frag_level == "Medium" and
 						                          max_shrap_ceiling_medium or max_shrap_ceiling_low
-	local shrap_pen_arg = frag_level == "High" and shrap_pen_arg_high or shrap_pen_arg_medium
+	local shrap_pen_arg = frag_level == "High" and shrap_pen_arg_high or shrap_pen_arg_medium ]]
 
 	num_shrap = MulDivRound(num_shrap, tonumber(CurrentModOptions.shrap_num) or 100, 100)
 
@@ -148,7 +186,6 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 
 	local final_pos
 
-	-- attacker:SetPos(explosion_pos)--thrower:SetPos(explosion_pos)
 	local sharpnel_weapon = g_Classes["weapon_shrapnel"]
 	local lof_args = {}
 	lof_args.fire_relative_point_attack = false
@@ -188,20 +225,7 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 	-- lof_args.ricochet = true
 	-------
 
-	local coroutines = {}
-
 	local end_time_g = GameTime()
-	-- print("main gtime", end_time_g)
-	local function Shrapnel_Coroutine(Firearm, attacker, start_pt, end_pt, dir, speed, hits, target, attack_args)
-		return coroutine.create(function()
-			local thread = CreateGameTimeThread(Firearm.Shrapnel_Fly, Firearm, attacker, start_pt, end_pt, dir, speed, hits,
-			                                    target, attack_args, end_time_g)
-			-- while IsValid(thread) do
-			-- coroutine:y()ield()
-			-- end
-		end)
-	end
-
 	local dmg_log = {}
 
 	local gren_random = 30
@@ -218,10 +242,7 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 	local results = {}
 	for i, vector in ipairs(shrapnels) do
 		final_pos = vector
-
 		lof_args.target_pos = final_pos
-		-- if IsValidZ(final_pos) then
-
 		lof_args.attack_pos = explosion_pos + SetLen(final_pos - explosion_pos, guic * 12)
 
 		local random_f = 100 - cRound(gren_random / 2) + attacker:Random(gren_random)
@@ -240,42 +261,43 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 			if hit and hit.obj and IsKindOf(hit.obj, "Unit") then
 
 				----- log
-				local dist_log = hit.obj:GetDist(explosion_pos)
-				if not table_of_tests[hit.obj.session_id] then
-					table_of_tests[hit.obj.session_id] = {}
+				if debug_log then
+					local dist_log = hit.obj:GetDist(explosion_pos)
+					if not table_of_tests[hit.obj.session_id] then
+						table_of_tests[hit.obj.session_id] = {}
+					end
+					table_of_tests[hit.obj.session_id].dist = dist_log
 				end
-				table_of_tests[hit.obj.session_id].dist = dist_log
-				-- print(hit.obj.session_id, dist_log)
 				-------
 
-				if hit.obj.shrap_received >= max_shrap_ceiling then
-					max_shrap_dmg_red = 1
+				------ Damage Control
+				if hit.obj.shrap_received >= shrap_num_for_max then
+					-- max_shrap_dmg_red = 1
 					max_shrap_received = true
+
 					--[[ 					lof_args.attack_pos = hit_pos + SetLen(hit_pos - lof_args.attack_pos, cRound(const.SlabSizeX / 3))
 					attack_data = CheckLOF(final_pos, lof_args)
 					lof = attack_data.lof and attack_data.lof[1]
 					hit = lof and lof.hits and lof.hits[1]
 					hit_pos = hit and hit.pos ]]
-				elseif hit.obj.shrap_received > max_shrap then
-					max_shrap_dmg_red = Min(shrap_ceiling, (hit.obj.shrap_received - max_shrap) * shrap_pen_arg)
-					-- print(i, max_shrap_dmg_red)
+				elseif hit.obj.shrap_received >= shrap_num_for_diminish then
+					max_shrap_dmg_red = Min(shrap_damage_penaltyMax,
+					                        (hit.obj.shrap_received - shrap_num_for_diminish) * shrap_damage_penalty_step)
 					hit.obj.shrap_received = hit.obj.shrap_received + 1
 				else
 					hit.obj.shrap_received = hit.obj.shrap_received + 1
 				end
+				------
 			end
 		end
 
-		if attack_data then
+		if attack_data and not max_shrap_received then
 			lof = attack_data.lof and attack_data.lof[1]
 			hit = lof and lof.hits and lof.hits[1]
 			hit_pos = hit and hit.pos
 
-			-- print("hit print", hit.obj)
-			--
-
 			local exclude_civ
-			if hit and not hit.terrain then
+			if hit and not hit.terrain and not max_shrap_received then
 
 				local hit_data = {
 					obj = attacker,
@@ -291,12 +313,14 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 				local dist_t = dist_ <= base_radius and 100 or dist_ <= cRound(base_radius * radius_mul) and secondary_radius_f or
 									               outer_radius_t
 
-				if IsKindOf(hit.obj, "Unit") and hit.obj:IsCivilian() and dist_t < outer_radius_t then -- and hit.obj.session_id == "Ivan" and hit.spot_group == "Head" then
+				if IsKindOf(hit.obj, "Unit") and hit.obj:IsCivilian() and dist_t < outer_radius_t then
 					exclude_civ = true
 					---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-				elseif IsKindOf(hit.obj, "Unit") then
+				else -- if IsKindOf(hit.obj, "Unit") then
+
 					sharpnel_weapon:calc_shrap_damage(hit_data, false, random_f, dist_t, max_shrap_dmg_red)
-					if IsKindOf(hit.obj, "Unit") then
+
+					if IsKindOf(hit.obj, "Unit") and debug_log then
 
 						if not dmg_log[hit.obj.session_id] then
 							dmg_log[hit.obj.session_id] = {
@@ -320,11 +344,9 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 			end
 
 			local hits = not exclude_civ and {hit} or {}
-			hit_pos = not exclude_civ and hit_pos or final_pos
-			----
+			-- hits = not max_shrap_received and hits or {}
+			hit_pos = exclude_civ and hit_pos or final_pos
 
-			-- print(i, "sharp pos", vector)
-			-- print("main gtime", end_time_g)
 			local sharpnel_dir = SetLen((hit_pos or final_pos) - explosion_pos, 4096) -- dir--false--hit_pos - explosion_pos--) or dir
 			if debug_shrap_vec then
 				if max_shrap_received then
@@ -337,13 +359,7 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 			end
 
 			local speed = MulDivRound(const.Combat.BulletVelocity * speed_control, random_f, 100) -- /10
-			-- speed = speed/20
 
-			--[[ CreateGameTimeThread(Firearm.Shrapnel_Fly, sharpnel_weapon, attacker, explosion_pos, hit_pos or final_pos,
-			                     sharpnel_dir, speed, hits or false, hit_pos or final_pos, lof_args, end_time_g) ]]
-			--[[ 			local co = Shrapnel_Coroutine(sharpnel_weapon, attacker, explosion_pos, hit_pos or final_pos, sharpnel_dir, speed,
-			                              hits or false, hit_pos or final_pos, lof_args, end_time_g)
-			table.insert(coroutines, co) ]]
 			local result = {
 				weapon = sharpnel_weapon,
 				attacker = attacker,
@@ -358,32 +374,26 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 			}
 			table.insert(results, result)
 		end
-		-- end
 	end
 
 	------------ Log
-	--[[ 	for k, v in pairs(dmg_log) do
-		if not table_of_tests[k] then
-			table_of_tests[k] = {v}
-		else
-			table.insert(table_of_tests[k], v)
+	if debug_log then
+		for k, v in pairs(dmg_log) do
+			if not table_of_tests[k] then
+				table_of_tests[k] = {v}
+			else
+				table.insert(table_of_tests[k], v)
+			end
+			print(k, v)
 		end
-		print(k, v)
-	end ]]
+	end
 	---------------
 
-	--[[ 	Sleep(40)
-	for _, co in ipairs(coroutines) do
-		coroutine.resume(co)
-	end ]]
 	return results
 
 end
 
 function Firearm:calc_shrap_damage(hit_data, ricochet_idx, random_f, dist_t, max_shrap_dmg_red)
-	-- if not hit_data.prediction then
-	-- Inspect(hit_data)
-	-- end
 
 	local attacker = hit_data.obj
 	local target = hit_data.target
@@ -446,12 +456,13 @@ function Firearm:calc_shrap_damage(hit_data, ricochet_idx, random_f, dist_t, max
 		local dmg = hit_data.damage
 		local obj = hit.obj
 		local is_unit
+		-- print("hit obj is unit?", idx, IsKindOf(obj, "Unit"), "damage", dmg)
 		if obj and IsKindOf(obj, "Unit") and not stray then
 			is_unit = true
 			stray = obj ~= target
 			target_reached = target_reached or target and obj == target
 
-			if not prediction then
+			--[[ 			if not prediction then
 				if hit_data.critical == nil and not stray then
 					hit_data.target_spot_group = hit_data.target_spot_group or hit.spot_group
 					-- pass hit_data instead of attack_args, it has all the relevant data
@@ -459,14 +470,14 @@ function Firearm:calc_shrap_damage(hit_data, ricochet_idx, random_f, dist_t, max
 					local critRoll = attacker:Random(100)
 					hit_data.critical = critRoll < critChance
 				end
-			end
+			end ]]
 			if not stray then
 				hit.spot_group = hit_data.target_spot_group or hit.spot_group
 			end
 		end -- hits on non-units are never stray or critical
 
-		hit.stray = stray
-		hit.critical = not stray and hit_data.critical
+		hit.stray = false -- stray
+		hit.critical = false -- not stray and hit_data.critical
 		hit.damage = dmg
 
 		local breakdown = obj == target and record_breakdown -- We only care about the damage breakdown on the target, not objects in the way.
@@ -520,7 +531,8 @@ function BaseWeapon:shrap_precalc_damage_and_effects(attacker, target, attack_po
 
 		local other_effects_add = effect_roll <= effect_chance
 		------------------------------
-
+		local ignoreGrazing = true
+		hit.grazing = false
 		-- local ignoreGrazing = IsFullyAimedAttack(attack_args) and self:HasComponent("IgnoreGrazingHitsWhenFullyAimed")
 		-- local ignore_cover = (hit.aoe or hit.melee_attack or ignoreGrazing) and 100 or self.IgnoreCoverReduction
 
@@ -666,6 +678,7 @@ function BaseWeapon:shrap_precalc_damage_and_effects(attacker, target, attack_po
 		-- apply armor for non units
 		local pen_class = self:HasMember("PenetrationClass") and self.PenetrationClass or #PenetrationClassIds
 		local armor_class = target and target.armor_class or 1
+
 		if pen_class >= armor_class then
 			hit.damage = damage or 0
 			hit.armor_prevented = 0
@@ -673,6 +686,9 @@ function BaseWeapon:shrap_precalc_damage_and_effects(attacker, target, attack_po
 			hit.damage = 0
 			hit.armor_prevented = damage or 0
 		end
+
+		-- print("non unit hit", target.class, "damage", hit.damage, "armor class", armor_class, "armor prevented",
+		--      hit.armor_prevented)
 		if record_breakdown then
 			if hit.damage > 0 then
 				record_breakdown[#record_breakdown + 1] = {

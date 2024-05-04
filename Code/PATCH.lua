@@ -92,7 +92,7 @@ function RatoEO_Patch()
 	PipeBomb.CanAppearInShop = false
 	PipeBomb.Cost = 300
 
-	Pipe_IED.AttackAP = 3000
+	--[[ 	Pipe_IED.AttackAP = 3000
 	Pipe_IED.r_shrap_num = 300
 	Pipe_IED.ThrowMaxRange = 14
 	Pipe_IED.BaseRange = 4
@@ -104,7 +104,7 @@ function RatoEO_Patch()
 	Pipe_IED.CanBounce = true
 	Pipe_IED.r_soft_surface = false
 	Pipe_IED.CanAppearInShop = true
-	Pipe_IED.Cost = 100
+	Pipe_IED.Cost = 100 ]]
 
 	ProximityC4.AttackAP = 7000
 	ProximityC4.r_shrap_num = 80

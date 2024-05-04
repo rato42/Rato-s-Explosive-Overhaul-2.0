@@ -1,10 +1,33 @@
 function processIEDmisfire(weapon, unit)
 	print("process ied")
+
 	if weapon and weapon.is_ied then
-		local chance = 100
-		local roll = unit:Random(99) + 1
+		local chance
+		-- if IsKindOf(weapon, "InventoryStack") then
+		local stack_qual = weapon.ied_quality_stack
+		if weapon.Amount == #stack_qual then
+			print("correct amount")
+		else
+			print("---INCORRECT STACK AMOUNT")
+		end
+
+		print("amount ied", weapon.Amount)
+		print("is stack", IsKindOf(weapon, "InventoryStack"))
+		print("stack qual", weapon.ied_quality_stack)
+
+		local index = unit:Random(weapon.Amount) + 1
+		print("index", index)
+		local chance = stack_qual[index]
+		table.remove(weapon.ied_quality_stack, index)
+		print("pos process stack qual", weapon.ied_quality_stack)
+		print("chance", chance)
+
+		-- end
+
+		-- local chance = 100
+		local roll = unit:Random(100) + 1
 		print("chance", chance, "roll", roll)
-		if roll <= chance then
+		if roll <= (chance or 101) then
 			print("misfire")
 			return true
 		end
@@ -12,8 +35,6 @@ function processIEDmisfire(weapon, unit)
 	return false
 end
 function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, original_fx_actor)
-
-	-- print("resu", attackResults)
 
 	--[[ 	if self.TriggerType == "Contact" then
 		Grenade.OnLand(self, thrower, attackResults, visual_obj)
@@ -35,8 +56,8 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 	assert(teamSide)
 	teamSide = teamSide or "player1"
 
+	----------------
 	local random_type = thrower:Random(3)
-	print("randomtype", random_type)
 	local landmine_args
 	if random_type == 1 then
 		print("prox")
@@ -79,7 +100,7 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 		GrenadeExplosion = IsKindOf(self, "Grenade") or false, -- true,
 		r_original_fx_actor = original_fx_actor or false,
 	})
-
+	------------
 	if IsValid(visual_obj) then
 		DoneObject(visual_obj)
 	end
@@ -95,9 +116,6 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 	-- newLandmine.discovered_by[teamSide] = true
 	newLandmine:SetPos(finalPointOfTrajectory)
 	newLandmine:EnterSectorInit()
-
-	local orient = newLandmine:GetOrientation()
-
 	VisibilityUpdate(true)
 
 	table.iclear(attackResults)

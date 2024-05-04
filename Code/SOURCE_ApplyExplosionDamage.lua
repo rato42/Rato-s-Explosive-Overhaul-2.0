@@ -25,9 +25,21 @@ function ApplyExplosionDamage(attacker, fx_actor, results, noise, disableBurnFx,
 end
 
 function shrapnel_Execute(shr_results, time)
+	if not shr_results then
+		return
+	end
 	for i, shrapnel in ipairs(shr_results) do
 		CreateGameTimeThread(Firearm.Shrapnel_Fly, shrapnel.weapon, shrapnel.attacker, shrapnel.start_pt, shrapnel.end_pt,
 		                     shrapnel.shrapnel_dir, shrapnel.speed, shrapnel.hits, shrapnel.target, shrapnel.lof_args, time)
 	end
 end
 
+function addgunp()
+	if SelectedObj and IsKindOf(SelectedObj, "Unit") then
+		local item = g_Classes["BlackPowder"]
+		item.Amount = 10
+
+		SelectedObj:AddItem("Inventory", item)
+
+	end
+end

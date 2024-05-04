@@ -1,3 +1,10 @@
+local dev_bounce = true
+
+function bnc(bool)
+	dev_bounce = bool
+	print("dev_bounce:", dev_bounce)
+end
+
 function Grenade:GetAttackResults(action, attack_args)
 
 	local attacker = attack_args.obj
@@ -23,7 +30,7 @@ function Grenade:GetAttackResults(action, attack_args)
 		target_pos = validate_deviated_gren_pos(target_pos, attack_args)
 
 		if Platform.developer and Platform.cheats then
-			-- can_bounce = false
+			can_bounce = dev_bounce
 		end
 
 		local igi = GetInGameInterface()

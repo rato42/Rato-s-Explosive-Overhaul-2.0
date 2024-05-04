@@ -112,8 +112,8 @@ function EO_props()
 		editor = "text",
 		default = "",
 		template = false,
-		modifiable = false
-		}
+		modifiable = false,
+	}
 
 	--------------------------------- OrdnanceProperties
 
@@ -146,13 +146,13 @@ function EO_props()
 	}
 
 	OrdnanceProperties.properties[#OrdnanceProperties.properties + 1] = {
-	id = "EO_description_hints",
-	name = "description_hints",
-	help = "description_hints",
-	editor = "text",
-	default = "",
-	template = false,
-	modifiable = false
+		id = "EO_description_hints",
+		name = "description_hints",
+		help = "description_hints",
+		editor = "text",
+		default = "",
+		template = false,
+		modifiable = false,
 	}
 end
 

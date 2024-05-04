@@ -1,19 +1,36 @@
 function place_explosion_FXs()
 	local fx_list = rat_HE_fxs()
 
-	local actor_list = {"HE_Grenade_1", "Frag_IED", "Pipe_IED", "NailBomb_IED", "NailBomb_IED_Misfired"}
+	local actor_list = {"HE_Grenade_1", "TNTBolt_IED", "NailBomb_IED", "NailBomb_IED_Misfired", "TNTBolt_IED_Misfired"}
+	local exclude_pin_sound = {"TNTBolt_IED", "NailBomb_IED", "NailBomb_IED_Misfired", "TNTBolt_IED_Misfired"}
 
 	for _, actor in ipairs(actor_list) do
+		local exclude_sound = table.find(exclude_pin_sound, actor)
+
 		for class, class_fxs in pairs(fx_list) do
 			for _, fx in ipairs(class_fxs) do
-				fx.Actor = actor
-				fx.id = rat_generate_random_id()
-				fx = PlaceObj(class, fx)
-				AddInRules(fx)
-				-- print(fx)
+				if fx.Action == "GrenadeActivate" then
+					if not exclude_sound then
+						fx.Actor = actor
+						fx.id = rat_generate_random_id()
+						fx = PlaceObj(class, fx)
+						AddInRules(fx)
+					end
+				else
+					fx.Actor = actor
+					fx.id = rat_generate_random_id()
+					fx = PlaceObj(class, fx)
+					AddInRules(fx)
+					-- print(fx)
+				end
 			end
 		end
 	end
+end
+
+function OnMsg.DataLoaded()
+	place_explosion_FXs()
+	place_flashbang_FXs()
 end
 
 function place_flashbang_FXs()
@@ -1239,3 +1256,4 @@ function rat_flashbang_fxs()
 	}
 
 end
+

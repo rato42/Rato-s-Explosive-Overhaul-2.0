@@ -32,7 +32,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 
 	local stat = self:GetMishapChance(unit, target_pos)[1] + ai_handicap
 	local deviation = 0
-	local roll = 1 + unit:Random(99)
+	local roll = 1 + unit:Random(100)
 	local diff = stat - roll
 	local def_min_dev = 0.75
 	local min_deviation = diff >= 50 and 0 or def_min_dev
@@ -152,7 +152,7 @@ function Grenade:get_throw_accuracy(unit)
 		Spherical = 0,
 		Stick_like = 0,
 		Cylindrical = -2,
-		Can = -5,
+		Can = -4,
 		Long = -7,
 		Brick = -5,
 		Bottle = -8,
@@ -160,7 +160,7 @@ function Grenade:get_throw_accuracy(unit)
 	local acc = shape_list[self.r_shape] or 0
 
 	if IsKindOf(self, "ShapedCharge") then
-		acc = unit and unit.unitdatadef_id == "Barry" and acc + 5 or acc - 15
+		acc = unit and unit.unitdatadef_id == "Barry" and acc or acc - 25
 	end
 	return acc
 end

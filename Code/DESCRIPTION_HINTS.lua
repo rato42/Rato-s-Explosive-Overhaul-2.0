@@ -94,5 +94,5 @@ function EO_grenade_format_hints(self)
 
 	formattedString = formattedString .. "</style>"
 
-	return formattedString
+	return T(formattedString)
 end
