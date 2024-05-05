@@ -1,7 +1,8 @@
-function AI_deviate_handicap(unit)
+function AI_deviate_handicap(unit) --- not enabled
 	if not EO_IsAI(unit) then
 		return 0
 	end
+
 	local level = unit:GetLevel() or 1
 
 	if unit.Affiliation == "Adonis" then
@@ -14,6 +15,21 @@ function AI_deviate_handicap(unit)
 	reduction = MulDivRound(reduction, tonumber(CurrentModOptions.ai_deviate_hc) or 100, 100)
 
 	return reduction
+end
+
+function AI_deviate_skill_diff(unit)
+	if not EO_IsAI(unit) then
+		return 0
+	end
+	local modifier = extractNumberWithSignFromString(CurrentModOptions.AI_skill_throw_diff) or 0
+	return modifier
+end
+
+function AI_ExplosiveStatforIED(unit)
+	local level_stat = cRound(1.6 * (unit:GetLevel() or 1))
+	local random_factor = 12
+	local random = unit:Random(random_factor * 2) - random_factor
+	return Min(100, 70 + random + level_stat)
 end
 
 function AI_adj_targetpos_for_bounce(orig_attack_args, target_pos, attack_pos, grenade)

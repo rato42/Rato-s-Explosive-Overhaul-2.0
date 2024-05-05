@@ -205,8 +205,8 @@ return {
 		'CodeFileName', "Code/SOURCE_CalcBounceParabola_LUA.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "teste",
-		'CodeFileName', "Code/teste.lua",
+		'name', "SOURCE_SectorOperations_CraftCommonBase_Tick",
+		'CodeFileName', "Code/SOURCE_SectorOperations_CraftCommonBase_Tick.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "SOURCE_AnimGrenadeTraj",
@@ -265,12 +265,20 @@ return {
 		'CodeFileName', "Code/SOURCE_LandmineFunctions.lua",
 	}),
 	PlaceObj('ModItemCode', {
+		'name', "SOURCE_MergeAndSplitIED",
+		'CodeFileName', "Code/SOURCE_MergeAndSplitIED.lua",
+	}),
+	PlaceObj('ModItemCode', {
 		'name', "FUNCTIONS_BounceGrenade",
 		'CodeFileName', "Code/FUNCTIONS_BounceGrenade.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "move",
-		'CodeFileName', "Code/move.lua",
+		'name', "FUNCTIONS_IEDlootRules",
+		'CodeFileName', "Code/FUNCTIONS_IEDlootRules.lua",
+	}),
+	PlaceObj('ModItemCode', {
+		'name', "FUNCTIONS_DynamicSpawnLandmine_MisfiredIED",
+		'CodeFileName', "Code/FUNCTIONS_DynamicSpawnLandmine_MisfiredIED.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "FUNCTIONS_DeviateGrenade",
@@ -281,8 +289,8 @@ return {
 		'CodeFileName', "Code/FUNCTIONS_RatonadeBounceCalcTrajectory.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "FUNCTION_BounceObjMaterialSpeed",
-		'CodeFileName', "Code/FUNCTION_BounceObjMaterialSpeed.lua",
+		'name', "FUNCTIONS_BounceObjMaterialSpeed",
+		'CodeFileName', "Code/FUNCTIONS_BounceObjMaterialSpeed.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "FUNCTIONS_processIEDmisfire",
@@ -309,20 +317,20 @@ return {
 		'CodeFileName', "Code/FUNCTIONS_processExplosiveHitEffects.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "FUNCTION_ItemChanges",
-		'CodeFileName', "Code/FUNCTION_ItemChanges.lua",
+		'name', "FUNCTIONS_ItemChanges",
+		'CodeFileName', "Code/FUNCTIONS_ItemChanges.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "FUNCTIONS_AIAdjustment",
 		'CodeFileName', "Code/FUNCTIONS_AIAdjustment.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "FUNCTIONS_CombatActions",
-		'CodeFileName', "Code/FUNCTIONS_CombatActions.lua",
+		'name', "FUNCTIONS_AlterExternalItems",
+		'CodeFileName', "Code/FUNCTIONS_AlterExternalItems.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "FUNCTION_AlterExternalItems",
-		'CodeFileName', "Code/FUNCTION_AlterExternalItems.lua",
+		'name', "FUNCTIONS_DetermineIEDMisfireChance_Craft",
+		'CodeFileName', "Code/FUNCTIONS_DetermineIEDMisfireChance_Craft.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "DESCRIPTION_HINTS",
@@ -341,16 +349,12 @@ return {
 		'CodeFileName', "Code/PROPERTIES_Unit.lua",
 	}),
 	PlaceObj('ModItemCode', {
-		'name', "FUNCTION_DetermineIEDMisfireChance_Craft",
-		'CodeFileName', "Code/FUNCTION_DetermineIEDMisfireChance_Craft.lua",
+		'name', "PROPERTIES_InventoryStack",
+		'CodeFileName', "Code/PROPERTIES_InventoryStack.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "PATCH",
 		'CodeFileName', "Code/PATCH.lua",
-	}),
-	PlaceObj('ModItemCode', {
-		'name', "stack_prop",
-		'CodeFileName', "Code/stack_prop.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "PATCH_call",
@@ -448,6 +452,27 @@ return {
 			"30",
 		},
 	}),
+	PlaceObj('ModItemOptionChoice', {
+		'name', "AI_skill_throw_diff",
+		'DisplayName', "AI throw Skill Check Difficulty Modifier",
+		'Help', "Affects accuracy of all explosives throw/launch for the AI. This will be applied on top of the other settings. Positive numbers make it harder.",
+		'DefaultValue', "Normal (0)",
+		'ChoiceList', {
+			"-30",
+			"Trivial (-25)",
+			"-20",
+			"-15",
+			"Easy (-10)",
+			"-5",
+			"Normal (0)",
+			"5",
+			"Hard (10)",
+			"15",
+			"Very Hard (20)",
+			"25",
+			"30",
+		},
+	}),
 	PlaceObj('ModItemOptionToggle', {
 		'name', "enabled_bounce",
 		'DisplayName', "Enabled Grenade Bouncing",
@@ -459,6 +484,11 @@ return {
 		'DisplayName', "Enabled Bouncing Prediction",
 		'Help', "Will show the bouncing trajectory when targeting. Disable this if facing performance issues, or if you want the extra challenge.",
 		'DefaultValue', true,
+	}),
+	PlaceObj('ModItemOptionToggle', {
+		'name', "disable_IED_craftRules",
+		'DisplayName', "Disable IED only crafting*",
+		'Help', "Enable this if you want to be able to craft every explosive. Otherwise, you will be limited to IED explosives only. *Requires restart",
 	}),
 	PlaceObj('ModItemOptionChoice', {
 		'name', "explosive_dmg",
@@ -688,7 +718,7 @@ return {
 				'amount', 5,
 			}),
 			group = "Explosives",
-			id = "CraftNailBomb",
+			id = "CraftNailBombIED",
 		}),
 		PlaceObj('ModItemCraftOperationsRecipeDef', {
 			CraftTime = 15,
@@ -710,6 +740,42 @@ return {
 			id = "He_grenade_craft_1",
 		}),
 		PlaceObj('ModItemCraftOperationsRecipeDef', {
+			CraftTime = 8,
+			Ingredients = {
+				PlaceObj('RecipeIngredient', {
+					'item', "Parts",
+					'amount', 15,
+				}),
+				PlaceObj('RecipeIngredient', {
+					'item', "TNT",
+				}),
+			},
+			ResultItem = PlaceObj('RecipeIngredient', {
+				'item', "TNTBolt_IED",
+				'amount', 3,
+			}),
+			group = "Explosives",
+			id = "CraftTNTFragIED",
+		}),
+		PlaceObj('ModItemCraftOperationsRecipeDef', {
+			CraftTime = 10,
+			Ingredients = {
+				PlaceObj('RecipeIngredient', {
+					'item', "Parts",
+					'amount', 20,
+				}),
+				PlaceObj('RecipeIngredient', {
+					'item', "BlackPowder",
+				}),
+			},
+			ResultItem = PlaceObj('RecipeIngredient', {
+				'item', "IncendiaryGrenade",
+				'amount', 5,
+			}),
+			group = "Explosives",
+			id = "CraftIncendiaryGrenade",
+		}),
+		PlaceObj('ModItemCraftOperationsRecipeDef', {
 			CraftTime = 10,
 			Ingredients = {
 				PlaceObj('RecipeIngredient', {
@@ -725,14 +791,14 @@ return {
 				}),
 			},
 			ResultItem = PlaceObj('RecipeIngredient', {
-				'item', "SmokeGrenade",
+				'item', "SmokeGrenade_IED",
 				'amount', 5,
 			}),
 			group = "Explosives",
 			id = "CraftSmokeIED",
 		}),
 		PlaceObj('ModItemCraftOperationsRecipeDef', {
-			CraftTime = 20,
+			CraftTime = 15,
 			Ingredients = {
 				PlaceObj('RecipeIngredient', {
 					'item', "Parts",
@@ -747,7 +813,7 @@ return {
 				}),
 			},
 			ResultItem = PlaceObj('RecipeIngredient', {
-				'item', "TearGasGrenade",
+				'item', "TearGasGrenade_IED",
 				'amount', 5,
 			}),
 			group = "Explosives",
@@ -766,7 +832,7 @@ return {
 				}),
 			},
 			ResultItem = PlaceObj('RecipeIngredient', {
-				'item', "ConcussiveGrenade",
+				'item', "ConcussiveGrenade_IED",
 				'amount', 5,
 			}),
 			group = "Explosives",
@@ -1488,7 +1554,7 @@ return {
 				'ActionIcon', "UI/Icons/Hud/throw_timed_explosives",
 				'r_mass', 2000,
 				'r_shape', "Brick",
-				'r_shrap_num', 200,
+				'r_shrap_num', 35,
 				'TriggerType', "Timed",
 				'ExplosiveType', "C4",
 			}),
@@ -2110,9 +2176,10 @@ return {
 				'InaccurateMaxOffset', 3000,
 				'Noise', 30,
 				'Entity', "MilitaryCamp_Grenade_02",
-				'ActionIcon', "UI/Icons/Hud/throw_grenade",
+				'ActionIcon', "Mod/RATONADE/Images/ge_cilinder_grenade2.png",
 				'r_mass', 600,
 				'r_shape', "Cylindrical",
+				'r_shrap_num', 500,
 			}),
 			}),
 		PlaceObj('ModItemInventoryItemCompositeDef', {
@@ -2153,7 +2220,6 @@ return {
 			'r_timer', 7000,
 			'r_mass', 980,
 			'r_shape', "Bottle",
-			'is_ied', true,
 		}),
 		PlaceObj('ModItemInventoryItemCompositeDef', {
 			'Group', "Grenade - Explosive",
@@ -2346,7 +2412,7 @@ return {
 			'ActionIcon', "UI/Icons/Hud/shaped_charge",
 			'r_mass', 1070,
 			'r_shape', "Stick_like",
-			'r_shrap_num', 300,
+			'r_shrap_num', 350,
 		}),
 		PlaceObj('ModItemInventoryItemCompositeDef', {
 			'Group', "Grenade - Explosive",
@@ -2390,7 +2456,7 @@ return {
 			'r_timer', 4500,
 			'r_mass', 600,
 			'r_shape', "Spherical",
-			'r_shrap_num', 1000,
+			'r_shrap_num', 700,
 		}),
 		PlaceObj('ModItemInventoryItemCompositeDef', {
 			'Group', "Grenade - Throwable",

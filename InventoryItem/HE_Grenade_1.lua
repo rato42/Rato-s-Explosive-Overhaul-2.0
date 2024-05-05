@@ -39,8 +39,9 @@ DefineClass.HE_Grenade_1 = {
 	InaccurateMaxOffset = 3000,
 	Noise = 30,
 	Entity = "MilitaryCamp_Grenade_02",
-	ActionIcon = "UI/Icons/Hud/throw_grenade",
+	ActionIcon = "Mod/RATONADE/Images/ge_cilinder_grenade2.png",
 	r_mass = 600,
 	r_shape = "Cylindrical",
+	r_shrap_num = 500,
 }
 

@@ -2,38 +2,67 @@ function processIEDmisfire(weapon, unit)
 	print("process ied")
 
 	if weapon and weapon.is_ied then
+		if CheatEnabled("AlwaysMiss") then
+			return true
+		end
 		local chance
+		local count = weapon.Amount or 1
 		-- if IsKindOf(weapon, "InventoryStack") then
 		local stack_qual = weapon.ied_quality_stack
-		if weapon.Amount == #stack_qual then
-			print("correct amount")
-		else
-			print("---INCORRECT STACK AMOUNT")
+		local stack_correct
+		stack_qual, stack_correct = assertStackQual(stack_qual, weapon, unit)
+
+		local index = unit:Random(count) + 1
+
+		local chance = stack_qual[index] or 5
+		if stack_qual[index] then
+			table.remove(stack_qual, index)
 		end
+		weapon.ied_quality_stack = stack_qual
+		ObjModified(weapon)
 
-		print("amount ied", weapon.Amount)
-		print("is stack", IsKindOf(weapon, "InventoryStack"))
-		print("stack qual", weapon.ied_quality_stack)
-
-		local index = unit:Random(weapon.Amount) + 1
-		print("index", index)
-		local chance = stack_qual[index]
-		table.remove(weapon.ied_quality_stack, index)
 		print("pos process stack qual", weapon.ied_quality_stack)
 		print("chance", chance)
 
-		-- end
-
-		-- local chance = 100
 		local roll = unit:Random(100) + 1
 		print("chance", chance, "roll", roll)
-		if roll <= (chance or 101) then
+		if roll <= chance then
 			print("misfire")
 			return true
 		end
 	end
 	return false
 end
+
+function assertStackQual(stack_qual, item, unit)
+	if not stack_qual then
+		return {}, false
+	end
+	local item_amount = item.Amount or 1
+	if item_amount == #stack_qual then
+		return stack_qual, true
+	end
+	if item_amount < #stack_qual then
+		local new_stack_qual = {}
+		for i = 1, item_amount do
+			if stack_qual[i] then
+				table.insert(new_stack_qual, stack_qual[i])
+			end
+		end
+		return new_stack_qual, false
+	elseif unit then
+		local override_stat = EO_IsAI(unit) and AI_ExplosiveStatforIED(unit) or false
+		return determine_IED_misfire_chance(item, unit, override_stat), false
+	else
+		local new_stack_qual = {}
+		for i = 1, item_amount do
+			table.insert(new_stack_qual, 5)
+		end
+		return new_stack_qual, false
+	end
+	return {}, false
+end
+
 function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, original_fx_actor)
 
 	--[[ 	if self.TriggerType == "Contact" then
@@ -85,7 +114,7 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 		}
 	end
 
-	local newLandmine = PlaceObject("DynamicSpawnLandmine", {
+	local newLandmine = PlaceObject("DynamicSpawnLandmine_MisfiredIED", {
 		-- The landmine properties need to be set at init time
 		TriggerType = landmine_args.TriggerType,
 		triggerRadius = landmine_args.triggerRadius,
@@ -96,9 +125,7 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 		item_thrown = self.class,
 		team_side = teamSide,
 		attacker = thrower,
-		ied_misfire_trap = true,
 		GrenadeExplosion = IsKindOf(self, "Grenade") or false, -- true,
-		r_original_fx_actor = original_fx_actor or false,
 	})
 	------------
 	if IsValid(visual_obj) then
@@ -127,3 +154,4 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 	attackResults.trap_placed = true
 
 end
+

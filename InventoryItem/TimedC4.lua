@@ -34,7 +34,7 @@ DefineClass.TimedC4 = {
 	ActionIcon = "UI/Icons/Hud/throw_timed_explosives",
 	r_mass = 2000,
 	r_shape = "Brick",
-	r_shrap_num = 200,
+	r_shrap_num = 35,
 	TriggerType = "Timed",
 	ExplosiveType = "C4",
 }

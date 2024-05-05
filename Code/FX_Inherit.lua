@@ -1,5 +1,6 @@
 function OnMsg.GetCustomFXInheritActorRules(rules)
-
+	place_explosion_FXs()
+	place_flashbang_FXs()
 	-- EO_apply_inherit(rules)
 end
 

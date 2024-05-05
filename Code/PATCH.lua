@@ -17,7 +17,7 @@ function RatoEO_Patch()
 	FragGrenade.Cost = 400
 
 	HE_Grenade.BaseDamage = 31
-	HE_Grenade.r_shrap_num = 1000
+	-- HE_Grenade.r_shrap_num = 1000
 	HE_Grenade.AreaOfEffect = 3
 	HE_Grenade.ThrowMaxRange = 19
 	HE_Grenade.BaseRange = 8
@@ -33,7 +33,7 @@ function RatoEO_Patch()
 	HE_Grenade.Cost = 600
 
 	HE_Grenade_1.BaseDamage = 40
-	HE_Grenade_1.r_shrap_num = 500
+	-- HE_Grenade_1.r_shrap_num = 500
 	HE_Grenade_1.AreaOfEffect = 3
 	HE_Grenade_1.ThrowMaxRange = 19
 	HE_Grenade_1.BaseRange = 8
@@ -313,7 +313,7 @@ function RatoEO_Patch()
 	Molotov.AreaOfEffect = 3
 	Molotov.ThrowMaxRange = 12
 	Molotov.BaseRange = 4
-	Molotov.is_ied = true
+	--Molotov.is_ied = true
 	Molotov.r_mass = 980
 	Molotov.r_timer = 7000
 	Molotov.r_shape = "Bottle"

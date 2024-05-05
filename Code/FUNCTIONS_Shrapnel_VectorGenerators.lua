@@ -3,7 +3,7 @@ function generateShrapnelPositionsInCone(numPositions, radius, center, args)
 	local phis_list = {}
 
 	local angle_radians = args.angle_deg * math.pi / 180
-
+	-- local count = 0
 	local spread_p = center:SetZ(center:z() + args.radius)
 	spread_p = RotateAxis(spread_p, point(1, 0, 0), 90 * 60, center)
 	local spread_orient = CalcOrientation(center, spread_p)
@@ -20,12 +20,15 @@ function generateShrapnelPositionsInCone(numPositions, radius, center, args)
 		local p = point(x, y, z)
 		p = RotateAxis(p, point(1, 0, 0), 90 * 60, center)
 		p = RotateAxis(p, point(0, 0, 1), angle_offset, center)
-		p = p:SetZ(p:z() * 1.1)
+		p = p:SetZ(p:z() * 1.12)
 
-		table.insert(positions, p)
+		if p:z() >= center:z() then
+			table.insert(positions, p)
+			-- count = count + 1
+		end
 		-- table.insert(phis_list, theta)  -- Store the theta angle for potential use
 	end
-
+	-- print("count", count)
 	return positions -- , phis_list
 end
 
@@ -35,7 +38,7 @@ function generateShrapnelPositions(numPositions, radius, center, cone_args)
 	local theta_list = {}
 	local vectors, phis, thetas = generateShrapnelVectors(numPositions)
 
-	local maxRandomOffset = const.SlabSizeX * 0.1
+	local maxRandomOffset = const.SlabSizeX * 0.15
 
 	for i, v in ipairs(vectors) do
 		-- print(v)
@@ -74,7 +77,9 @@ function generateShrapnelVectors(numVectors)
 
 		local phi = math.acos(-1 + 2 * (i - 0.5) / numVectors) -- *0.7 ---- bias to north hemisphere. 
 		-- local phi = math.acos(math.random() * 2 - 1) *0.9
-		phi = phi >= 1.4 and phi * 0.8 or phi * 3 ---- bias to the equator, a little to the north
+		-- phi = phi >= 1.4 and phi * 0.8 or phi * 3 ---- bias to the equator, a little to the north
+		-- phi = phi >= 1.4 and phi * 0.8 or phi * 2.8
+		phi = phi >= 1.4 and phi * 0.65 or phi * 2.5
 
 		local x = math.sin(phi) * math.cos(theta)
 		local y = math.sin(phi) * math.sin(theta)

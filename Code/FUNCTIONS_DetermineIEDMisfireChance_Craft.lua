@@ -1,4 +1,4 @@
-function determine_IED_misfire_chance(item, unit)
+function determine_IED_misfire_chance(item, unit, override_stat)
 	local amount = item.Amount or 1
 	local chances = {}
 
@@ -8,7 +8,7 @@ function determine_IED_misfire_chance(item, unit)
 	local max_skill = 100
 	local min_skill = -10
 
-	local stat = unit.Explosives
+	local stat = override_stat or unit.Explosives
 
 	for i = 1, amount do
 		local random = unit:Random(random_factor * 2) + 1
@@ -19,12 +19,9 @@ function determine_IED_misfire_chance(item, unit)
 		local chance = min_chance + slope * (1.00 - skill_rating)
 		chance = cRound(chance)
 		chances[i] = chance
-		print("---", i, random, skill, chance)
+		-- print("---", i, random, skill, chance)
 	end
 
-	--[[ 	for i, v in ipairs(chances) do
-		print(i, v)
-	end ]]
 	return chances
 end
 

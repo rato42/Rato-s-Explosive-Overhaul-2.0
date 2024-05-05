@@ -28,11 +28,6 @@ function place_explosion_FXs()
 	end
 end
 
-function OnMsg.DataLoaded()
-	place_explosion_FXs()
-	place_flashbang_FXs()
-end
-
 function place_flashbang_FXs()
 	local fx_list = rat_flashbang_fxs()
 

@@ -18,7 +18,8 @@ local GL_dist_pen = 21
 function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	local is_grenade = IsKindOf(self, "Grenade")
 	local thrower_perk, max_range
-	local ai_handicap = AI_deviate_handicap(unit) or 0
+	local ai_handicap = 0 -- AI_deviate_handicap(unit) or 0
+	local ai_modifier = AI_deviate_skill_diff(unit) or 0
 
 	if is_grenade then
 		thrower_perk = HasPerk(unit, "Throwing")
@@ -30,7 +31,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 		max_range = self.WeaponRange
 	end
 
-	local stat = self:GetMishapChance(unit, target_pos)[1] + ai_handicap
+	local stat = self:GetMishapChance(unit, target_pos)[1] - ai_modifier + ai_handicap
 	local deviation = 0
 	local roll = 1 + unit:Random(100)
 	local diff = stat - roll

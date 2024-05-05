@@ -41,16 +41,6 @@ local speed_control = 0.6
 local debug_shrap_vec = false
 local debug_log = false
 
---[[ local max_shrap = 2 --- after this ammount, shrap starts having less effect
-
-local shrap_pen_arg_high = 0.8 ---- penalty step
-local shrap_pen_arg_medium = 0.95
-
-local shrap_ceiling = 0.95 --- max penalty 
-local max_shrap_ceiling_high = 5 -- max_shrap * 2 --- exclusion
-local max_shrap_ceiling_medium = 3 -- max_shrap + 1
-local max_shrap_ceiling_low = 2 -- max_shrap --- for low shrap items ]]
-
 local effect_chance_mul = 1.0 --- modifies the chance a shrap causes status effect
 
 local radius_mul = 2.5 -- 1.5 ---- radius of secondary zone (base aoe * this)
@@ -99,11 +89,11 @@ function get_FragLevel(grenade)
 	if not num then
 		return 0
 	end
-	if num > 900 then
+	if num > 630 then
 		return "High"
-	elseif num > 400 then
+	elseif num > 280 then
 		return "Medium"
-	elseif num > 290 then
+	elseif num > 200 then
 		return "Low"
 	elseif num > 0 then
 		return "Very Low"
@@ -139,7 +129,7 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 	explosion_pos = IsValidZ(explosion_pos) and explosion_pos or explosion_pos:SetTerrainZ()
 	-- explosion_pos = explosion_pos:SetZ(explosion_pos:SetTerrainZ():z()+ guim)
 	explosion_pos = explosion_pos:SetZ(explosion_pos:z() + guic)
-	local radius = 15000
+	local radius = 13000
 
 	local att_pos = attacker:GetPos() or attacker
 	att_pos = IsValidZ(att_pos) and att_pos or att_pos:SetTerrainZ()
@@ -156,7 +146,7 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 		-- DbgAddCircle(direction,1000, const.clrRed)
 		direction = IsValidZ(direction) and direction or direction:SetTerrainZ()
 		local direction_angle = CalcOrientation(explosion_pos, direction)
-		num_shrap = self.coneAngle * num_shrap / 360
+		num_shrap = self.coneAngle * num_shrap / 230 -- 360
 		-- print("cone num sjh", num_shrap)
 		local cone_args = {
 			angle_deg = self.coneAngle,
@@ -316,7 +306,7 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 				if IsKindOf(hit.obj, "Unit") and hit.obj:IsCivilian() and dist_t < outer_radius_t then
 					exclude_civ = true
 					---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-				else -- if IsKindOf(hit.obj, "Unit") then
+				else
 
 					sharpnel_weapon:calc_shrap_damage(hit_data, false, random_f, dist_t, max_shrap_dmg_red)
 
@@ -388,7 +378,7 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 		end
 	end
 	---------------
-
+	-- print("number of vectors", #results)
 	return results
 
 end

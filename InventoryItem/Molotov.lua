@@ -39,6 +39,5 @@ DefineClass.Molotov = {
 	r_timer = 7000,
 	r_mass = 980,
 	r_shape = "Bottle",
-	is_ied = true,
 }
 
