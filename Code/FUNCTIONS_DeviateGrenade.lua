@@ -47,8 +47,8 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 
 	deviation = CheatEnabled("AlwaysHit") and 0 or deviation
 	deviation = CheatEnabled("AlwaysMiss") and 5 or deviation
-	print("roll", roll, "stat", stat, "diff", diff, "deviation", deviation)
-
+	-- print("roll", roll, "stat", stat, "diff", diff, "deviation", deviation)
+	deviation = def_min_dev
 	if test then
 		return deviation, roll
 	end

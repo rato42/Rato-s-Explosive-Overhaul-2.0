@@ -11,7 +11,7 @@ DefineClass.NailBomb_IED = {
 	ItemType = "Grenade",
 	DisplayName = T(439953250262, --[[ModItemInventoryItemCompositeDef NailBomb_IED DisplayName]] "Nail Bomb"),
 	DisplayNamePlural = T(880534339154, --[[ModItemInventoryItemCompositeDef NailBomb_IED DisplayNamePlural]] "Nail Bombs"),
-	AdditionalHint = T(808458367295, --[[ModItemInventoryItemCompositeDef NailBomb_IED AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Explodes immediately\n"),
+	AdditionalHint = T(808458367295, --[[ModItemInventoryItemCompositeDef NailBomb_IED AdditionalHint]] "<EO_description_hints>\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Explodes immediately"),
 	UnitStat = "Explosives",
 	Cost = 400,
 	CanAppearInShop = true,
@@ -26,7 +26,7 @@ DefineClass.NailBomb_IED = {
 	PenetrationClass = 4,
 	DeathType = "BlowUp",
 	Entity = "World_Flarestick_01",
-	ActionIcon = "UI/Icons/Hud/throw_grenade",
+	ActionIcon = "Mod/RATONADE/Images/nail_action.png",
 	is_ied = true,
 }
 

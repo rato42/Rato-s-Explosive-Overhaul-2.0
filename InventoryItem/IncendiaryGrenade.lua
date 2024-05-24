@@ -11,7 +11,7 @@ DefineClass.IncendiaryGrenade = {
 	ItemType = "GrenadeFire",
 	DisplayName = T(690193619979, --[[ModItemInventoryItemCompositeDef IncendiaryGrenade DisplayName]] "Incendiary Grenade"),
 	DisplayNamePlural = T(169272979158, --[[ModItemInventoryItemCompositeDef IncendiaryGrenade DisplayNamePlural]] "Incendiary Grenades"),
-	AdditionalHint = T(622520137835, --[[ModItemInventoryItemCompositeDef IncendiaryGrenade AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Sets an area on fire and inflicts <color EmStyle>Burning</color>\n"),
+	AdditionalHint = T(622520137835, --[[ModItemInventoryItemCompositeDef IncendiaryGrenade AdditionalHint]] "<EO_description_hints>\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Sets an area on fire and inflicts <color EmStyle>Burning</color>\n"),
 	UnitStat = "Explosives",
 	Cost = 300,
 	CanAppearInShop = true,
@@ -39,7 +39,7 @@ DefineClass.IncendiaryGrenade = {
 	Noise = 0,
 	aoeType = "fire",
 	Entity = "Weapon_MolotovCocktail",
-	ActionIcon = "UI/Icons/Hud/molotov",
+	ActionIcon = "Mod/RATONADE/Images/ge_cilinder_grenade_FIRE.png",
 	r_mass = 400,
 	r_shape = "Cylindrical",
 }

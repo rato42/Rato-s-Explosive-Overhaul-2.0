@@ -63,8 +63,8 @@ function EO_grenade_format_hints(self)
 	end
 
 	local termList = {
-		{"Fragmentation: ", get_FragLevel(self)}, {"Concussive Force: ", getconcussivef(self)},
-  {"Can Bounce: ", getcanbounce(self)}, {"Fuse Timer: ", getfusetimer(self)}}
+		{"Fragmentation: ", get_FragLevel(self)}, -- {"Concussive Force: ", getconcussivef(self)},
+		{"Can Bounce: ", getcanbounce(self)}, {"Fuse Timer: ", getfusetimer(self)}}
 
 	if IsKindOf(self, "Grenade") then
 		table.insert(termList, 1, {"Accuracy: ", getacc(self)})

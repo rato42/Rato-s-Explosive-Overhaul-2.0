@@ -11,7 +11,7 @@ DefineClass.TNTBolt_IED = {
 	ItemType = "Grenade",
 	DisplayName = T(564860260183, --[[ModItemInventoryItemCompositeDef TNTBolt_IED DisplayName]] "Fragmentary TNT Stick"),
 	DisplayNamePlural = T(735927037683, --[[ModItemInventoryItemCompositeDef TNTBolt_IED DisplayNamePlural]] "Fragmentary TNT Sticks"),
-	AdditionalHint = T(639163114527, --[[ModItemInventoryItemCompositeDef TNTBolt_IED AdditionalHint]] "<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Explodes immediately"),
+	AdditionalHint = T(639163114527, --[[ModItemInventoryItemCompositeDef TNTBolt_IED AdditionalHint]] "<EO_description_hints>\n<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Explodes immediately"),
 	UnitStat = "Explosives",
 	Cost = 400,
 	CanAppearInShop = true,
@@ -26,6 +26,6 @@ DefineClass.TNTBolt_IED = {
 	PenetrationClass = 4,
 	DeathType = "BlowUp",
 	Entity = "World_Flarestick_01",
-	ActionIcon = "UI/Icons/Hud/throw_grenade",
+	ActionIcon = "Mod/RATONADE/Images/tnt_action.png",
 }
 

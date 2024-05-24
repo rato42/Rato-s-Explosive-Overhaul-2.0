@@ -1,11 +1,12 @@
 function processIEDmisfire(weapon, unit)
-	print("process ied")
+	-- print("process ied")
+	local opt = tonumber(CurrentModOptions.mifire_chance_mul or 100)
+	-- print("opt", opt)
 
-	if weapon and weapon.is_ied then
+	if weapon and weapon.is_ied and opt ~= 0 then
 		if CheatEnabled("AlwaysMiss") then
 			return true
 		end
-		local chance
 		local count = weapon.Amount or 1
 		-- if IsKindOf(weapon, "InventoryStack") then
 		local stack_qual = weapon.ied_quality_stack
@@ -15,19 +16,21 @@ function processIEDmisfire(weapon, unit)
 		local index = unit:Random(count) + 1
 
 		local chance = stack_qual[index] or 5
+		chance = Max(1, MulDivRound(chance, opt, 100))
+		-- print("misfire chance", chance)
 		if stack_qual[index] then
 			table.remove(stack_qual, index)
 		end
 		weapon.ied_quality_stack = stack_qual
 		ObjModified(weapon)
 
-		print("pos process stack qual", weapon.ied_quality_stack)
-		print("chance", chance)
+		--[[ 		print("pos process stack qual", weapon.ied_quality_stack)
+		print("chance", chance) ]]
 
 		local roll = unit:Random(100) + 1
-		print("chance", chance, "roll", roll)
+		-- print("chance", chance, "roll", roll)
 		if roll <= chance then
-			print("misfire")
+			-- print("misfire")
 			return true
 		end
 	end
@@ -35,9 +38,9 @@ function processIEDmisfire(weapon, unit)
 end
 
 function assertStackQual(stack_qual, item, unit)
-	if not stack_qual then
+	--[[ 	if not stack_qual then
 		return {}, false
-	end
+	end ]]
 	local item_amount = item.Amount or 1
 	if item_amount == #stack_qual then
 		return stack_qual, true
@@ -89,7 +92,7 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 	local random_type = thrower:Random(3)
 	local landmine_args
 	if random_type == 1 then
-		print("prox")
+		-- print("prox")
 		landmine_args = {
 			TriggerType = "Proximity",
 			triggerRadius = 1,
@@ -97,7 +100,7 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 
 		}
 	elseif random_type == 2 then
-		print("timed")
+		-- print("timed")
 		landmine_args = {
 			TriggerType = "Timed",
 			triggerRadius = 0,
@@ -105,7 +108,7 @@ function MishapProperties:IED_trap_OnLand(thrower, attackResults, visual_obj, or
 
 		}
 	else
-		print("inert")
+		-- print("inert")
 		landmine_args = {
 			TriggerType = "Proximity",
 			triggerRadius = 0,

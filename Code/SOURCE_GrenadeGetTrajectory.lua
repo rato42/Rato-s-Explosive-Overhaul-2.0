@@ -83,6 +83,7 @@ function Grenade:GetTrajectory(attack_args, attack_pos, target_pos, mishap, boun
 		end
 		local hit_pos = (#trajectory > 0) and trajectory[#trajectory].pos
 		if hit_pos and (hit_pos:Dist(trajectory[1].pos) > 0) then
+
 			if IsCloser(hit_pos, target_pos, const.SlabSizeX) then
 				best_trajectory, final_angle = trajectory, angle
 				break
