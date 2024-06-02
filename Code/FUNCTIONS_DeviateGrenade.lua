@@ -11,6 +11,7 @@ end
 
 ----------Args
 local GR_base_pen = 0 -- -10
+local base_skill_penalty = -5
 local GR_dist_pen = 19
 local RPG_dist_pen = 20
 local GL_dist_pen = 21
@@ -32,23 +33,29 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 	end
 
 	local stat = self:GetMishapChance(unit, target_pos)[1] - ai_modifier + ai_handicap
+	stat = stat + base_skill_penalty
 	local deviation = 0
 	local roll = 1 + unit:Random(100)
 	local diff = stat - roll
 	local def_min_dev = 0.75
 	local min_deviation = diff >= 50 and 0 or def_min_dev
-	local rotation_factor = is_grenade and 20 or 10
+
+	local rotation_factor = is_grenade and 30.00 or 20.00 ----- degree
+	local length_factor = 0.09
 
 	if roll <= 5 then
 		deviation = 0
 	else
-		deviation = Max(min_deviation, (100 - diff) ^ 2 / 100 ^ 2 * 2)
+		deviation = math.max(min_deviation, (100 - diff * 1.00) ^ 2 / 100 ^ 2 * 2)
 	end
 
 	deviation = CheatEnabled("AlwaysHit") and 0 or deviation
 	deviation = CheatEnabled("AlwaysMiss") and 5 or deviation
-	-- print("roll", roll, "stat", stat, "diff", diff, "deviation", deviation)
-	deviation = def_min_dev
+	if Platform.developer then
+		print("----RATONADE - DEBUG deviation")
+		print("roll", roll, "stat", stat, "diff", diff, "deviation", deviation)
+	end
+
 	if test then
 		return deviation, roll
 	end
@@ -92,7 +99,8 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 
 	sign = InteractionRand(2)
 	sign = sign == 1 and 1 or -1
-	local distance_multiplier = deviation / 12.00 * sign
+	-- local distance_multiplier = deviation / 12.00 * sign
+	local distance_multiplier = length_factor * deviation * sign
 
 	local distance_deviation = dir:Len() * (1 + distance_multiplier)
 

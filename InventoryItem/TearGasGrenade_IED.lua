@@ -37,5 +37,6 @@ DefineClass.TearGasGrenade_IED = {
 	r_timer = 4000,
 	r_mass = 610,
 	r_shape = "Cylindrical",
+	is_ied = true,
 }
 

@@ -27,5 +27,7 @@ DefineClass.TNTBolt_IED = {
 	DeathType = "BlowUp",
 	Entity = "World_Flarestick_01",
 	ActionIcon = "Mod/RATONADE/Images/tnt_action.png",
+	is_ied = true,
+	r_soft_surface = true,
 }
 

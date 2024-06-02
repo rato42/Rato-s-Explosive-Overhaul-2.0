@@ -4,9 +4,9 @@ function RatoEO_Patch()
 	FragGrenade.AttackAP = 6000
 	FragGrenade.BaseDamage = 29
 	FragGrenade.r_shrap_num = 350
-	FragGrenade.AreaOfEffect = 3
-	FragGrenade.ThrowMaxRange = 20
-	FragGrenade.BaseRange = 9
+	FragGrenade.AreaOfEffect = 2
+	FragGrenade.ThrowMaxRange = 19
+	FragGrenade.BaseRange = 8
 	FragGrenade.PenetrationClass = 4
 	FragGrenade.is_ied = false
 	FragGrenade.r_concussive_force = 3
@@ -28,14 +28,15 @@ function RatoEO_Patch()
 	HE_Grenade.BaseDamage = 29
 	HE_Grenade.r_shrap_num = 700
 	HE_Grenade.AreaOfEffect = 3
-	HE_Grenade.ThrowMaxRange = 19
-	HE_Grenade.BaseRange = 8
+	HE_Grenade.ThrowMaxRange = 18
+	HE_Grenade.BaseRange = 7
 	HE_Grenade.PenetrationClass = 4
 	HE_Grenade.is_ied = false
 	HE_Grenade.r_concussive_force = 3
 	HE_Grenade.r_mass = 570
 	HE_Grenade.r_timer = 4500
 	HE_Grenade.r_shape = "Spherical"
+	HE_Grenade.DisplayName = T(133482406191, "Fragmentary Grenade")
 	HE_Grenade.CanBounce = true
 	HE_Grenade.r_soft_surface = false
 	HE_Grenade.CanAppearInShop = true
@@ -46,12 +47,12 @@ function RatoEO_Patch()
 
 	HE_Grenade_1.ID = "HE_Grenade_1"
 	HE_Grenade_1.AttackAP = 6000
-	HE_Grenade_1.BaseDamage = 39
+	HE_Grenade_1.BaseDamage = 36
 	HE_Grenade_1.r_shrap_num = 350
 	HE_Grenade_1.AreaOfEffect = 3
-	HE_Grenade_1.ThrowMaxRange = 19
-	HE_Grenade_1.BaseRange = 8
-	HE_Grenade_1.PenetrationClass = 4
+	HE_Grenade_1.ThrowMaxRange = 18
+	HE_Grenade_1.BaseRange = 7
+	HE_Grenade_1.PenetrationClass = 5
 	HE_Grenade_1.is_ied = false
 	HE_Grenade_1.r_concussive_force = 4
 	HE_Grenade_1.r_mass = 400
@@ -69,8 +70,8 @@ function RatoEO_Patch()
 	ShapedCharge.BaseDamage = 37
 	ShapedCharge.r_shrap_num = 350
 	ShapedCharge.AreaOfEffect = 8
-	ShapedCharge.ThrowMaxRange = 15
-	ShapedCharge.BaseRange = 4
+	ShapedCharge.ThrowMaxRange = 14
+	ShapedCharge.BaseRange = 3
 	ShapedCharge.PenetrationClass = 4
 	ShapedCharge.is_ied = false
 	ShapedCharge.r_concussive_force = 3
@@ -88,8 +89,8 @@ function RatoEO_Patch()
 	PipeBomb.ID = "PipeBomb"
 	PipeBomb.AttackAP = 3000
 	PipeBomb.r_shrap_num = 240
-	PipeBomb.ThrowMaxRange = 13
-	PipeBomb.BaseRange = 4
+	PipeBomb.ThrowMaxRange = 12
+	PipeBomb.BaseRange = 3
 	PipeBomb.is_ied = true
 	PipeBomb.r_concussive_force = 3
 	PipeBomb.r_mass = 980
@@ -105,9 +106,9 @@ function RatoEO_Patch()
 	NailBomb_IED.AttackAP = 6000
 	NailBomb_IED.BaseDamage = 17
 	NailBomb_IED.r_shrap_num = 700
-	NailBomb_IED.AreaOfEffect = 3
-	NailBomb_IED.ThrowMaxRange = 19
-	NailBomb_IED.BaseRange = 8
+	NailBomb_IED.AreaOfEffect = 2
+	NailBomb_IED.ThrowMaxRange = 18
+	NailBomb_IED.BaseRange = 7
 	NailBomb_IED.PenetrationClass = 3
 	NailBomb_IED.is_ied = true
 	NailBomb_IED.r_concussive_force = 1
@@ -124,7 +125,7 @@ function RatoEO_Patch()
 	TNTBolt_IED.BaseDamage = 35
 	TNTBolt_IED.r_shrap_num = 300
 	TNTBolt_IED.AreaOfEffect = 3
-	TNTBolt_IED.ThrowMaxRange = 15
+	TNTBolt_IED.ThrowMaxRange = 14
 	TNTBolt_IED.BaseRange = 4
 	TNTBolt_IED.PenetrationClass = 4
 	TNTBolt_IED.is_ied = true
@@ -139,8 +140,8 @@ function RatoEO_Patch()
 
 	TearGasGrenade.ID = "TearGasGrenade"
 	TearGasGrenade.AttackAP = 4000
-	TearGasGrenade.ThrowMaxRange = 19
-	TearGasGrenade.BaseRange = 8
+	TearGasGrenade.ThrowMaxRange = 18
+	TearGasGrenade.BaseRange = 7
 	TearGasGrenade.is_ied = false
 	TearGasGrenade.r_mass = 500
 	TearGasGrenade.r_timer = 4000
@@ -158,8 +159,8 @@ function RatoEO_Patch()
 
 	TearGasGrenade_IED.ID = "TearGasGrenade_IED"
 	TearGasGrenade_IED.AttackAP = 4000
-	TearGasGrenade_IED.ThrowMaxRange = 18
-	TearGasGrenade_IED.BaseRange = 8
+	TearGasGrenade_IED.ThrowMaxRange = 17
+	TearGasGrenade_IED.BaseRange = 7
 	TearGasGrenade_IED.is_ied = true
 	TearGasGrenade_IED.r_mass = 600
 	TearGasGrenade_IED.r_timer = 3500
@@ -173,8 +174,8 @@ function RatoEO_Patch()
 	ConcussiveGrenade.ID = "ConcussiveGrenade"
 	ConcussiveGrenade.AttackAP = 4000
 	ConcussiveGrenade.AreaOfEffect = 3
-	ConcussiveGrenade.ThrowMaxRange = 21
-	ConcussiveGrenade.BaseRange = 10
+	ConcussiveGrenade.ThrowMaxRange = 20
+	ConcussiveGrenade.BaseRange = 9
 	ConcussiveGrenade.is_ied = false
 	ConcussiveGrenade.r_mass = 390
 	ConcussiveGrenade.r_timer = 3000
@@ -193,8 +194,8 @@ function RatoEO_Patch()
 	ConcussiveGrenade_IED.ID = "ConcussiveGrenade_IED"
 	ConcussiveGrenade_IED.AttackAP = 4000
 	ConcussiveGrenade_IED.AreaOfEffect = 3
-	ConcussiveGrenade_IED.ThrowMaxRange = 18
-	ConcussiveGrenade_IED.BaseRange = 7
+	ConcussiveGrenade_IED.ThrowMaxRange = 17
+	ConcussiveGrenade_IED.BaseRange = 6
 	ConcussiveGrenade_IED.is_ied = true
 	ConcussiveGrenade_IED.r_mass = 600
 	ConcussiveGrenade_IED.r_timer = 3000
@@ -207,8 +208,8 @@ function RatoEO_Patch()
 
 	SmokeGrenade.ID = "SmokeGrenade"
 	SmokeGrenade.AttackAP = 4000
-	SmokeGrenade.ThrowMaxRange = 19
-	SmokeGrenade.BaseRange = 8
+	SmokeGrenade.ThrowMaxRange = 18
+	SmokeGrenade.BaseRange = 7
 	SmokeGrenade.is_ied = false
 	SmokeGrenade.r_mass = 500
 	SmokeGrenade.r_timer = 3500
@@ -225,8 +226,8 @@ function RatoEO_Patch()
 
 	SmokeGrenade_IED.ID = "SmokeGrenade_IED"
 	SmokeGrenade_IED.AttackAP = 4000
-	SmokeGrenade_IED.ThrowMaxRange = 18
-	SmokeGrenade_IED.BaseRange = 8
+	SmokeGrenade_IED.ThrowMaxRange = 17
+	SmokeGrenade_IED.BaseRange = 7
 	SmokeGrenade_IED.is_ied = true
 	SmokeGrenade_IED.r_mass = 600
 	SmokeGrenade_IED.r_timer = 3000
@@ -239,8 +240,8 @@ function RatoEO_Patch()
 
 	IncendiaryGrenade.ID = "IncendiaryGrenade"
 	IncendiaryGrenade.AttackAP = 4000
-	IncendiaryGrenade.ThrowMaxRange = 19
-	IncendiaryGrenade.BaseRange = 8
+	IncendiaryGrenade.ThrowMaxRange = 18
+	IncendiaryGrenade.BaseRange = 7
 	IncendiaryGrenade.is_ied = false
 	IncendiaryGrenade.r_mass = 500
 	IncendiaryGrenade.r_timer = 5000
@@ -257,7 +258,7 @@ function RatoEO_Patch()
 	Molotov.AttackAP = 4000
 	Molotov.AreaOfEffect = 3
 	Molotov.ThrowMaxRange = 12
-	Molotov.BaseRange = 4
+	Molotov.BaseRange = 3
 	Molotov.is_ied = false
 	Molotov.r_mass = 980
 	Molotov.r_timer = 7000
@@ -272,8 +273,8 @@ function RatoEO_Patch()
 
 	ToxicGasGrenade.ID = "ToxicGasGrenade"
 	ToxicGasGrenade.AttackAP = 4000
-	ToxicGasGrenade.ThrowMaxRange = 19
-	ToxicGasGrenade.BaseRange = 8
+	ToxicGasGrenade.ThrowMaxRange = 18
+	ToxicGasGrenade.BaseRange = 7
 	ToxicGasGrenade.is_ied = false
 	ToxicGasGrenade.r_mass = 600
 	ToxicGasGrenade.r_timer = 4000
@@ -425,8 +426,8 @@ function RatoEO_Patch()
 	FlareStick.ID = "FlareStick"
 	FlareStick.AttackAP = 4000
 	FlareStick.AreaOfEffect = 4
-	FlareStick.ThrowMaxRange = 19
-	FlareStick.BaseRange = 8
+	FlareStick.ThrowMaxRange = 18
+	FlareStick.BaseRange = 7
 	FlareStick.is_ied = false
 	FlareStick.r_mass = 580
 	FlareStick.r_shape = "Long"
@@ -441,8 +442,8 @@ function RatoEO_Patch()
 	GlowStick.ID = "GlowStick"
 	GlowStick.AttackAP = 2000
 	GlowStick.AreaOfEffect = 2
-	GlowStick.ThrowMaxRange = 22
-	GlowStick.BaseRange = 11
+	GlowStick.ThrowMaxRange = 21
+	GlowStick.BaseRange = 10
 	GlowStick.is_ied = false
 	GlowStick.r_mass = 250
 	GlowStick.r_shape = "Long"
@@ -513,4 +514,5 @@ function RatoEO_Patch()
 ]])
 	MortarShell_HE.Cost = 450
 	MortarShell_HE.RestockWeight = 30
+
 end

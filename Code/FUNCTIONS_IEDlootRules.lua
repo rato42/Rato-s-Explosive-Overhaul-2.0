@@ -68,7 +68,7 @@ function replace_explosive_or_iedAI(unit)
 				local amount = item.Amount or 1
 				local new_item = PlaceInventoryItem(new_item_id)
 				new_item.Amount = amount
-				if new_item.is_ied then
+				if new_item.is_ied and not ratG_simple_ied_misfire then
 					new_item.ied_quality_stack = determine_IED_misfire_chance(new_item, unit, override_stat)
 				end
 				unit:RemoveItem(slot, item)

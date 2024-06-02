@@ -182,7 +182,7 @@ return {
 			}),
 		},
 		'DisplayName', T(236964331685, --[[ModItemCharacterEffectCompositeDef dazed_flashbang DisplayName]] "Dazed"),
-		'Description', T(572612774636, --[[ModItemCharacterEffectCompositeDef dazed_flashbang Description]] "This character has been afflicted by a flashbang. Accuracy is dramatically decreased."),
+		'Description', T(572612774636, --[[ModItemCharacterEffectCompositeDef dazed_flashbang Description]] "This character has been dazed by a flashbang. Accuracy is dramatically decreased."),
 		'GetDescription', function (self)
 			return self.Description
 		end,
@@ -231,10 +231,6 @@ return {
 	PlaceObj('ModItemCode', {
 		'name', "SOURCE_GrenadeOnLand",
 		'CodeFileName', "Code/SOURCE_GrenadeOnLand.lua",
-	}),
-	PlaceObj('ModItemCode', {
-		'name', "SOURCE_UnitThrowGrenade",
-		'CodeFileName', "Code/SOURCE_UnitThrowGrenade.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "SOURCE_GrenadeGetTrajectory",
@@ -1350,6 +1346,8 @@ return {
 				'DeathType', "BlowUp",
 				'Entity', "World_Flarestick_01",
 				'ActionIcon', "Mod/RATONADE/Images/tnt_action.png",
+				'is_ied', true,
+				'r_soft_surface', true,
 			}),
 			PlaceObj('ModItemInventoryItemCompositeDef', {
 				'Group', "Grenade - Explosive",
@@ -1415,6 +1413,7 @@ return {
 				'r_timer', 3500,
 				'r_mass', 610,
 				'r_shape', "Cylindrical",
+				'is_ied', true,
 			}),
 			PlaceObj('ModItemInventoryItemCompositeDef', {
 				'Group', "Grenade - Explosive",
@@ -1452,6 +1451,7 @@ return {
 				'r_timer', 4000,
 				'r_mass', 610,
 				'r_shape', "Cylindrical",
+				'is_ied', true,
 			}),
 			PlaceObj('ModItemInventoryItemCompositeDef', {
 				'Group', "Grenade - Throwable",
@@ -1499,6 +1499,7 @@ return {
 				'r_timer', 3000,
 				'r_mass', 370,
 				'r_shape', "Cylindrical",
+				'is_ied', true,
 			}),
 			}),
 		PlaceObj('ModItemFolder', {

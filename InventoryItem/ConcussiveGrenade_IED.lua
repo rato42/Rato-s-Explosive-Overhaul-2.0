@@ -47,5 +47,6 @@ DefineClass.ConcussiveGrenade_IED = {
 	r_timer = 3000,
 	r_mass = 370,
 	r_shape = "Cylindrical",
+	is_ied = true,
 }
 

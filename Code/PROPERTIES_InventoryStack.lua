@@ -6,5 +6,7 @@ function stack_props()
 		no_edit = true,
 	}
 end
-
-stack_props()
+if not ratG_simple_ied_misfire then
+	print("RATONADE - Changing Inventory Stack properties")
+	stack_props()
+end

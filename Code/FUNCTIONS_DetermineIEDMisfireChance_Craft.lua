@@ -1,5 +1,5 @@
 function determine_IED_misfire_chance(item, unit, override_stat)
-	local amount = item.Amount or 1
+	local amount = item and item.Amount or 1
 	local chances = {}
 
 	local random_factor = 12

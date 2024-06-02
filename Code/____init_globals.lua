@@ -6,5 +6,6 @@ if FirstLoad then
 	rat_original_MergeStackIntoContainer = MergeStackIntoContainer
 	rat_original_AddItemsToInventory = AddItemsToInventory
 	-------------
+	ratG_simple_ied_misfire = true
 	-- landmine_original_UpdateTriggerRadiusFx = Landmine.UpdateTriggerRadiusFx
 end

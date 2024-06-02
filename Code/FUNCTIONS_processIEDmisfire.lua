@@ -7,23 +7,29 @@ function processIEDmisfire(weapon, unit)
 		if CheatEnabled("AlwaysMiss") then
 			return true
 		end
-		local count = weapon.Amount or 1
-		-- if IsKindOf(weapon, "InventoryStack") then
-		local stack_qual = weapon.ied_quality_stack
-		local stack_correct
-		stack_qual, stack_correct = assertStackQual(stack_qual, weapon, unit)
+		local chance
+		if ratG_simple_ied_misfire then
+			chance = simple_IED_misfire_Chance(unit)
+		else
+			local count = weapon.Amount or 1
+			-- if IsKindOf(weapon, "InventoryStack") then
+			local stack_qual = weapon.ied_quality_stack
+			local stack_correct
+			stack_qual, stack_correct = assertStackQual(stack_qual, weapon, unit)
 
-		local index = unit:Random(count) + 1
+			local index = unit:Random(count) + 1
 
-		local chance = stack_qual[index] or 5
-		chance = Max(1, MulDivRound(chance, opt, 100))
-		-- print("misfire chance", chance)
-		if stack_qual[index] then
-			table.remove(stack_qual, index)
+			chance = stack_qual[index] or 5
+
+			-- print("misfire chance", chance)
+			if stack_qual[index] then
+				table.remove(stack_qual, index)
+			end
+			weapon.ied_quality_stack = stack_qual
+			ObjModified(weapon)
 		end
-		weapon.ied_quality_stack = stack_qual
-		ObjModified(weapon)
 
+		chance = Max(1, MulDivRound(chance, opt, 100))
 		--[[ 		print("pos process stack qual", weapon.ied_quality_stack)
 		print("chance", chance) ]]
 
@@ -35,6 +41,12 @@ function processIEDmisfire(weapon, unit)
 		end
 	end
 	return false
+end
+
+function simple_IED_misfire_Chance(unit)
+	local override_stat = EO_IsAI(unit) and AI_ExplosiveStatforIED(unit) or false
+	local chance = determine_IED_misfire_chance(false, unit, override_stat)
+	return chance[1]
 end
 
 function assertStackQual(stack_qual, item, unit)

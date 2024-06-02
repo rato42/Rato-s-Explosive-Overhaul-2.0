@@ -1,4 +1,4 @@
-function change_operation()
+function EO_change_operation()
 	SectorOperations.CraftCommonBase.Tick = function(self, merc)
 		local sector = merc:GetSector()
 		local progress_per_tick = self:ProgressPerTick(merc)
@@ -86,5 +86,8 @@ function change_operation()
 end
 
 function OnMsg.DataLoaded()
-	change_operation()
+	if not ratG_simple_ied_misfire then
+		print("RATONADE - changing craft explosive operation")
+		EO_change_operation()
+	end
 end

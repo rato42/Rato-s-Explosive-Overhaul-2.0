@@ -37,5 +37,6 @@ DefineClass.SmokeGrenade_IED = {
 	r_timer = 3500,
 	r_mass = 610,
 	r_shape = "Cylindrical",
+	is_ied = true,
 }
 
