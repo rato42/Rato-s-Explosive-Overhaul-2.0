@@ -71,7 +71,7 @@ function RatoEO_Patch()
 	ShapedCharge.r_shrap_num = 350
 	ShapedCharge.AreaOfEffect = 8
 	ShapedCharge.ThrowMaxRange = 14
-	ShapedCharge.BaseRange = 3
+	ShapedCharge.BaseRange = 4
 	ShapedCharge.PenetrationClass = 4
 	ShapedCharge.is_ied = false
 	ShapedCharge.r_concussive_force = 3
@@ -89,8 +89,8 @@ function RatoEO_Patch()
 	PipeBomb.ID = "PipeBomb"
 	PipeBomb.AttackAP = 3000
 	PipeBomb.r_shrap_num = 240
-	PipeBomb.ThrowMaxRange = 12
-	PipeBomb.BaseRange = 3
+	PipeBomb.ThrowMaxRange = 13
+	PipeBomb.BaseRange = 4
 	PipeBomb.is_ied = true
 	PipeBomb.r_concussive_force = 3
 	PipeBomb.r_mass = 980
@@ -257,8 +257,8 @@ function RatoEO_Patch()
 	Molotov.ID = "Molotov"
 	Molotov.AttackAP = 4000
 	Molotov.AreaOfEffect = 3
-	Molotov.ThrowMaxRange = 12
-	Molotov.BaseRange = 3
+	Molotov.ThrowMaxRange = 13
+	Molotov.BaseRange = 4
 	Molotov.is_ied = false
 	Molotov.r_mass = 980
 	Molotov.r_timer = 7000

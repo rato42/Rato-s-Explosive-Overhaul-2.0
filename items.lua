@@ -661,7 +661,7 @@ return {
 		'CategoryPair', "Handguns",
 		'CanAppearStandard', false,
 		'Caliber', "9mm",
-		'Damage', 10,
+		'Damage', 9,
 		'ObjDamageMod', 50,
 		'AimAccuracy', 1,
 		'CritChanceScaled', 0,

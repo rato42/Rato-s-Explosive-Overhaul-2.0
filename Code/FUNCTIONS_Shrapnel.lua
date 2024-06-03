@@ -43,9 +43,9 @@ local debug_log = false
 
 local effect_chance_mul = 1.0 --- modifies the chance a shrap causes status effect
 
-local radius_mul = 2.5 -- 1.5 ---- radius of secondary zone (base aoe * this)
+local radius_mul = 2.0 -- 1.5 ---- radius of secondary zone (base aoe * this)
 local outer_radius_t = 30 --- factor for tertiary radius
-local secondary_radius_f = 100 --- % dmg and effects of secondary zone
+local secondary_radius_f = 88 --- % dmg and effects of secondary zone
 
 function get_shrap_args(frag_level, category)
 
@@ -59,14 +59,14 @@ function get_shrap_args(frag_level, category)
 		['Medium'] = {
 			diminish = 1,
 			shrap_ceiling = 3,
-			step_mul = 0.65,
+			step_mul = 0.75,
 			max_penalty = 0.95,
 		},
 		['Low'] = {
 			diminish = 1,
 			shrap_ceiling = 2,
 			step_mul = 0.8,
-			max_penalty = 0.9,
+			max_penalty = 0.95,
 		},
 
 	}

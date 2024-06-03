@@ -200,7 +200,7 @@ function Grenade:GetAttackResults(action, attack_args)
 
 		-------
 		if not attack_args.prediction and attack_args.explosion_pos then
-			--print("entering shrapnel block", GameTime())
+			-- print("entering shrapnel block", GameTime())
 			results.shrapnel_results = GetShrapnelResults(self, explosion_pos, attacker)
 			if not IsKindOf(self, "ThrowableTrapItem") or (self.TriggerType or "") == "Contact" then
 				local misfire = processIEDmisfire(self, attacker)

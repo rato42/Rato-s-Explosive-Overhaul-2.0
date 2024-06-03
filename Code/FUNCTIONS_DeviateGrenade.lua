@@ -10,11 +10,13 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
 end
 
 ----------Args
-local GR_base_pen = 0 -- -10
 local base_skill_penalty = -5
-local GR_dist_pen = 19
-local RPG_dist_pen = 20
-local GL_dist_pen = 21
+local GR_dist_pen = 16
+local RPG_dist_pen = 19
+local GL_dist_pen = 20
+
+local base_gr_rotation_factor = 22.00 ----- degree
+local base_launcher_rotation_factor = 12.00 ----- degree
 
 function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	local is_grenade = IsKindOf(self, "Grenade")
@@ -40,8 +42,9 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 	local def_min_dev = 0.75
 	local min_deviation = diff >= 50 and 0 or def_min_dev
 
-	local rotation_factor = is_grenade and 30.00 or 20.00 ----- degree
-	local length_factor = 0.09
+	local dev_thrs_innac_throw = 2.0
+	local rotation_factor = is_grenade and base_gr_rotation_factor or base_launcher_rotation_factor
+	local length_factor = 0.088
 
 	if roll <= 5 then
 		deviation = 0
@@ -69,7 +72,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 			float_text = T("Great Throw")
 		elseif deviation >= 3.2 then
 			float_text = T("<color AmmoAPColor>Terrible Throw</color>")
-		elseif deviation >= 2 then
+		elseif deviation >= dev_thrs_innac_throw then
 			float_text = T("<color AmmoAPColor>Innacurate Throw</color>")
 		end
 	else
@@ -79,7 +82,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 			float_text = T("Great Launch")
 		elseif deviation >= 3.2 then
 			float_text = T("<color AmmoAPColor>Terrible Launch</color>")
-		elseif deviation >= 2 then
+		elseif deviation >= dev_thrs_innac_throw then
 			float_text = T("<color AmmoAPColor>Innacurate Launch</color>")
 		end
 	end
@@ -90,6 +93,10 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 
 	if perfect_throw then
 		return false
+	end
+
+	if deviation < dev_thrs_innac_throw then
+		rotation_factor = rotation_factor * 0.75
 	end
 
 	local sign = InteractionRand(2)
@@ -161,10 +168,10 @@ function Grenade:get_throw_accuracy(unit)
 		Spherical = 0,
 		Stick_like = 0,
 		Cylindrical = -2,
-		Can = -4,
-		Long = -7,
-		Brick = -5,
-		Bottle = -8,
+		Can = -3,
+		Long = -5,
+		Brick = -4,
+		Bottle = -6,
 	}
 	local acc = shape_list[self.r_shape] or 0
 
