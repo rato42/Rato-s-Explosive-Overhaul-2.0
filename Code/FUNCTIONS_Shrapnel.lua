@@ -104,6 +104,7 @@ end
 
 function GetShrapnelResults(self, explosion_pos, attacker)
 
+	local attacker = attacker or g_Units[1]
 	-----------------
 	local num_shrap
 
@@ -131,9 +132,6 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 	explosion_pos = explosion_pos:SetZ(explosion_pos:z() + guic)
 	local radius = 13000
 
-	local att_pos = attacker:GetPos() or attacker
-	att_pos = IsValidZ(att_pos) and att_pos or att_pos:SetTerrainZ()
-
 	---- if i ever want to not bias distribution when a grenade explodes far above ground
 	--[[ local _, slab_z = WalkableSlabByPoint(explosion_pos, "downward only")
 	local ground_explosion = explosion_pos:z() - slab_z <= const.SlabSizeZ ]]
@@ -141,6 +139,8 @@ function GetShrapnelResults(self, explosion_pos, attacker)
 	local shrapnels, phis, thetas
 
 	if self.coneShaped then
+		local att_pos = attacker:GetPos() or attacker
+		att_pos = IsValidZ(att_pos) and att_pos or att_pos:SetTerrainZ()
 		local direction = RotateRadius(self.AreaOfEffect * const.SlabSizeX,
 		                               CalcOrientation(att_pos or attacker, explosion_pos), explosion_pos)
 		-- DbgAddCircle(direction,1000, const.clrRed)
