@@ -8,6 +8,15 @@ function is_valid_normal(normal)
 	return true
 end
 
+function IsMod_loaded(mod_id)
+	local mod_check = table.find(ModsLoaded, 'id', mod_id) or nil  -- Replace "Mod_Id" with exact case sensitive modID you're testing for.
+
+	if mod_check then
+		return true
+	end
+	return false
+end
+
 function print_modOpt(opt, tonum)
 	if tonum then
 		print(tonumber(CurrentModOptions[opt]))

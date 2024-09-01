@@ -270,6 +270,10 @@ return {
 		'CodeFileName', "Code/FUNCTIONS_BounceGrenade.lua",
 	}),
 	PlaceObj('ModItemCode', {
+		'name', "FUNCTIONS_Compatibility",
+		'CodeFileName', "Code/FUNCTIONS_Compatibility.lua",
+	}),
+	PlaceObj('ModItemCode', {
 		'name', "FUNCTIONS_IEDlootRules",
 		'CodeFileName', "Code/FUNCTIONS_IEDlootRules.lua",
 	}),
