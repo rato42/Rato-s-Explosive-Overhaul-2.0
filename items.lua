@@ -654,17 +654,17 @@ return {
 	}),
 	PlaceObj('ModItemInventoryItemCompositeDef', {
 		'Id', "weapon_shrapnel",
-		'object_class', "Pistol",
+		'object_class', "HeavyWeapon",
 		'ScrapParts', 6,
 		'RepairCost', 70,
 		'Reliability', 50,
+		'Caliber', "9mm",
 		'DisplayName', T(214207252979, --[[ModItemInventoryItemCompositeDef weapon_shrapnel DisplayName]] "shrap"),
 		'DisplayNamePlural', T(163052994957, --[[ModItemInventoryItemCompositeDef weapon_shrapnel DisplayNamePlural]] "shrap"),
 		'UnitStat', "Marksmanship",
 		'Cost', 500,
 		'CategoryPair', "Handguns",
 		'CanAppearStandard', false,
-		'Caliber', "9mm",
 		'Damage', 9,
 		'ObjDamageMod', 50,
 		'AimAccuracy', 1,
@@ -687,27 +687,33 @@ return {
 	}, {
 		PlaceObj('ModItemEntity', {
 			'name', "frag_tnt_misfired",
+			'ClassParents', {},
 			'entity_name', "frag_tnt_misfired",
 		}),
 		PlaceObj('ModItemEntity', {
 			'name', "fragmentary_tnt",
+			'ClassParents', {},
 			'entity_name', "fragmentary_tnt",
 		}),
 		PlaceObj('ModItemEntity', {
 			'name', "smoke_can",
+			'ClassParents', {},
 			'entity_name', "smoke_can",
 			'material_type', "Tin_Props",
 		}),
 		PlaceObj('ModItemEntity', {
 			'name', "flash_can",
+			'ClassParents', {},
 			'entity_name', "flash_can",
 		}),
 		PlaceObj('ModItemEntity', {
 			'name', "tear_can",
+			'ClassParents', {},
 			'entity_name', "tear_can",
 		}),
 		PlaceObj('ModItemEntity', {
 			'name', "nail_can",
+			'ClassParents', {},
 			'entity_name', "nail_can",
 		}),
 		}),
@@ -719,7 +725,7 @@ return {
 			Ingredients = {
 				PlaceObj('RecipeIngredient', {
 					'item', "Parts",
-					'amount', 15,
+					'amount', 10,
 				}),
 				PlaceObj('RecipeIngredient', {
 					'item', "BlackPowder",
@@ -742,7 +748,7 @@ return {
 				}),
 				PlaceObj('RecipeIngredient', {
 					'item', "TNT",
-					'amount', 3,
+					'amount', 2,
 				}),
 			},
 			ResultItem = PlaceObj('RecipeIngredient', {
@@ -757,7 +763,7 @@ return {
 			Ingredients = {
 				PlaceObj('RecipeIngredient', {
 					'item', "Parts",
-					'amount', 15,
+					'amount', 10,
 				}),
 				PlaceObj('RecipeIngredient', {
 					'item', "TNT",
@@ -775,7 +781,7 @@ return {
 			Ingredients = {
 				PlaceObj('RecipeIngredient', {
 					'item', "Parts",
-					'amount', 20,
+					'amount', 15,
 				}),
 				PlaceObj('RecipeIngredient', {
 					'item', "BlackPowder",

@@ -10,13 +10,16 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
 end
 
 ----------Args
-local base_skill_penalty = -5
+local base_skill_modifier = 5
 local GR_dist_pen = 16
 local RPG_dist_pen = 19
 local GL_dist_pen = 20
 
+local accurate_angle_reduction = 0.75 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
+
 local base_gr_rotation_factor = 22.00 ----- degree
 local base_launcher_rotation_factor = 12.00 ----- degree
+---------
 
 function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
 	local is_grenade = IsKindOf(self, "Grenade")
@@ -35,7 +38,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 	end
 
 	local stat = self:GetMishapChance(unit, target_pos)[1] - ai_modifier + ai_handicap
-	stat = stat + base_skill_penalty
+	stat = stat + base_skill_modifier
 	local deviation = 0
 	local roll = 1 + unit:Random(100)
 	local diff = stat - roll
@@ -96,7 +99,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 	end
 
 	if deviation < dev_thrs_innac_throw then
-		rotation_factor = rotation_factor * 0.75
+		rotation_factor = rotation_factor * accurate_angle_reduction
 	end
 
 	local sign = InteractionRand(2)

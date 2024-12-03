@@ -1,20 +1,20 @@
 UndefineClass('weapon_shrapnel')
 DefineClass.weapon_shrapnel = {
-	__parents = { "Pistol" },
+	__parents = { "HeavyWeapon" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Pistol",
+	object_class = "HeavyWeapon",
 	ScrapParts = 6,
 	RepairCost = 70,
 	Reliability = 50,
+	Caliber = "9mm",
 	DisplayName = T(214207252979, --[[ModItemInventoryItemCompositeDef weapon_shrapnel DisplayName]] "shrap"),
 	DisplayNamePlural = T(163052994957, --[[ModItemInventoryItemCompositeDef weapon_shrapnel DisplayNamePlural]] "shrap"),
 	UnitStat = "Marksmanship",
 	Cost = 500,
 	CategoryPair = "Handguns",
 	CanAppearStandard = false,
-	Caliber = "9mm",
 	Damage = 9,
 	ObjDamageMod = 50,
 	AimAccuracy = 1,

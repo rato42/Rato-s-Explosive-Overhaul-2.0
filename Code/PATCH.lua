@@ -82,7 +82,7 @@ function RatoEO_Patch()
 	ShapedCharge.CanAppearInShop = false
 	ShapedCharge.AdditionalHint = T(921753015061, [[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cone-shaped explosion
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very low accuracy when used by anyone except Barry]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very low accuracy when used by anyone except Barry]])
 	ShapedCharge.Cost = 2250
 	ShapedCharge.RestockWeight = 60
 
@@ -151,9 +151,9 @@ function RatoEO_Patch()
 	TearGasGrenade.CanAppearInShop = true
 	TearGasGrenade.AdditionalHint = T(961521854617, [[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Inflicts <color EmStyle>Blinded</color>
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become <color EmStyle>grazing</color> hits
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become <color EmStyle>grazing</color> hits
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
 	TearGasGrenade.Cost = 1200
 	TearGasGrenade.RestockWeight = 17
 
@@ -185,9 +185,9 @@ function RatoEO_Patch()
 	ConcussiveGrenade.CanAppearInShop = true
 	ConcussiveGrenade.AdditionalHint = T(998632651224, [[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Causes <color EmStyle>Suppressed</color>
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Causes <color EmStyle>Dazed</color>
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cancel readied attacks
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very loud. That's the point of this grenade]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Causes <color EmStyle>Dazed</color>
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cancel readied attacks
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very loud. That's the point of this grenade]])
 	ConcussiveGrenade.Cost = 1200
 	ConcussiveGrenade.RestockWeight = 17
 
@@ -219,8 +219,8 @@ function RatoEO_Patch()
 	SmokeGrenade.CanAppearInShop = true
 	SmokeGrenade.AdditionalHint = T(109176686173, [[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become <color EmStyle>grazing</color> hits
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
 	SmokeGrenade.Cost = 900
 	SmokeGrenade.RestockWeight = 17
 
@@ -284,8 +284,8 @@ function RatoEO_Patch()
 	ToxicGasGrenade.CanAppearInShop = false
 	ToxicGasGrenade.AdditionalHint = T(838998848652, [[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Inflicts <color EmStyle>Choking</color>
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become grazing hits
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become grazing hits
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
 	ToxicGasGrenade.Cost = 2250
 
 	ProximityC4.ID = "ProximityC4"
@@ -436,7 +436,7 @@ function RatoEO_Patch()
 	FlareStick.CanAppearInShop = true
 	FlareStick.AdditionalHint = T(594356356208, [[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Illuminates a large area
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Silent]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Silent]])
 	FlareStick.Cost = 300
 
 	GlowStick.ID = "GlowStick"
