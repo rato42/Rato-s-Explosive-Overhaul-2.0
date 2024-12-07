@@ -1,13 +1,13 @@
 return PlaceObj('ModDef', {
 	'title', "Rato's Explosive Overhaul 2.0",
-	'description', "[b]Disclaimer: This mod can be very perfomance hungry[/b]\n\nThis mod is dedicated to Toni.\n\n[h1]Features:[/h1]\n\n[b]Reworked Mishap System[/b]: Throwing a grenade now involves a skill check. The worse the skill check, the greater the deviation. Distance increases the difficulty of the check. This change is granular and dimensional, moving away from the previous all-or-nothing approach. No more pixel perfect grenades. Applies to all explosives except Mortars, which keep the old mishap system.\nThe Dazed status effect and the Inaccurate status effect diminish throw accuracy.\n\n[b]Grenade Bouncing[/b]: Grenades now bounce off surfaces with realistic physical simulation. Factors such as throw speed, grenade shape, weight, surface impact, and angle of trajectory all affect the bounce.\n\n[b]Simulated Shrapnel[/b]: Each piece of grenade shrapnel is individually simulated, enhancing the realism of explosions. Shrapnel has no armor penetration and can cause bleeding and other status effects when it hits a bodypart. Be aware that the shrapnel damage, being dynamic, will not be shown at the damage portion of the grenade. High shrapnel grenades will do about +25/+35 dmg to unarmored enemies inside the primary blast radius\n\n[b]Improvised Explosive Devices (IEDs)[/b]: (Most) Crafted explosives are now classified as IEDs with a chance of malfunction (Optional). Malfunctions can result in the grenade being inert, timed, or proximity-based, and the player won't know which until it happens. The malfunction chance is determined by the crafting unit's explosive skill (Temporarily using the thrower skill instead). Legion and Thugs will mostly use IED explosives.\n\n[b]New Explosives[/b] -\nIEDS: Nail Bomb, Fragmentary TNT Stick, Smoke and Tear Gas Can Grenades, Improvised Flashbang\nOther: High Explosive (MK3) grenade, Incendiary Grenade\n\n[b]Other Changes[/b]:\nAI will correctly compensate simple bounces. Does not conflict with AI mods.\nHand explosives range is sligthly increased.\nFlashbangs will cause the dazed (-40% cth), supress, and cancel readied attacks.\nExplosive Skill no longer increases the damage of the grenade.\nMod options to manipulate Explosives damage, throw difficulty and more.\n\nif you want to buy me a coffee you can do so here:\nhttps://www.buymeacoffee.com/rato_modder\n\nFeedback is highly appreciated, balance is WIP",
+	'description', "[b]Disclaimer: This mod can be very perfomance hungry[/b]\n\nThis mod is dedicated to [b]Toni[/b].\n\n-- Compatible with Revised Tactical Gear II\n\n[h1]Features:[/h1]\n\n[b]Reworked Mishap System[/b]: Throwing a grenade now involves a skill check. The worse the skill check, the greater the deviation. Distance increases the difficulty of the check. This change is granular and dimensional, moving away from the previous all-or-nothing approach. No more pixel perfect grenades. Applies to all explosives except Mortars, which keep the old mishap system.\nThe Dazed status effect and the Inaccurate status effect diminish throw accuracy.\n\n[b]Grenade Bouncing[/b]: Grenades now bounce off surfaces with realistic physical simulation. Factors such as throw speed, grenade shape, weight, surface impact, and angle of trajectory all affect the bounce.\n\n[b]Simulated Shrapnel[/b]: Each piece of grenade shrapnel is individually simulated, enhancing the realism of explosions. Shrapnel has no armor penetration and can cause bleeding and other status effects when it hits a bodypart. Be aware that the shrapnel damage, being dynamic, will not be shown at the damage portion of the grenade. High shrapnel grenades will do about +25/+35 dmg to unarmored enemies inside the primary blast radius\n\n[b]Improvised Explosive Devices (IEDs)[/b]: (Most) Crafted explosives are now classified as IEDs with a chance of malfunction (Optional). Malfunctions can result in the grenade being inert, timed, or proximity-based, and the player won't know which until it happens. The malfunction chance is determined by the crafting unit's explosive skill (Temporarily using the thrower skill instead). Legion and Thugs will mostly use IED explosives.\n\n[b]New Explosives[/b] -\nIEDS: Nail Bomb, Fragmentary TNT Stick, Smoke and Tear Gas Can Grenades, Improvised Flashbang\nOther: High Explosive (MK3) grenade, Incendiary Grenade\n\n[b]Other Changes[/b]:\nAI will correctly compensate simple bounces. Does not conflict with AI mods.\nHand explosives range is sligthly increased.\nFlashbangs will cause the dazed (-40% cth), supress, and cancel readied attacks.\nExplosive Skill no longer increases the damage of the grenade.\nMod options to manipulate Explosives damage, throw difficulty and more.\n\nif you want to buy me a coffee you can do so here:\nhttps://www.buymeacoffee.com/rato_modder\n\nFeedback is highly appreciated, balance is WIP",
 	'image', "Mod/RATONADE/Images/preview.JPG",
-	'last_changes', "2.08\n\nThrowing is sligthly easier\nReduced the part costs of some IED crafting",
+	'last_changes', "2.09\n\nAdded compatibility with Revised Tactical Gear II, new items will have correct pocket sizes and weigths",
 	'id', "RATONADE",
 	'author', "rato",
 	'version_major', 2,
-	'version_minor', 8,
-	'version', 3616,
+	'version_minor', 9,
+	'version', 3628,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'entities', {
@@ -60,7 +60,7 @@ return PlaceObj('ModDef', {
 		"Code/PROPERTIES_Landmine.lua",
 		"Code/PROPERTIES_Unit.lua",
 		"Code/PROPERTIES_InventoryStack.lua",
-		"Code/PATCH.lua",
+		"Code/PATCH_EO_explosives.lua",
 		"Code/PATCH_call.lua",
 		"Code/FX_PlaceObj.lua",
 		"Code/FX_Inherit.lua",
@@ -98,8 +98,8 @@ return PlaceObj('ModDef', {
 		shrap_num = "100",
 	},
 	'has_data', true,
-	'saved', 1733183336,
-	'code_hash', -1853813765775284178,
+	'saved', 1733535315,
+	'code_hash', 2281144449276010835,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CharacterEffectCompositeDef",
