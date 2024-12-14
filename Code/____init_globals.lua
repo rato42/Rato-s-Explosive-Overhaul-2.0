@@ -1,4 +1,3 @@
--- TODO: #1 Create option to modify radius of proximity mines
 if FirstLoad then
     original_ApplyExplosionDamage = ApplyExplosionDamage
     -------------- Merge and Split IED
