@@ -262,6 +262,10 @@ return {
 		'CodeFileName', "Code/SOURCE_LandmineFunctions.lua",
 	}),
 	PlaceObj('ModItemCode', {
+		'name', "SOURCE_DynamicSpawnLandmine_GameInit",
+		'CodeFileName', "Code/SOURCE_DynamicSpawnLandmine_GameInit.lua",
+	}),
+	PlaceObj('ModItemCode', {
 		'name', "SOURCE_MergeAndSplitIED",
 		'CodeFileName', "Code/SOURCE_MergeAndSplitIED.lua",
 	}),
@@ -650,6 +654,20 @@ return {
 			"Strength",
 			"Explosives",
 			"Strength/Explosives",
+		},
+	}),
+	PlaceObj('ModItemOptionChoice', {
+		'name', "extra_proximityExplosive_radius",
+		'DisplayName', "Extra activation radius - Proximity Explosive",
+		'Help', "This will increase the radius of the proximty explosives activation range. Vanilla is 0.",
+		'DefaultValue', "1",
+		'ChoiceList', {
+			"0",
+			"1",
+			"2",
+			"3",
+			"4",
+			"5",
 		},
 	}),
 	PlaceObj('ModItemInventoryItemCompositeDef', {
