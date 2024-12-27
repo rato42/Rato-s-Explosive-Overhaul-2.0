@@ -15,7 +15,7 @@ return PlaceObj('ModDef', {
 	'author', "rato",
 	'version_major', 2,
 	'version_minor', 10,
-	'version', 3650,
+	'version', 3658,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'entities', {
@@ -30,6 +30,7 @@ return PlaceObj('ModDef', {
 		"CharacterEffect/cancel_shot_flashbang.lua",
 		"CharacterEffect/dazed_flashbang.lua",
 		"Code/____init_globals.lua",
+		"Code/CUAE_Params.lua",
 		"Code/SOURCE_CalcBounceParabola_LUA.lua",
 		"Code/SOURCE_SectorOperations_CraftCommonBase_Tick.lua",
 		"Code/SOURCE_AnimGrenadeTraj.lua",
@@ -108,8 +109,8 @@ return PlaceObj('ModDef', {
 		shrap_num = "100",
 	},
 	'has_data', true,
-	'saved', 1734228435,
-	'code_hash', 28944781070564360,
+	'saved', 1735331876,
+	'code_hash', 9198970956287906457,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CharacterEffectCompositeDef",
