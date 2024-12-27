@@ -6,7 +6,7 @@ function RatoEO_Patch()
 	FragGrenade.AttackAP = 6000
 	FragGrenade.BaseDamage = 29
 	FragGrenade.r_shrap_num = 350
-	FragGrenade.AreaOfEffect = 2
+	FragGrenade.AreaOfEffect = 3
 	FragGrenade.ThrowMaxRange = 19
 	FragGrenade.BaseRange = 8
 	FragGrenade.PenetrationClass = 4
@@ -89,9 +89,9 @@ function RatoEO_Patch()
 	ShapedCharge.Cost = 2250
 	ShapedCharge.RestockWeight = 60
 	PipeBomb.ID = "PipeBomb"
-	PipeBomb.AttackAP = 3000
+	PipeBomb.AttackAP = 4000
 	PipeBomb.r_shrap_num = 240
-	PipeBomb.ThrowMaxRange = 13
+	PipeBomb.ThrowMaxRange = 14
 	PipeBomb.BaseRange = 4
 	PipeBomb.is_ied = true
 	PipeBomb.r_concussive_force = 3
@@ -100,15 +100,15 @@ function RatoEO_Patch()
 	PipeBomb.r_shape = "Long"
 	PipeBomb.CanBounce = true
 	PipeBomb.r_soft_surface = false
-	PipeBomb.CanAppearInShop = true
+	PipeBomb.CanAppearInShop = false
 	PipeBomb.AdditionalHint = T( 329802605732,[[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Explodes after 1 turn (or 5 seconds out of combat)]])
 	PipeBomb.Cost = 450
 	NailBomb_IED.ID = "NailBomb_IED"
 	NailBomb_IED.AttackAP = 6000
-	NailBomb_IED.BaseDamage = 17
-	NailBomb_IED.r_shrap_num = 700
-	NailBomb_IED.AreaOfEffect = 2
+	NailBomb_IED.BaseDamage = 18
+	NailBomb_IED.r_shrap_num = 680
+	NailBomb_IED.AreaOfEffect = 3
 	NailBomb_IED.ThrowMaxRange = 18
 	NailBomb_IED.BaseRange = 7
 	NailBomb_IED.PenetrationClass = 3
@@ -123,7 +123,7 @@ function RatoEO_Patch()
 	NailBomb_IED.CanAppearInShop = false
 	NailBomb_IED.Cost = 300
 	TNTBolt_IED.ID = "TNTBolt_IED"
-	TNTBolt_IED.AttackAP = 6000
+	TNTBolt_IED.AttackAP = 7000
 	TNTBolt_IED.BaseDamage = 35
 	TNTBolt_IED.r_shrap_num = 300
 	TNTBolt_IED.AreaOfEffect = 3
@@ -138,7 +138,7 @@ function RatoEO_Patch()
 	TNTBolt_IED.r_shape = "Long"
 	TNTBolt_IED.CanBounce = true
 	TNTBolt_IED.r_soft_surface = true
-	TNTBolt_IED.CanAppearInShop = true
+	TNTBolt_IED.CanAppearInShop = false
 	TNTBolt_IED.Cost = 400
 	TearGasGrenade.ID = "TearGasGrenade"
 	TearGasGrenade.AttackAP = 4000
@@ -170,7 +170,7 @@ function RatoEO_Patch()
 	TearGasGrenade_IED.r_shape = "Can"
 	TearGasGrenade_IED.CanBounce = true
 	TearGasGrenade_IED.r_soft_surface = false
-	TearGasGrenade_IED.CanAppearInShop = true
+	TearGasGrenade_IED.CanAppearInShop = false
 	TearGasGrenade_IED.Cost = 600
 	TearGasGrenade_IED.RestockWeight = 17
 	ConcussiveGrenade.ID = "ConcussiveGrenade"
@@ -205,7 +205,7 @@ function RatoEO_Patch()
 	ConcussiveGrenade_IED.r_shape = "Long"
 	ConcussiveGrenade_IED.CanBounce = true
 	ConcussiveGrenade_IED.r_soft_surface = false
-	ConcussiveGrenade_IED.CanAppearInShop = true
+	ConcussiveGrenade_IED.CanAppearInShop = false
 	ConcussiveGrenade_IED.Cost = 600
 	ConcussiveGrenade_IED.RestockWeight = 17
 	SmokeGrenade.ID = "SmokeGrenade"
@@ -237,7 +237,7 @@ function RatoEO_Patch()
 	SmokeGrenade_IED.r_shape = "Can"
 	SmokeGrenade_IED.CanBounce = true
 	SmokeGrenade_IED.r_soft_surface = false
-	SmokeGrenade_IED.CanAppearInShop = true
+	SmokeGrenade_IED.CanAppearInShop = false
 	SmokeGrenade_IED.Cost = 400
 	SmokeGrenade_IED.RestockWeight = 17
 	IncendiaryGrenade.ID = "IncendiaryGrenade"
@@ -257,9 +257,9 @@ function RatoEO_Patch()
 	IncendiaryGrenade.Cost = 500
 	IncendiaryGrenade.RestockWeight = 32
 	Molotov.ID = "Molotov"
-	Molotov.AttackAP = 4000
+	Molotov.AttackAP = 5000
 	Molotov.AreaOfEffect = 3
-	Molotov.ThrowMaxRange = 13
+	Molotov.ThrowMaxRange = 15
 	Molotov.BaseRange = 4
 	Molotov.is_ied = false
 	Molotov.r_mass = 980
@@ -268,7 +268,7 @@ function RatoEO_Patch()
 	Molotov.r_shape = "Bottle"
 	Molotov.CanBounce = false
 	Molotov.r_soft_surface = false
-	Molotov.CanAppearInShop = true
+	Molotov.CanAppearInShop = false
 	Molotov.AdditionalHint = T( 627770660838,[[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Sets an area on fire and inflicts <color EmStyle>Burning</color>]])
 	Molotov.Cost = 300
@@ -292,7 +292,7 @@ function RatoEO_Patch()
 	ToxicGasGrenade.Cost = 2250
 	ProximityC4.ID = "ProximityC4"
 	ProximityC4.AttackAP = 7000
-	ProximityC4.r_shrap_num = 35
+	ProximityC4.r_shrap_num = 50
 	ProximityC4.is_ied = false
 	ProximityC4.r_concussive_force = 4
 	ProximityC4.r_mass = 2000
@@ -307,7 +307,7 @@ function RatoEO_Patch()
 	ProximityC4.RestockWeight = 10
 	ProximityPETN.ID = "ProximityPETN"
 	ProximityPETN.AttackAP = 7000
-	ProximityPETN.r_shrap_num = 35
+	ProximityPETN.r_shrap_num = 50
 	ProximityPETN.is_ied = false
 	ProximityPETN.r_concussive_force = 4
 	ProximityPETN.r_mass = 1800
@@ -322,7 +322,7 @@ function RatoEO_Patch()
 	ProximityPETN.RestockWeight = 10
 	ProximityTNT.ID = "ProximityTNT"
 	ProximityTNT.AttackAP = 7000
-	ProximityTNT.r_shrap_num = 35
+	ProximityTNT.r_shrap_num = 50
 	ProximityTNT.is_ied = false
 	ProximityTNT.r_concussive_force = 4
 	ProximityTNT.r_mass = 1500
@@ -337,7 +337,7 @@ function RatoEO_Patch()
 	ProximityTNT.RestockWeight = 18
 	RemoteC4.ID = "RemoteC4"
 	RemoteC4.AttackAP = 4000
-	RemoteC4.r_shrap_num = 35
+	RemoteC4.r_shrap_num = 50
 	RemoteC4.is_ied = false
 	RemoteC4.r_concussive_force = 4
 	RemoteC4.r_mass = 2000
@@ -352,7 +352,7 @@ function RatoEO_Patch()
 	RemoteC4.RestockWeight = 10
 	RemotePETN.ID = "RemotePETN"
 	RemotePETN.AttackAP = 4000
-	RemotePETN.r_shrap_num = 35
+	RemotePETN.r_shrap_num = 50
 	RemotePETN.is_ied = false
 	RemotePETN.r_concussive_force = 4
 	RemotePETN.r_mass = 1800
@@ -367,7 +367,7 @@ function RatoEO_Patch()
 	RemotePETN.RestockWeight = 10
 	RemoteTNT.ID = "RemoteTNT"
 	RemoteTNT.AttackAP = 4000
-	RemoteTNT.r_shrap_num = 35
+	RemoteTNT.r_shrap_num = 50
 	RemoteTNT.is_ied = false
 	RemoteTNT.r_concussive_force = 4
 	RemoteTNT.r_mass = 1500
@@ -382,7 +382,7 @@ function RatoEO_Patch()
 	RemoteTNT.RestockWeight = 10
 	TimedC4.ID = "TimedC4"
 	TimedC4.AttackAP = 4000
-	TimedC4.r_shrap_num = 35
+	TimedC4.r_shrap_num = 50
 	TimedC4.is_ied = false
 	TimedC4.r_concussive_force = 4
 	TimedC4.r_mass = 2000
@@ -397,7 +397,7 @@ function RatoEO_Patch()
 	TimedC4.RestockWeight = 10
 	TimedPETN.ID = "TimedPETN"
 	TimedPETN.AttackAP = 4000
-	TimedPETN.r_shrap_num = 35
+	TimedPETN.r_shrap_num = 50
 	TimedPETN.is_ied = false
 	TimedPETN.r_concussive_force = 4
 	TimedPETN.r_mass = 1800
@@ -412,7 +412,7 @@ function RatoEO_Patch()
 	TimedPETN.RestockWeight = 10
 	TimedTNT.ID = "TimedTNT"
 	TimedTNT.AttackAP = 4000
-	TimedTNT.r_shrap_num = 35
+	TimedTNT.r_shrap_num = 50
 	TimedTNT.is_ied = false
 	TimedTNT.r_concussive_force = 4
 	TimedTNT.r_mass = 1500

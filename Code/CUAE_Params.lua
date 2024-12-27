@@ -1,4 +1,4 @@
-function RATONADE_Cuaeparams()
+--[[function RATONADE_Cuaeparams()
     if not IsMod_loaded("LDCUAE") then
         return
     end
@@ -36,3 +36,4 @@ end
 function OnMsg.ModsReloaded()
     RATONADE_Cuaeparams()
 end
+]] 
