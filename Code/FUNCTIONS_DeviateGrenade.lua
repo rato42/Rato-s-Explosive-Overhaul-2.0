@@ -136,6 +136,9 @@ end
 function Grenade:GetMishapChance(unit, target, async)
     local attack_pos = unit:GetPos()
     local target_pos = target
+    if not target then
+        return {0, 0}
+    end
     local dex = unit.Dexterity
     local explo = unit.Explosives
     local thrower_perk = HasPerk(unit, "Throwing")
@@ -211,6 +214,11 @@ end
 function GrenadeLauncher:GetMishapChance(unit, target, async)
     local attack_pos = unit:GetPos()
     local target_pos = target
+
+    if not target then
+        return {0, 0}
+    end
+
     local deviation = 0
     local marks = unit.Marksmanship
     local explo = unit.Explosives
@@ -254,6 +262,10 @@ end
 function RocketLauncher:GetMishapChance(unit, target, async)
     local attack_pos = unit:GetPos()
     local target_pos = target
+
+    if not target then
+        return {0, 0}
+    end
 
     local str = unit.Strength
     local explo = unit.Explosives
