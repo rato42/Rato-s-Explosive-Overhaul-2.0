@@ -67,6 +67,9 @@ function RatoEO_Patch()
 	HE_Grenade_1.Cost = 1000
 	HE_Grenade_1.Tier = 2
 	HE_Grenade_1.RestockWeight = 30
+	HE_Grenade_1.PocketL_amount = 4
+	HE_Grenade_1.PocketML_amount = 2
+	HE_Grenade_1.PocketM_amount = 1
 	ShapedCharge.ID = "ShapedCharge"
 	ShapedCharge.AttackAP = 6000
 	ShapedCharge.BaseDamage = 37
@@ -85,7 +88,7 @@ function RatoEO_Patch()
 	ShapedCharge.CanAppearInShop = false
 	ShapedCharge.AdditionalHint = T( 921753015061,[[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cone-shaped explosion
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very low accuracy when used by anyone except Barry]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very low accuracy when used by anyone except Barry]])
 	ShapedCharge.Cost = 2250
 	ShapedCharge.RestockWeight = 60
 	PipeBomb.ID = "PipeBomb"
@@ -122,6 +125,9 @@ function RatoEO_Patch()
 	NailBomb_IED.r_soft_surface = false
 	NailBomb_IED.CanAppearInShop = false
 	NailBomb_IED.Cost = 300
+	NailBomb_IED.PocketL_amount = 4
+	NailBomb_IED.PocketML_amount = 2
+	NailBomb_IED.PocketM_amount = 1
 	TNTBolt_IED.ID = "TNTBolt_IED"
 	TNTBolt_IED.AttackAP = 7000
 	TNTBolt_IED.BaseDamage = 35
@@ -140,6 +146,9 @@ function RatoEO_Patch()
 	TNTBolt_IED.r_soft_surface = true
 	TNTBolt_IED.CanAppearInShop = false
 	TNTBolt_IED.Cost = 400
+	TNTBolt_IED.PocketL_amount = 3
+	TNTBolt_IED.PocketML_amount = 1
+	TNTBolt_IED.PocketM_amount = 1
 	TearGasGrenade.ID = "TearGasGrenade"
 	TearGasGrenade.AttackAP = 4000
 	TearGasGrenade.ThrowMaxRange = 18
@@ -154,9 +163,9 @@ function RatoEO_Patch()
 	TearGasGrenade.CanAppearInShop = true
 	TearGasGrenade.AdditionalHint = T( 961521854617,[[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Inflicts <color EmStyle>Blinded</color>
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become <color EmStyle>grazing</color> hits
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become <color EmStyle>grazing</color> hits
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
 	TearGasGrenade.Cost = 1200
 	TearGasGrenade.RestockWeight = 17
 	TearGasGrenade_IED.ID = "TearGasGrenade_IED"
@@ -173,6 +182,9 @@ function RatoEO_Patch()
 	TearGasGrenade_IED.CanAppearInShop = false
 	TearGasGrenade_IED.Cost = 600
 	TearGasGrenade_IED.RestockWeight = 17
+	TearGasGrenade_IED.PocketL_amount = 4
+	TearGasGrenade_IED.PocketML_amount = 2
+	TearGasGrenade_IED.PocketM_amount = 1
 	ConcussiveGrenade.ID = "ConcussiveGrenade"
 	ConcussiveGrenade.AttackAP = 4000
 	ConcussiveGrenade.AreaOfEffect = 3
@@ -188,9 +200,9 @@ function RatoEO_Patch()
 	ConcussiveGrenade.CanAppearInShop = true
 	ConcussiveGrenade.AdditionalHint = T( 998632651224,[[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Causes <color EmStyle>Suppressed</color>
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Causes <color EmStyle>Dazed</color>
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cancel readied attacks
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very loud. That's the point of this grenade]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Causes <color EmStyle>Dazed</color>
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Cancel readied attacks
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Very loud. That's the point of this grenade]])
 	ConcussiveGrenade.Cost = 1200
 	ConcussiveGrenade.RestockWeight = 17
 	ConcussiveGrenade_IED.ID = "ConcussiveGrenade_IED"
@@ -208,6 +220,9 @@ function RatoEO_Patch()
 	ConcussiveGrenade_IED.CanAppearInShop = false
 	ConcussiveGrenade_IED.Cost = 600
 	ConcussiveGrenade_IED.RestockWeight = 17
+	ConcussiveGrenade_IED.PocketL_amount = 4
+	ConcussiveGrenade_IED.PocketML_amount = 2
+	ConcussiveGrenade_IED.PocketM_amount = 1
 	SmokeGrenade.ID = "SmokeGrenade"
 	SmokeGrenade.AttackAP = 4000
 	SmokeGrenade.ThrowMaxRange = 18
@@ -222,8 +237,8 @@ function RatoEO_Patch()
 	SmokeGrenade.CanAppearInShop = true
 	SmokeGrenade.AdditionalHint = T( 109176686173,[[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Ranged attacks passing through gas become <color EmStyle>grazing</color> hits
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> No damage
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Almost silent]])
 	SmokeGrenade.Cost = 900
 	SmokeGrenade.RestockWeight = 17
 	SmokeGrenade_IED.ID = "SmokeGrenade_IED"
@@ -240,6 +255,9 @@ function RatoEO_Patch()
 	SmokeGrenade_IED.CanAppearInShop = false
 	SmokeGrenade_IED.Cost = 400
 	SmokeGrenade_IED.RestockWeight = 17
+	SmokeGrenade_IED.PocketL_amount = 4
+	SmokeGrenade_IED.PocketML_amount = 2
+	SmokeGrenade_IED.PocketM_amount = 1
 	IncendiaryGrenade.ID = "IncendiaryGrenade"
 	IncendiaryGrenade.AttackAP = 4000
 	IncendiaryGrenade.ThrowMaxRange = 18
@@ -256,6 +274,9 @@ function RatoEO_Patch()
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Sets an area on fire and inflicts <color EmStyle>Burning</color>]])
 	IncendiaryGrenade.Cost = 500
 	IncendiaryGrenade.RestockWeight = 32
+	IncendiaryGrenade.PocketL_amount = 4
+	IncendiaryGrenade.PocketML_amount = 2
+	IncendiaryGrenade.PocketM_amount = 1
 	Molotov.ID = "Molotov"
 	Molotov.AttackAP = 5000
 	Molotov.AreaOfEffect = 3
@@ -439,7 +460,7 @@ function RatoEO_Patch()
 	FlareStick.CanAppearInShop = true
 	FlareStick.AdditionalHint = T( 594356356208,[[<EO_description_hints>
 <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Illuminates a large area
- <image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Silent]])
+<image UI/Conversation/T_Dialogue_IconBackgroundCircle.tga 400 130 128 120> Silent]])
 	FlareStick.Cost = 300
 	GlowStick.ID = "GlowStick"
 	GlowStick.AttackAP = 2000
