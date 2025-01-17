@@ -674,6 +674,14 @@ return {
 			"5",
 		},
 	}),
+	PlaceObj('ModItemOptionNumber', {
+		'name', "ExplosiveNoiseIncrease",
+		'DisplayName', "Explosive Noise Increase (%)",
+		'Help', "This option will multiply the explosives noise by the selected value. If set to 100, the values will be close to vanilla. EO's Default is 400, which gives a normal frag grenade a range of 70 tiles (vanilla is 20).",
+		'DefaultValue', 400,
+		'MaxValue', 501,
+		'StepSize', 10,
+	}),
 	PlaceObj('ModItemInventoryItemCompositeDef', {
 		'Id', "weapon_shrapnel",
 		'object_class', "HeavyWeapon",
