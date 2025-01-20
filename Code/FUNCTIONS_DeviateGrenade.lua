@@ -16,13 +16,16 @@ local GR_dist_pen = 16
 local RPG_dist_pen = 19
 local GL_dist_pen = 20
 
-local accurate_angle_reduction = 0.75 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
+local accurate_angle_mul = 0.75 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
 
 local base_gr_rotation_factor = 22.00 ----- degree
 local base_launcher_rotation_factor = 12.00 ----- degree
 ---------
 
 function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
+    -- if not target_pos then
+    --     return false
+    -- end
     local is_grenade = IsKindOf(self, "Grenade")
     local thrower_perk, max_range
     local ai_handicap = 0 -- AI_deviate_handicap(unit) or 0
@@ -100,7 +103,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     end
 
     if deviation < dev_thrs_innac_throw then
-        rotation_factor = rotation_factor * accurate_angle_reduction
+        rotation_factor = rotation_factor * accurate_angle_mul
     end
 
     local sign = InteractionRand(2)

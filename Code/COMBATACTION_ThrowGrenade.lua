@@ -1,0 +1,7 @@
+-- grenadeModes[action_type][weapon.class] = grenadeModes[action_type][weapon.class] or {}
+-- local equipped = self.current_weapon == "Handheld A" and (id == "ThrowGrenadeA" or  id == "ThrowGrenadeB") or
+-- 				 self.current_weapon == "Handheld B" and (id == "ThrowGrenadeC" or  id == "ThrowGrenadeD")
+-- CombatActions.ThrowGrenadeA.GetAPCost = function (self, unit, args)
+-- 	local grenade = self:GetAttackWeapons(unit)
+-- 	return grenade and unit:GetAttackAPCost(self, grenade, false, args and args.aim or 0) or -1
+-- end

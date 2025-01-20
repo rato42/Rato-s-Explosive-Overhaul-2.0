@@ -274,6 +274,10 @@ return {
 		'CodeFileName', "Code/SOURCE_MergeAndSplitIED.lua",
 	}),
 	PlaceObj('ModItemCode', {
+		'name', "COMBATACTION_ThrowGrenade",
+		'CodeFileName', "Code/COMBATACTION_ThrowGrenade.lua",
+	}),
+	PlaceObj('ModItemCode', {
 		'name', "FUNCTIONS_BounceGrenade",
 		'CodeFileName', "Code/FUNCTIONS_BounceGrenade.lua",
 	}),
