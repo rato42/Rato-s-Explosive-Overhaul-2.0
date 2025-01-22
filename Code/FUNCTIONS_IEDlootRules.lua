@@ -45,6 +45,10 @@ end
 
 function replace_explosive_or_iedAI(unit)
 
+    if CurrentModOptions.SkipIEDLootChanges then
+        return
+    end
+
     if not EO_IsAI(unit) then
         return
     end

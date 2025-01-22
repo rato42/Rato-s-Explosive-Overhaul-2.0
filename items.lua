@@ -686,6 +686,11 @@ return {
 		'MaxValue', 501,
 		'StepSize', 10,
 	}),
+	PlaceObj('ModItemOptionToggle', {
+		'name', "SkipIEDLootChanges",
+		'DisplayName', "Disable changing explosives for IEDs (AI)",
+		'Help', "Disable the function that changes Legion explosives to IEDs variants, which can cause desyncs in coop games.",
+	}),
 	PlaceObj('ModItemInventoryItemCompositeDef', {
 		'Id', "weapon_shrapnel",
 		'object_class', "HeavyWeapon",
