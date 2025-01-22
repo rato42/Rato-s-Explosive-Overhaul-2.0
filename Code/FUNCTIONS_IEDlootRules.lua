@@ -124,7 +124,7 @@ local rep_table = {
 }
 function get_replacement_explosive(item, unit)
     local ieds = {}
-    for k, v in pairs(rep_table) do
+    for k, v in sorted_pairs(rep_table) do
         for i, entry in ipairs(v) do
             if not ieds[entry.item] then
                 ieds[entry.item] = {k}
@@ -138,7 +138,7 @@ function get_replacement_explosive(item, unit)
         if #explos == 1 then
             return explos[1]
         else
-            local rand = unit:Random(#explos) + 1
+            local rand = InteractionRand(#explos, "RATONADE_get_replacement_explosive") + 1 -- unit:Random(#explos) + 1
             return rand <= #explos and explos[rand] or explos[1]
         end
     end
@@ -148,7 +148,7 @@ end
 function get_replacement_ied(unit, item)
     if rep_table[item.class] then
         local chance = 85
-        local roll = unit:Random(100) + 1
+        local roll = InteractionRand(100, "RATONADE_replacement_chance_roll") + 1 -- unit:Random(100) + 1
         if roll <= chance then
             local replacements = rep_table[item.class]
             if #replacements == 1 then
@@ -162,7 +162,7 @@ function get_replacement_ied(unit, item)
                 end
 
                 -- Generate a random number within the range of total weight
-                local randomNum = unit:Random(totalWeight)
+                local randomNum = InteractionRand(totalWeight, "RATONADE_replacement_weighted_roll") -- unit:Random(totalWeight)
 
                 -- Iterate over replacement options
                 local cumulativeWeight = 0

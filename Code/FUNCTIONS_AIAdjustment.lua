@@ -28,7 +28,7 @@ end
 function AI_ExplosiveStatforIED(unit)
     local level_stat = cRound(1.6 * (unit:GetLevel() or 1))
     local random_factor = 12
-    local random = unit:Random(random_factor * 2) - random_factor
+    local random = InteractionRand(random_factor * 2, "RATONADE_AIstatIED") - random_factor -- unit:Random(random_factor * 2) - random_factor
     return Min(100, 70 + random + level_stat)
 end
 
