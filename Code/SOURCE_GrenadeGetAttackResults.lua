@@ -30,9 +30,9 @@ function Grenade:GetAttackResults(action, attack_args)
 
         target_pos = validate_deviated_gren_pos(target_pos, attack_args)
 
-        if Platform.developer and Platform.cheats then
-            -- can_bounce = dev_bounce
-        end
+        -- if Platform.developer and Platform.cheats then
+        -- can_bounce = dev_bounce
+        -- end
 
         local igi = GetInGameInterface()
         local is_targeting = igi and igi.mode_dialog and igi.mode_dialog.targeting_blackboard and

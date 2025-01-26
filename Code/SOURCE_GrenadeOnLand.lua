@@ -27,7 +27,6 @@ function Grenade:OnLand(thrower, attackResults, visual_obj)
                       (MulDivRound(self.Noise, CurrentModOptions.ExplosiveNoiseIncrease or 100, 100)) or
                       self.Noise
 
-    ic(noise)
     if noise > 0 then
         ----------------
         PushUnitAlert("noise", visual_obj, noise, Presets.NoiseTypes.Default.Grenade.display_name)

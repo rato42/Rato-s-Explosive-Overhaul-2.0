@@ -15,15 +15,6 @@ function EO_unitprop()
         default = false,
         no_edit = true
     }
-
-    UnitProperties.properties[#UnitProperties.properties + 1] = {
-
-        id = "custom_role",
-        editor = "text",
-        default = false,
-        no_edit = true
-    }
-
 end
 
 EO_unitprop()

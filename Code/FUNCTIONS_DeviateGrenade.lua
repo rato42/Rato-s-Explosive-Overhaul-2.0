@@ -44,7 +44,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     local stat = self:GetMishapChance(unit, target_pos)[1] - ai_modifier + ai_handicap
     stat = stat + base_skill_modifier
     local deviation = 0
-    local roll = 1 + unit:Random(100)
+    local roll = InteractionRand(100, "RATONADE_DeviationRoll", unit) + 1 -- 1 + unit:Random(100)
     local diff = stat - roll
     local def_min_dev = 0.75
     local min_deviation = diff >= 50 and 0 or def_min_dev
@@ -56,7 +56,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     if roll <= 5 then
         deviation = 0
     else
-        deviation = math.max(min_deviation, (100 - diff * 1.00) ^ 2 / 100 ^ 2 * 2)
+        deviation = Max(min_deviation, (100 - diff * 1.00) ^ 2 / 100 ^ 2 * 2)
     end
 
     deviation = CheatEnabled("AlwaysHit") and 0 or deviation
@@ -106,12 +106,12 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
         rotation_factor = rotation_factor * accurate_angle_mul
     end
 
-    local sign = InteractionRand(2)
+    local sign = InteractionRand(2, "RATONADE_DeviationSign", unit)
     sign = sign == 1 and 1 or -1
     local angle_of_rotation = rotation_factor * 60 * deviation / 5 * sign
     local dir = target_pos - attack_pos
 
-    sign = InteractionRand(2)
+    sign = InteractionRand(2, "RATONADE_DeviationSign", unit)
     sign = sign == 1 and 1 or -1
     -- local distance_multiplier = deviation / 12.00 * sign
     local distance_multiplier = length_factor * deviation * sign
@@ -252,12 +252,13 @@ function GrenadeLauncher:GetMishapChance(unit, target, async)
 end
 
 function GrenadeLauncher:get_throw_accuracy(unit)
-    if unit then
-        local active_wep = unit:GetActiveWeapons()
-        return self == active_wep and 0 or -8
-    else
-        return 0
-    end
+    -- if unit then
+    --     local active_wep = unit:GetActiveWeapons()
+    --     return self == active_wep and 0 or -8
+    -- else
+    --     return 0
+    -- end
+    return -5
 end
 
 -----------RPG
