@@ -4,9 +4,17 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
     if not deviatePosition then
         return target_pos, false
     end
-    target_pos = IsKindOf(self, "Grenade") and
-                     validate_deviated_gren_pos(deviatePosition, attack_args) or
-                     IsValidZ(deviatePosition) and deviatePosition or deviatePosition:SetTerrainZ()
+    -- DbgAddCircle(target_pos, const.SlabSizeX, const.clrGreen)
+    -- DbgAddCircle(deviatePosition, const.SlabSizeX, const.clrRed)
+    local target_posz = target_pos:z()
+
+    -- target_pos = IsKindOf(self, "Grenade") and
+    --                  validate_deviated_gren_pos(deviatePosition, attack_args) or
+    --                  IsValidZ(deviatePosition) and deviatePosition or deviatePosition:SetTerrainZ()
+
+    target_pos = validate_deviated_gren_pos(IsValidZ(deviatePosition) and deviatePosition or
+                                                deviatePosition:SetZ(target_posz), attack_args)
+    -- DbgAddCircle(target_pos, const.SlabSizeX, const.clrCyan)
     return target_pos, true
 end
 
