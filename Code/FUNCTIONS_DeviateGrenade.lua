@@ -252,13 +252,11 @@ function GrenadeLauncher:GetMishapChance(unit, target, async)
 end
 
 function GrenadeLauncher:get_throw_accuracy(unit)
-    -- if unit then
-    --     local active_wep = unit:GetActiveWeapons()
-    --     return self == active_wep and 0 or -8
-    -- else
-    --     return 0
-    -- end
-    return -5
+    if unit then
+        local active_wep = unit:GetActiveWeapons()
+        return self == active_wep and 0 or -8
+    end
+    return 0
 end
 
 -----------RPG

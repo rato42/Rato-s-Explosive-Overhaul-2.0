@@ -46,7 +46,7 @@ end
 function simple_IED_misfire_Chance(unit)
     local override_stat = EO_IsAI(unit) and AI_ExplosiveStatforIED(unit) or false
     local chance = determine_IED_misfire_chance(false, unit, override_stat)
-    return chance[1]
+    return chance
 end
 
 function assertStackQual(stack_qual, item, unit)

@@ -18,6 +18,9 @@ function determine_IED_misfire_chance(item, unit, override_stat)
         local skill_rating = skill * 1.00 / max_skill * 1.00
         local chance = min_chance + slope * (1.00 - skill_rating)
         chance = cRound(chance)
+        if ratG_simple_ied_misfire then
+            return chance
+        end
         chances[i] = chance
         -- print("---", i, random, skill, chance)
     end
