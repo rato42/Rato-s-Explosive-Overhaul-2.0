@@ -121,7 +121,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 
     sign = InteractionRand(2, "RATONADE_DeviationSign", unit)
     sign = sign == 1 and 1 or -1
-    -- local distance_multiplier = deviation / 12.00 * sign
+
     local distance_multiplier = length_factor * deviation * sign
 
     local distance_deviation = dir:Len() * (1 + distance_multiplier)
