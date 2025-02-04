@@ -90,6 +90,7 @@ function Grenade:GetAttackResults(action, attack_args)
 
         if not attack_args.prediction and not mishap and enabled_deviation then
             target_pos, deviate = self:rat_deviation(attacker, target_pos, attack_args, attack_pos)
+            attack_args.rat_deviate = deviate
         end
 
         ---------------------------------- Vanilla mishap chance
