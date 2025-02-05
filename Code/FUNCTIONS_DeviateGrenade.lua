@@ -19,21 +19,43 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
 end
 
 ----------Args
-local base_skill_modifier = 5
+local base_skill_modifier = 8
 local GR_dist_pen = 16
 local RPG_dist_pen = 19
 local GL_dist_pen = 20
 
-local accurate_angle_mul = 0.75 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
+local dev_thrs_innac_throw = 2.0
+local accurate_angle_mul = 0.85 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
+
+local def_min_dev = 0 -- 0.75
 
 local base_gr_rotation_factor = 22.00 ----- degree
 local base_launcher_rotation_factor = 12.00 ----- degree
+local length_factor = 0.075 -- 0.088
+---------
+local critical_roll = 15 -- 5
+local perfect_throw_threshold = -1 -- 0.05 ----- -1 disables it
+local potent = 2
+local magnitude_effect = 100
+local num_dice = 2
 ---------
 
+local function throw_dice(max_value, num_dice, unit)
+
+    num_dice = num_dice or 2 -- Default to 2 dice if not provided
+    local total = 0
+
+    local dice_value = MulDivRound(max_value, 1, num_dice)
+
+    for i = 1, num_dice do
+        total = total + InteractionRand(dice_value, "RATONADE_DeviationRoll", unit)
+    end
+
+    return total
+end
+
 function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
-    -- if not target_pos then
-    --     return false
-    -- end
+
     local is_grenade = IsKindOf(self, "Grenade")
     local thrower_perk, max_range
     local ai_handicap = 0 -- AI_deviate_handicap(unit) or 0
@@ -52,24 +74,25 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     local stat = self:GetMishapChance(unit, target_pos)[1] - ai_modifier + ai_handicap
     stat = stat + base_skill_modifier
     local deviation = 0
-    local roll = InteractionRand(100, "RATONADE_DeviationRoll", unit) + 1 -- 1 + unit:Random(100)
+    local roll = throw_dice(100, num_dice, unit) + 1
+    roll = CheatEnabled("AlwaysHit") and 1 or roll
+    roll = CheatEnabled("AlwaysMiss") and 100 or roll -- InteractionRand(100, "RATONADE_DeviationRoll", unit) + 1 -- 1 + unit:Random(100)
     local diff = stat - roll
-    local def_min_dev = 0.75
+
     local min_deviation = diff >= 50 and 0 or def_min_dev
 
-    local dev_thrs_innac_throw = 2.0
     local rotation_factor = is_grenade and base_gr_rotation_factor or base_launcher_rotation_factor
-    local length_factor = 0.088
 
-    if roll <= 5 then
+    if roll <= critical_roll then
         deviation = 0
     else
-        deviation = Max(min_deviation, (100 - diff * 1.00) ^ 2 / 100 ^ 2 * 2)
+        deviation = Max(min_deviation,
+                        ((magnitude_effect - diff * 1.00) ^ potent / magnitude_effect ^ potent) * 2)
     end
 
-    deviation = CheatEnabled("AlwaysHit") and 0 or deviation
-    deviation = CheatEnabled("AlwaysMiss") and 5 or deviation
-    if Platform.developer then
+    -- deviation = CheatEnabled("AlwaysHit") and 0 or deviation
+    -- deviation = CheatEnabled("AlwaysMiss") and 5 or deviation
+    if Platform.developer and not test then
         print("----RATONADE - DEBUG deviation")
         print("roll", roll, "stat", stat, "diff", diff, "deviation", deviation)
     end
@@ -78,7 +101,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
         return deviation, roll
     end
 
-    local perfect_throw = deviation <= 0.05
+    local perfect_throw = deviation <= perfect_throw_threshold
     local float_text
     if is_grenade then
         if perfect_throw then
@@ -194,7 +217,7 @@ function Grenade:get_throw_accuracy(unit)
     local acc = shape_list[self.r_shape] or 0
 
     if IsKindOf(self, "FlareStick") or IsKindOf(self, "GlowStick") then
-        acc = acc + 6
+        acc = acc + 12
     end
 
     if IsKindOf(self, "ShapedCharge") then
@@ -335,6 +358,7 @@ function get_label_throwacc(num)
 end
 ------------------Tests
 
+---- this is not working anymore
 function deviation_prob(dex, expl, steps, not_round)
     local dex = dex or 80
     local expl = expl or 80
@@ -343,13 +367,13 @@ function deviation_prob(dex, expl, steps, not_round)
     local unit = g_Units.Barry
     unit.Dexterity = dex
     unit.Explosives = expl
-    local grenade = unit:GetItemInSlot("Handheld A", "Grenade", 1, 1)
+    local grenade = g_Classes["Grenade"] -- unit:GetItemInSlot("Handheld A", "Grenade", 1, 1)
     local mishap_chance = grenade:GetMishapChance(unit, unit:GetPos())
     local num_rolls = 10000
     local deviation
     for i = 1, num_rolls do
-        local mishap = unit:Random(100) < mishap_chance and "mishap"
-        deviation = mishap or self:rat_custom_deviation(unit, false, false, true)
+        local mishap = false -- unit:Random(100) < mishap_chance and "mishap"
+        deviation = mishap or grenade:rat_custom_deviation(unit, false, false, true)
         if not not_round then
             deviation = not mishap and cRoundFlt(deviation, steps) or deviation
         end
@@ -374,7 +398,8 @@ function deviation_prob(dex, expl, steps, not_round)
     end)
     print("Deviation   Probability   for " .. dex .. " dex and " .. expl, " expl")
     for _, deviation in ipairs(sorted_keys) do
-        local probability = deviations[deviation] / num_rolls * 100
+        local devi = deviations[deviation]
+        local probability = (devi * 1.00000000 / num_rolls * 1.00000000) * 100.000000
         print(deviation .. "         " .. probability)
     end
 end
