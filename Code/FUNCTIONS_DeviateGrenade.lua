@@ -21,20 +21,24 @@ end
 ----------Args
 local base_skill_modifier = 8
 local GR_dist_pen = 16
-local RPG_dist_pen = 19
-local GL_dist_pen = 20
+local RPG_dist_pen = 18
+local GL_dist_pen = 17
 
 local dev_thrs_innac_throw = 2.0
 local accurate_angle_mul = 0.85 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
 
 local def_min_dev = 0 -- 0.75
+local great_throw_threshold = 0.75
 
-local base_gr_rotation_factor = 22.00 ----- degree
+local base_gr_rotation_factor = 18.00 ----- degree
 local base_launcher_rotation_factor = 12.00 ----- degree
-local length_factor = 0.075 -- 0.088
----------
-local critical_roll = 15 -- 5
-local perfect_throw_threshold = -1 -- 0.05 ----- -1 disables it
+local length_factor = 0.075 -- 0.088 -- 
+local stat_factor_perfect_throw = 17
+local min_stat_to_roll_perfect_throw = 60
+--------
+local critical_roll_threshold = 6
+
+local perfect_throw_threshold = 0
 local potent = 2
 local magnitude_effect = 100
 local num_dice = 2
@@ -71,8 +75,11 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
         max_range = self.WeaponRange
     end
 
-    local stat = self:GetMishapChance(unit, target_pos)[1] - ai_modifier + ai_handicap
-    stat = stat + base_skill_modifier
+    local stat = self:GetMishapChance(unit, target_pos)[1]
+    local stat_based_perfect_throw = stat >= min_stat_to_roll_perfect_throw and stat / 100.00 *
+                                         stat_factor_perfect_throw or 0
+
+    stat = stat + base_skill_modifier - ai_modifier + ai_handicap
     local deviation = 0
     local roll = throw_dice(100, num_dice, unit) + 1
     roll = CheatEnabled("AlwaysHit") and 1 or roll
@@ -83,7 +90,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
 
     local rotation_factor = is_grenade and base_gr_rotation_factor or base_launcher_rotation_factor
 
-    if roll <= critical_roll then
+    if roll <= (critical_roll_threshold + stat_based_perfect_throw) then
         deviation = 0
     else
         deviation = Max(min_deviation,
@@ -106,7 +113,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     if is_grenade then
         if perfect_throw then
             float_text = T("Perfect Throw")
-        elseif deviation <= def_min_dev then
+        elseif deviation <= great_throw_threshold then
             float_text = T("Great Throw")
         elseif deviation >= 3.2 then
             float_text = T("<color AmmoAPColor>Terrible Throw</color>")
@@ -116,7 +123,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     else
         if perfect_throw then
             float_text = T("Perfect Launch")
-        elseif deviation <= def_min_dev then
+        elseif deviation <= great_throw_threshold then
             float_text = T("Great Launch")
         elseif deviation >= 3.2 then
             float_text = T("<color AmmoAPColor>Terrible Launch</color>")
@@ -133,7 +140,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
         return false
     end
 
-    if deviation < dev_thrs_innac_throw then
+    if deviation <= great_throw_threshold then
         rotation_factor = rotation_factor * accurate_angle_mul
     end
 
