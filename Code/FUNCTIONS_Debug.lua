@@ -53,7 +53,7 @@ function DbgAddCircle_collide_test(pos, r, c)
 end
 
 function DbgAddCircle_devi(a, b, color)
-    -- local enabled = true
+    local enabled = true
     if enabled then
         DbgAddCircle(a, b, color)
     end
@@ -61,7 +61,7 @@ function DbgAddCircle_devi(a, b, color)
 end
 
 function DbgAddVector_devi(a, b, color)
-    -- local enabled = true
+    local enabled = true
     if enabled then
         DbgAddVector(a, b, color)
     end

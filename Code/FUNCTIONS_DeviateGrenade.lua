@@ -19,10 +19,10 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
 end
 
 ----------Args
-local base_skill_modifier = 8
-local GR_dist_pen = 16
-local RPG_dist_pen = 18
-local GL_dist_pen = 17
+local base_skill_modifier = 6
+local GR_dist_pen = 18
+local RPG_dist_pen = 15
+local GL_dist_pen = 15
 
 local dev_thrs_innac_throw = 2.0
 local accurate_angle_mul = 0.85 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
@@ -30,13 +30,14 @@ local accurate_angle_mul = 0.85 ---- when a throw is accurate or better, reduce 
 local def_min_dev = 0 -- 0.75
 local great_throw_threshold = 0.75
 
-local base_gr_rotation_factor = 18.00 ----- degree
+local base_gr_rotation_factor = 20.00 ----- degree
 local base_launcher_rotation_factor = 12.00 ----- degree
-local length_factor = 0.075 -- 0.088 -- 
-local stat_factor_perfect_throw = 17
-local min_stat_to_roll_perfect_throw = 60
+local length_factor = 0.1 -- 0.088 -- 
+------
+local stat_factor_perfect_throw = 20
+local min_stat_to_roll_perfect_throw = 0
+local critical_roll_threshold = 0
 --------
-local critical_roll_threshold = 6
 
 local perfect_throw_threshold = 0
 local potent = 2
