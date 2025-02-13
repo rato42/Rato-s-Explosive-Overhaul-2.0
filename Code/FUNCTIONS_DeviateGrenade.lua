@@ -1,5 +1,8 @@
 function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attack_pos)
 
+    -- target_pos = target_pos or attack_args.target_pos
+    -- or attack_args.target and IsValid(attack_args.target) and attack_args.target:GetPos()
+
     local deviatePosition = self:rat_custom_deviation(attacker, target_pos, attack_pos, false)
     if not deviatePosition then
         return target_pos, false
@@ -8,10 +11,6 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
     -- DbgAddCircle(deviatePosition, const.SlabSizeX, const.clrRed)
     local target_posz = target_pos:z()
 
-    -- target_pos = IsKindOf(self, "Grenade") and
-    --                  validate_deviated_gren_pos(deviatePosition, attack_args) or
-    --                  IsValidZ(deviatePosition) and deviatePosition or deviatePosition:SetTerrainZ()
-
     target_pos = validate_deviated_gren_pos(IsValidZ(deviatePosition) and deviatePosition or
                                                 deviatePosition:SetZ(target_posz), attack_args)
     -- DbgAddCircle(target_pos, const.SlabSizeX, const.clrCyan)
@@ -19,6 +18,7 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
 end
 
 ----------Args
+local wound_penalty_per_stack = -5
 local base_skill_modifier = 6
 local GR_dist_pen = 18
 local RPG_dist_pen = 15
@@ -59,12 +59,27 @@ local function throw_dice(max_value, num_dice, unit)
     return total
 end
 
+function EO_GetWoundPenalty_Deviation(unit)
+    if not IsGameRuleActive("HeavyWounds") then
+        return 0
+    end
+    local wounds = unit:GetStatusEffect("Wounded")
+    if not wounds then
+        return 0
+    end
+    local max_wounds = GameRuleDefs.HeavyWounds:ResolveValue("MaxWoundsEffect")
+
+    local stacks = Min(max_wounds, wounds.stacks)
+    return stacks * wound_penalty_per_stack
+end
+
 function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
 
     local is_grenade = IsKindOf(self, "Grenade")
     local thrower_perk, max_range
     local ai_handicap = 0 -- AI_deviate_handicap(unit) or 0
     local ai_modifier = AI_deviate_skill_diff(unit) or 0
+    local wound_penalty = EO_GetWoundPenalty_Deviation(unit)
 
     if is_grenade then
         thrower_perk = HasPerk(unit, "Throwing")
@@ -80,7 +95,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     local stat_based_perfect_throw = stat >= min_stat_to_roll_perfect_throw and stat / 100.00 *
                                          stat_factor_perfect_throw or 0
 
-    stat = stat + base_skill_modifier - ai_modifier + ai_handicap
+    stat = stat + base_skill_modifier - ai_modifier + ai_handicap + wound_penalty
     local deviation = 0
     local roll = throw_dice(100, num_dice, unit) + 1
     roll = CheatEnabled("AlwaysHit") and 1 or roll
