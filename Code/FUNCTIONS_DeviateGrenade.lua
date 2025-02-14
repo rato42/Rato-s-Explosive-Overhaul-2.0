@@ -17,12 +17,40 @@ function MishapProperties:rat_deviation(attacker, target_pos, attack_args, attac
     return target_pos, true
 end
 
+function validate_deviated_gren_pos(explosion_pos, attack_args)
+    local newGroundPos
+    if explosion_pos then
+        local slab, slab_z = WalkableSlabByPoint(explosion_pos, "downward only")
+        local z = explosion_pos:z()
+        if slab_z and slab_z <= z and slab_z >= z - guim then
+            newGroundPos = explosion_pos:SetZ(slab_z)
+        else
+            newGroundPos = explosion_pos:SetTerrainZ()
+            local col, pts = CollideSegmentsNearest(explosion_pos, newGroundPos)
+            if col then
+                newGroundPos = pts[1]
+            end
+        end
+    end
+    return newGroundPos
+end
+
 ----------Args
-local wound_penalty_per_stack = -5
-local base_skill_modifier = 6
-local GR_dist_pen = 18
-local RPG_dist_pen = 15
-local GL_dist_pen = 15
+local base_skill_modifier = 6 --- higher = more accurate
+local GR_dist_pen = 18 ---- Higher = less accurate
+local RPG_dist_pen = 15 ---- Higher = less accurate
+local GL_dist_pen = 15 ---- Higher = less accurate
+
+---- status effects/ other penalties
+local wound_penalty_per_stack = 5 ---- Higher = less accurate
+local innacurate_penalty = 15 ---- Higher = less accurate
+local blind_dazed_penalty = 15 ---- Higher = less accurate
+local rainHeavyPenalty = 10 ---- Higher = less accurate
+
+------ Get item accuracy modidifers
+local underslungGLpenalty = -10 --- higher = more accurate
+
+------- Deviation Params
 
 local dev_thrs_innac_throw = 2.0
 local accurate_angle_mul = 0.85 ---- when a throw is accurate or better, reduce the amount of angle deviation to minimize the chance of hitting close objects
@@ -32,7 +60,8 @@ local great_throw_threshold = 0.75
 
 local base_gr_rotation_factor = 20.00 ----- degree
 local base_launcher_rotation_factor = 12.00 ----- degree
-local length_factor = 0.1 -- 0.088 -- 
+local grenade_length_factor = 0.1 -- 0.088 -- 
+local launcher_length_factor = 0.088
 ------
 local stat_factor_perfect_throw = 20
 local min_stat_to_roll_perfect_throw = 0
@@ -57,20 +86,6 @@ local function throw_dice(max_value, num_dice, unit)
     end
 
     return total
-end
-
-function EO_GetWoundPenalty_Deviation(unit)
-    if not IsGameRuleActive("HeavyWounds") then
-        return 0
-    end
-    local wounds = unit:GetStatusEffect("Wounded")
-    if not wounds then
-        return 0
-    end
-    local max_wounds = GameRuleDefs.HeavyWounds:ResolveValue("MaxWoundsEffect")
-
-    local stacks = Min(max_wounds, wounds.stacks)
-    return stacks * wound_penalty_per_stack
 end
 
 function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, test)
@@ -168,6 +183,7 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     sign = InteractionRand(2, "RATONADE_DeviationSign", unit)
     sign = sign == 1 and 1 or -1
 
+    local length_factor = is_grenade and grenade_length_factor or launcher_length_factor
     local distance_multiplier = length_factor * deviation * sign
 
     local distance_deviation = dir:Len() * (1 + distance_multiplier)
@@ -186,6 +202,34 @@ function MishapProperties:rat_custom_deviation(unit, target_pos, attack_pos, tes
     local final_pos = attack_pos + rotated_vector
 
     return final_pos
+end
+
+function EO_GetWoundPenalty_Deviation(unit)
+    if not IsGameRuleActive("HeavyWounds") then
+        return 0
+    end
+    local wounds = unit:GetStatusEffect("Wounded")
+    if not wounds then
+        return 0
+    end
+    local max_wounds = GameRuleDefs.HeavyWounds:ResolveValue("MaxWoundsEffect")
+
+    local stacks = Min(max_wounds, wounds.stacks)
+    return stacks * wound_penalty_per_stack
+end
+
+function GetDeviationModifier(item, unit, target, stat, diff_dist, opt_diff)
+    local item_acc = item:get_throw_accuracy(unit)
+    local wound_penalty = EO_GetWoundPenalty_Deviation(unit)
+    local modifiers = -item_acc + opt_diff + diff_dist + wound_penalty
+    modifiers = unit:HasStatusEffect("Inaccurate") and modifiers + innacurate_penalty or modifiers
+    modifiers = (unit:HasStatusEffect("Blinded") or unit:HasStatusEffect("dazed_flashbang")) and
+                    modifiers + blind_dazed_penalty or modifiers
+
+    if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
+        modifiers = modifiers and modifiers + rainHeavyPenalty or 10
+    end
+    return {Max(0, stat - modifiers)}
 end
 
 ------------Grenade
@@ -215,16 +259,9 @@ function Grenade:GetMishapChance(unit, target, async)
     local ratio_dist = dist * 1.00 / max_range * 1.00
     local diff_dist = cRound(ratio_dist * GR_dist_pen)
 
-    -- print(dist, max_range, ratio_dist, diff_dist)
-    local item_acc = self:get_throw_accuracy(unit)
     local opt_diff = extractNumberWithSignFromString(CurrentModOptions.grenade_throw_diff) or 0
-    local modifiers = -item_acc + opt_diff + diff_dist
-    local modifiers = HasPerk(unit, "Inaccurate") and modifiers + 15 or modifiers
 
-    if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
-        modifiers = modifiers and modifiers + 10 or 10
-    end
-    return {Max(0, dex - modifiers)}
+    return GetDeviationModifier(self, unit, target, dex, diff_dist, opt_diff)
 end
 
 function Grenade:get_throw_accuracy(unit)
@@ -247,24 +284,6 @@ function Grenade:get_throw_accuracy(unit)
         acc = unit and unit.unitdatadef_id == "Barry" and acc or acc - 25
     end
     return acc
-end
-
-function validate_deviated_gren_pos(explosion_pos, attack_args)
-    local newGroundPos
-    if explosion_pos then
-        local slab, slab_z = WalkableSlabByPoint(explosion_pos, "downward only")
-        local z = explosion_pos:z()
-        if slab_z and slab_z <= z and slab_z >= z - guim then
-            newGroundPos = explosion_pos:SetZ(slab_z)
-        else
-            newGroundPos = explosion_pos:SetTerrainZ()
-            local col, pts = CollideSegmentsNearest(explosion_pos, newGroundPos)
-            if col then
-                newGroundPos = pts[1]
-            end
-        end
-    end
-    return newGroundPos
 end
 
 -----------GL
@@ -294,21 +313,15 @@ function GrenadeLauncher:GetMishapChance(unit, target, async)
     local ratio_dist = dist * 1.00 / max_range * 1.00
     local diff_dist = cRound(ratio_dist * GL_dist_pen)
 
-    local item_acc = self:get_throw_accuracy(unit)
     local opt_diff = extractNumberWithSignFromString(CurrentModOptions.GL_throw_diff) or 0
-    local modifiers = -item_acc + opt_diff + diff_dist
 
-    if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
-        modifiers = modifiers and modifiers + 10 or 10
-    end
-
-    return {Max(0, stat - modifiers)}
+    return GetDeviationModifier(self, unit, target, stat, diff_dist, opt_diff)
 end
 
 function GrenadeLauncher:get_throw_accuracy(unit)
     if unit then
         local active_wep = unit:GetActiveWeapons()
-        return self == active_wep and 0 or -8
+        return self == active_wep and 0 or underslungGLpenalty
     end
     return 0
 end
@@ -339,17 +352,9 @@ function RocketLauncher:GetMishapChance(unit, target, async)
     local ratio_dist = dist * 1.00 / max_range * 1.00
     local diff_dist = cRound(ratio_dist * RPG_dist_pen)
 
-    -- print(dist, max_range, ratio_dist, diff_dist)
-
-    local item_acc = self:get_throw_accuracy(unit)
     local opt_diff = extractNumberWithSignFromString(CurrentModOptions.RPG_throw_diff) or 0
-    local modifiers = -item_acc + opt_diff + diff_dist
 
-    if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
-        modifiers = modifiers and modifiers + 10 or 10
-    end
-
-    return {Max(0, stat - modifiers)}
+    return GetDeviationModifier(self, unit, target, stat, diff_dist, opt_diff)
 end
 
 function RocketLauncher:get_throw_accuracy(unit)

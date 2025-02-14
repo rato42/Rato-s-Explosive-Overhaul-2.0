@@ -171,13 +171,7 @@ return {
 				param_bindings = false,
 			}),
 		},
-		'Modifiers', {
-			PlaceObj('UnitModifier', {
-				mod_add = -60,
-				param_bindings = false,
-				target_prop = "Explosives",
-			}),
-		},
+		'Modifiers', {},
 		'DisplayName', T(236964331685, --[[ModItemCharacterEffectCompositeDef dazed_flashbang DisplayName]] "Dazed"),
 		'Description', T(572612774636, --[[ModItemCharacterEffectCompositeDef dazed_flashbang Description]] "This character has been dazed by a flashbang. Accuracy is dramatically decreased."),
 		'GetDescription', function (self)
@@ -224,10 +218,6 @@ return {
 	PlaceObj('ModItemCode', {
 		'name', "SOURCE_HeavyWeaponsGetAttackResults",
 		'CodeFileName', "Code/SOURCE_HeavyWeaponsGetAttackResults.lua",
-	}),
-	PlaceObj('ModItemCode', {
-		'name', "SOURCE_ThrowableTrapOnLand",
-		'CodeFileName', "Code/SOURCE_ThrowableTrapOnLand.lua",
 	}),
 	PlaceObj('ModItemCode', {
 		'name', "SOURCE_GrenadeOnLand",

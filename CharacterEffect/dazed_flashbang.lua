@@ -100,12 +100,7 @@ DefineClass.dazed_flashbang = {
 			end,
 		}),
 	},
-	Modifiers = {
-		PlaceObj('UnitModifier', {
-			mod_add = -60,
-			target_prop = "Explosives",
-		}),
-	},
+	Modifiers = {},
 	DisplayName = T(236964331685, --[[ModItemCharacterEffectCompositeDef dazed_flashbang DisplayName]] "Dazed"),
 	Description = T(572612774636, --[[ModItemCharacterEffectCompositeDef dazed_flashbang Description]] "This character has been dazed by a flashbang. Accuracy is dramatically decreased."),
 	GetDescription = function (self)

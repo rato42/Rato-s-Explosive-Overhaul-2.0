@@ -6,6 +6,13 @@ function Grenade:OnLand(thrower, attackResults, visual_obj)
     end
 
     Sleep(160)
+
+    if self.ThrowNoise > 0 then
+        -- <Unit> Heard a thud
+        PushUnitAlert("noise", visual_obj, self.ThrowNoise,
+                      Presets.NoiseTypes.Default.ThrowableLandmine.display_name)
+    end
+
     -----
     if attackResults.ied_misfire then
         -- CreateFloatingText("IED Misfire", attackResults.explosion_pos)
@@ -13,12 +20,6 @@ function Grenade:OnLand(thrower, attackResults, visual_obj)
         return
     end
     ----
-
-    if self.ThrowNoise > 0 then
-        -- <Unit> Heard a thud
-        PushUnitAlert("noise", visual_obj, self.ThrowNoise,
-                      Presets.NoiseTypes.Default.ThrowableLandmine.display_name)
-    end
 
     ------------------
     local opt = CurrentModOptions.ExplosiveNoiseIncrease
