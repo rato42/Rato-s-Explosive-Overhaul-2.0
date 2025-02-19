@@ -226,7 +226,7 @@ function GetDeviationModifier(item, unit, target, stat, diff_dist, opt_diff)
     modifiers = (unit:HasStatusEffect("Blinded") or unit:HasStatusEffect("dazed_flashbang")) and
                     modifiers + blind_dazed_penalty or modifiers
 
-    if GameState.RainHeavy and IsKindOf(self, "GrenadeProperties") then
+    if GameState.RainHeavy and IsKindOf(item, "GrenadeProperties") then
         modifiers = modifiers and modifiers + rainHeavyPenalty or 10
     end
     return {Max(0, stat - modifiers)}
